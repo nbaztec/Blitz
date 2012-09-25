@@ -1,0 +1,14 @@
+# Debug Directories
+Debug/*
+Blitz/Debug/*
+
+# Release Directories
+Blitz/Release/*
+#Release/*
+
+# Build Files
+*.ilk
+*.pdb
+*.obj
+*.log
+*.sdf
