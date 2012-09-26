@@ -25,6 +25,8 @@ namespace blitz {
 	private:
 		std::map<std::string, std::vector<unit::Object*>> _objects;
 		TextureManager* _texMgr;
+		long _hitPlayer;
+		float _lastHitDuration;
 
 	protected:
 		inline float frand(float min, float max);		
@@ -43,6 +45,13 @@ namespace blitz {
 		void spawnEnemy(const geometry::Triad& start);
 		// Fire
 		void playerFire(const geometry::Triad &start);
+
+		long getPlayerHits() const;
+		long decPlayerHits();
+		void resetPlayerHits();
+
+		bool persistHitDraw(float delta);
+		void hitDrawReset();
 	};
 
 }

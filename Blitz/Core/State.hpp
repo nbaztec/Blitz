@@ -19,6 +19,7 @@ namespace blitz {
 			geometry::Quad color;
 			geometry::Triad current;
 			float angle;
+			geometry::Quad clear;
 			geometry::Triad start;
 			geometry::Dyad box;
 			geometry::Triad normal;
@@ -30,7 +31,7 @@ namespace blitz {
 			{				
 				this->duration = 0.0;
 				this->angle = 0.0f;
-				this->color = geometry::Quad(1.0f, 1.0f, 1.0f, 1.0f);
+				this->clear = this->color = geometry::Quad(1.0f, 1.0f, 1.0f, 1.0f);
 				this->start = geometry::Triad();
 				this->box = geometry::Dyad();
 				this->normal = geometry::Triad();
@@ -43,6 +44,7 @@ namespace blitz {
 			~State()
 			{
 			}
+
 		};
 	}
 }

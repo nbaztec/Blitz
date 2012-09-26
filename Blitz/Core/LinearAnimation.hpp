@@ -16,12 +16,12 @@ namespace blitz {
 		protected:
 			geometry::Triad _stepT;
 		public:
-			LinearAnimation(state::State* state, const AnimationType::enumAnimationType& type, const geometry::Triad& step, const float& duration);
-			LinearAnimation(state::State* state, const AnimationType::enumAnimationType& type, const geometry::Triad& step);
-			LinearAnimation(state::State* state, const AnimationType::enumAnimationType& type, const geometry::Triad& step, const float& duration, const float& delay);
+			LinearAnimation(state::State* state, const geometry::Triad& step, const float& duration);
+			LinearAnimation(state::State* state, const geometry::Triad& step);
+			LinearAnimation(state::State* state, const geometry::Triad& step, const float& duration, const float& delay);
 			virtual ~LinearAnimation(void);
 
-			virtual void init(state::State* state, const AnimationType::enumAnimationType& type, const geometry::Triad& step, const float& duration, const float& delay, const bool& infinite);
+			virtual void init(state::State* state, const geometry::Triad& step, const float& duration, const float& delay, const bool& infinite);
 
 			virtual void animateDelta(const float& delta);
 			virtual void animateEnd();

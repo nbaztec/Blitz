@@ -21,6 +21,7 @@ namespace blitz {
 		protected:
 			state::State* _state;	
 			std::vector<state::Animation*> _animation;
+			bool _completed;
 
 		public:
 			Object();
@@ -28,27 +29,18 @@ namespace blitz {
 
 			state::State* getState() const;
 
-			virtual void updateState(float delta);
+			virtual bool updateState(float delta);
 			virtual bool isComplete(void) const;
+			bool hasCompleted();
 
 			virtual void draw(void) = 0;		
 			virtual void tick(float delta) = 0;
 			virtual void addAnimation(state::Animation *anim);
 			virtual state::Animation* removeAnimation(const int &index);
-			virtual void animateAll(float delta);
+			virtual bool animateAll(float delta);
 
-			virtual bool collision(const Object& obj)
-			{
-				float dp = this->_state->normal.dotProduct(obj._state->normal);
-				if(dp < 0.0f && dp > -0.0f)
-					return false;
-				float l = obj._state->normal.dotProduct(obj._state->start)/dp;
-				//std::cout << "Collision in :" << l << ", " << dp <<std::endl;
-				if (l < -0.0f)
-					return false;
-				else
-					return true;
-			}
+			virtual bool collision(Object& obj) { return false; }
+			virtual void hit(Object& obj) {}
 		};
 	}
 }

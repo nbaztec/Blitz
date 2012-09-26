@@ -34,6 +34,7 @@ namespace blitz {
 			float _delay;
 			float _duration;
 			bool _infinite;
+			bool _terminal;
 			geometry::Quad _oldColor;
 
 		public:			
@@ -42,7 +43,9 @@ namespace blitz {
 			virtual void animateDelta(const float& delta) = 0;
 			virtual void animateEnd() = 0;
 			virtual geometry::Quad stateStep() const;
-			virtual bool isInfinite();
+			virtual bool isInfinite() const;
+			virtual bool isTerminal() const;
+			virtual bool setTerminal(bool value);
 		};
 	}
 }

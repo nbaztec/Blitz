@@ -35,8 +35,16 @@ void GLFWCALL processMousePos(int x, int y);
 void GLFWCALL processMouseButton(int button, int action);
 
 // Global Objects
-int winWidth = 1280;
-int winHeight = 720;
+int resolutions[][2] = {
+	{640, 480},
+	{800,600},
+	{1280, 720},
+	{1366, 768},
+	{1920, 1080}	
+};
+int resIdx = 2;
+int winWidth = resolutions[resIdx][0];
+int winHeight = resolutions[resIdx][1];
 blitz::Stage stage;
 blitz::Camera camera;
 //blitz::Triad origin = blitz::Triad();
@@ -54,7 +62,8 @@ const int TICKS_PER_SECOND = 25;
 const int SKIP_TICKS = 1000 / TICKS_PER_SECOND;
 const int MAX_FRAMESKIP = 5;
 
-
+// Temporary State Flags
+bool screenHit = false;
 
 // Temp
 std::vector<blitz::geometry::Dyad> starMap;
@@ -72,14 +81,14 @@ int main(int argc, char **argv) {
 	return 0;
 }
 
+float delta = 0.0f;		 // Game Delta
 void gameLoop()
 {
 	DWORD next_game_tick = GetTickCount();
 	int loops;
 	unsigned long now = 0;
 	double old_time = GetTickCount();
-	float t = 0;
-	float delta = 0.0f;
+	float t = 0;	
 
 	while(glfwGetWindowParam(GLFW_OPENED))
 	{		
@@ -174,73 +183,9 @@ void drawStar()
 			glTexCoord2f(1.0f, 0.0f); glVertex3f( 1.0f,-1.0f, 0.0f);
 			glTexCoord2f(1.0f, 1.0f); glVertex3f( 1.0f, 1.0f, 0.0f);
 			glTexCoord2f(0.0f, 1.0f); glVertex3f(-1.0f, 1.0f, 0.0f);
-	glEnd();
+	glEnd();	
 }
-/*
-#define mathsInnerProduct(v,q)\
-	( ((v)[0] * (q)[0]) +\
-	  ((v)[1] * (q)[1]) +\
-	  ((v)[2] * (q)[2])  )	
 
-
-
-#define mathsCrossProduct(a,b,c)\
-	(a)[0] = ((b)[1] * (c)[2]) - ((c)[1] * (b)[2]);\
-	(a)[1] = ((b)[2] * (c)[0]) - ((c)[2] * (b)[0]);\
-	(a)[2] = ((b)[0] * (c)[1]) - ((c)[0] * (b)[1]);
-
-
-#include <cmath>
-inline void mathsNormalize(float* v){  
-    int d = std::sqrt(v[0]*v[0] + v[1]*v[1] + v[2]*v[2]);  
-    v[0] /= d;  
-	v[1] /= d;
-    v[2] /= d;
-}  
-
-void billboardCylindricalBegin(
-			float camX, float camY, float camZ,
-			float lookAtX, float lookAtY, float lookAtZ,
-			float objPosX, float objPosY, float objPosZ) {
-
-	float lookAt[3],objToCamProj[3],upAux[3];
-	float modelview[16],angleCosine;
-	
-	glPushMatrix();
-
-// objToCamProj is the vector in world coordinates from the 
-// local origin to the camera projected in the XZ plane
-	objToCamProj[0] = camX - objPosX ;
-	objToCamProj[1] = 0;
-	objToCamProj[2] = camZ - objPosZ ;
-
-// This is the original lookAt vector for the object 
-// in world coordinates
-	lookAt[0] = lookAtX;
-	lookAt[1] = lookAtY;
-	lookAt[2] = lookAtZ;
-
-
-// normalize both vectors to get the cosine directly afterwards
-	mathsNormalize(objToCamProj);
-
-// easy fix to determine wether the angle is negative or positive
-// for positive angles upAux will be a vector pointing in the 
-// positive y direction, otherwise upAux will point downwards
-// effectively reversing the rotation.
-
-	mathsCrossProduct(upAux,lookAt,objToCamProj);
-
-// compute the angle
-	angleCosine = mathsInnerProduct(lookAt,objToCamProj);
-
-// perform the rotation. The if statement is used for stability reasons
-// if the lookAt and objToCamProj vectors are too close together then 
-// |angleCosine| could be bigger than 1 due to lack of precision
-   if ((angleCosine < 0.99990) && (angleCosine > -0.9999))
-      glRotatef(acos(angleCosine)*180/3.14,upAux[0], upAux[1], upAux[2]);	
-}
-*/
 void renderScene(void)
 {
 	// Clear Color and Depth Buffers
@@ -381,28 +326,38 @@ void renderScene(void)
 	glPopMatrix();
 
 	// BAM!
-	/*
-	glPushMatrix();
-		glLoadIdentity();		
-		glMatrixMode(GL_PROJECTION);
-		glPushMatrix();		
-			glLoadIdentity();				
-			glEnable( GL_TEXTURE_2D );	
-			glBindTexture(GL_TEXTURE_2D, 0);
-			glColor4f(1.0f, 0.0f, 0.0f, 0.2f);
-			glBegin(GL_QUADS);
-					glTexCoord2f(0.0f, 0.0f); glVertex3f(-1.0f,-1.0f, 0.0f);
-					glTexCoord2f(1.0f, 0.0f); glVertex3f( 1.0f,-1.0f, 0.0f);
-					glTexCoord2f(1.0f, 1.0f); glVertex3f( 1.0f, 1.0f, 0.0f);
-					glTexCoord2f(0.0f, 1.0f); glVertex3f(-1.0f, 1.0f, 0.0f);
-			glEnd();			
-		glPopMatrix();
-		glMatrixMode(GL_MODELVIEW);
-	glPopMatrix();
-	*/
+	if((screenHit && stage.persistHitDraw(delta)) || stage.getPlayerHits())
+	{
+		if(!screenHit)
+		{
+			stage.hitDrawReset();
+			stage.decPlayerHits();
+			screenHit = true;
+		}
+		glPushMatrix();
+			glLoadIdentity();		
+			glMatrixMode(GL_PROJECTION);
+			glPushMatrix();		
+				glLoadIdentity();				
+				glEnable( GL_TEXTURE_2D );	
+				glBindTexture(GL_TEXTURE_2D, 0);
+				glColor4f(1.0f, 0.0f, 0.0f, 0.2f);
+				glBegin(GL_QUADS);
+						glTexCoord2f(0.0f, 0.0f); glVertex3f(-1.0f,-1.0f, 0.0f);
+						glTexCoord2f(1.0f, 0.0f); glVertex3f( 1.0f,-1.0f, 0.0f);
+						glTexCoord2f(1.0f, 1.0f); glVertex3f( 1.0f, 1.0f, 0.0f);
+						glTexCoord2f(0.0f, 1.0f); glVertex3f(-1.0f, 1.0f, 0.0f);
+				glEnd();			
+			glPopMatrix();
+			glMatrixMode(GL_MODELVIEW);
+		glPopMatrix();			
+	}
+	else
+		screenHit = false;
 }
 
 bool isCrouched = false;
+bool hasCursor = false;
 void GLFWCALL processKeys(int key, int action)
 {
 	if(action == GLFW_RELEASE)
@@ -411,6 +366,16 @@ void GLFWCALL processKeys(int key, int action)
 		{
 		case GLFW_KEY_ESC:
 			quit();
+			break;
+		case GLFW_KEY_F2:			
+			hasCursor ? glfwDisable(GLFW_MOUSE_CURSOR): glfwEnable(GLFW_MOUSE_CURSOR);			
+			hasCursor = !hasCursor;
+			break;
+		case GLFW_KEY_F3:
+			resIdx = (++resIdx) % 5;
+			winWidth = resolutions[resIdx][0];
+			winHeight = resolutions[resIdx][1];
+			glfwSetWindowSize(winWidth, winHeight);
 			break;
 		case 'S':
 			isCrouched = false;

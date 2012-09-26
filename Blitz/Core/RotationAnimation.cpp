@@ -10,29 +10,29 @@
 namespace blitz {
 	namespace state {
 
-		RotationAnimation::RotationAnimation(state::State* state, const AnimationType::enumAnimationType& type, const geometry::Vector& step, const float& duration)
+		RotationAnimation::RotationAnimation(state::State* state, const geometry::Vector& step, const float& duration)
 		{
-			this->init(state, type, step, duration, 0.0f, duration <= 0.0f);
+			this->init(state, step, duration, 0.0f, duration <= 0.0f);
 		}
 
-		RotationAnimation::RotationAnimation(state::State* state, const AnimationType::enumAnimationType& type, const geometry::Vector& step)
+		RotationAnimation::RotationAnimation(state::State* state, const geometry::Vector& step)
 		{
-			this->init(state, type, step, 0.0f, 0.0f, true);
+			this->init(state, step, 0.0f, 0.0f, true);
 		}		
 
-		RotationAnimation::RotationAnimation(state::State* state, const AnimationType::enumAnimationType& type, const geometry::Vector& step, const float& duration, const float& delay)
+		RotationAnimation::RotationAnimation(state::State* state, const geometry::Vector& step, const float& duration, const float& delay)
 		{
-			this->init(state, type, step, duration, delay, duration <= 0.0f);
+			this->init(state, step, duration, delay, duration <= 0.0f);
 		}		
 
 		RotationAnimation::~RotationAnimation(void)
 		{
 		}
 
-		void RotationAnimation::init(state::State* state, const AnimationType::enumAnimationType& type, const geometry::Vector& step, const float& duration, const float& delay, const bool& infinite)
+		void RotationAnimation::init(state::State* state, const geometry::Vector& step, const float& duration, const float& delay, const bool& infinite)
 		{
 			this->_enabled = true;
-			this->_type = type;
+			this->_type = AnimationType::atRotate;
 			this->_state = state;	
 			this->_duration = duration;
 			this->_delay = delay;

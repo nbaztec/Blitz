@@ -35,10 +35,11 @@ namespace blitz {
 				this->y = rhs.y;
 			}
 
-			void set(const float& x, const float& y)
+			Dyad* set(const float& x, const float& y)
 			{
 				this->x = x;
 				this->y = y;
+				return this;
 			}
 
 			Dyad operator+(const Dyad& rhs)
@@ -169,11 +170,12 @@ namespace blitz {
 				this->z = rhs.z;
 			}
 
-			void set(const float &x, const float &y, const float &z)
+			Triad* set(const float &x, const float &y, const float &z)
 			{
 				this->x = x;
 				this->y = y;
 				this->z = z;
+				return this;
 			}
 
 			Triad operator+(const Triad &rhs)
@@ -319,12 +321,13 @@ namespace blitz {
 				this->d = rhs.d;
 			}
 
-			void set(const float& a, const float& b, const float& c, const float& d)
+			Quad* set(const float& a, const float& b, const float& c, const float& d)
 			{
 				this->a = a;
 				this->b = b;
 				this->c = c;
 				this->d = d;
+				return this;
 			}
 
 			Quad operator+(const Quad &rhs)

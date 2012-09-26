@@ -11,6 +11,8 @@ namespace blitz {
 
 	Stage::Stage()	
 	{
+		this->_hitPlayer = 0;
+		this->_lastHitDuration = 0.0f;
 	}
 
 	Stage::~Stage()
@@ -37,6 +39,13 @@ namespace blitz {
 		{
 			for(std::vector<unit::Object*>::iterator it = ito->second.begin(); it != ito->second.end();)
 			{
+				unit::Enemy* e = dynamic_cast<unit::Enemy*>(*it);
+				if(e != NULL && e->hasHitPlayer())
+				{
+					e->hasCompleted();
+					this->_hitPlayer++;
+				}
+
 				if((*it)->isComplete())
 				{
 					_t = *it;
@@ -51,32 +60,19 @@ namespace blitz {
 			}
 		}
 
+		// Player-Plasma Hit
 		for(std::vector<unit::Object*>::iterator itb = this->_objects["player_fire"].begin(); itb != this->_objects["player_fire"].end(); itb++)
 		{
 			for(std::vector<unit::Object*>::iterator ite = this->_objects["enemy"].begin(); ite != this->_objects["enemy"].end(); ite++)
-				if((*itb)->collision(*(*ite)))
-					std::cout << "Collided" << std::endl;			
-		}
-		/*
-		for(std::map<std::string, std::vector<Object*>>::iterator ito = this->_objects.begin(); ito != this->_objects.end(); ito++)
-		{
-			for(std::vector<Object*>::iterator it = ito->second.begin(); it != ito->second.end();)
 			{
-				if((*it)->collision(*(this->_objects["enemy"][0])))
-					std::cout << "Collided" << std::endl;
-				if((*it)->isComplete())
+				unit::Enemy* e = static_cast<unit::Enemy*>(*ite);
+				if((*itb)->collision(*(*ite)))
 				{
-					_t = *it;
-					it = ito->second.erase(it);			
-					delete _t;
-				}
-				else
-				{
-					(*it)->tick(interpolate);
-					it++;
-				}
+					std::cout << "Collided" << std::endl;	
+					break;
+				}				
 			}
-		}*/
+		}		
 	}
 
 	void Stage::draw(void)
@@ -94,7 +90,7 @@ namespace blitz {
 				for(std::vector<unit::Object*>::iterator it = ito->second.begin(); it != ito->second.end(); it++)
 					(*it)->draw();		
 			}
-		}
+		}		
 	}
 
 	void Stage::spawnEnemy(const geometry::Triad &start)
@@ -107,4 +103,32 @@ namespace blitz {
 		this->_objects["player_fire"].push_back(new unit::PlasmaBullet(start));
 	}
 
+	long Stage::getPlayerHits() const
+	{
+		return this->_hitPlayer;
+	}
+	
+	long Stage::decPlayerHits()
+	{
+		return this->_hitPlayer > 0? --this->_hitPlayer: 0;
+	}
+	
+	void Stage::resetPlayerHits()
+	{
+		this->_hitPlayer = 0;
+	}
+
+	bool Stage::persistHitDraw(float delta)
+	{
+		this->_lastHitDuration += delta;
+		std::cout << "ALLOW: " << this->_lastHitDuration << " < " << 2.0f <<std::endl;
+		if(this->_lastHitDuration < 1.5f)		
+			return true;
+		return false;
+	}
+
+	void Stage::hitDrawReset()
+	{
+		this->_lastHitDuration = 0.0f;
+	}
 }

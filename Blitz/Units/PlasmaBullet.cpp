@@ -19,9 +19,9 @@ namespace blitz {
 			//this->_state->velocity.set(0.0f, 0.0f, 50.f);
 			//this->_state->rotation.magnitude = 200.0f;
 			//this->_state->rotation.direction.set(0.0f, 0.0f, 1.0f);
-			this->_animation.push_back(new state::LinearAnimation(this->_state, state::AnimationType::atTranslate, geometry::Triad(0.0f, 0.0f, 50.f)));
-			this->_animation.push_back(new state::RotationAnimation(this->_state, state::AnimationType::atRotate, geometry::Vector(0.0f, 0.0f, 1.0f, 200.0f)));
-			this->_animation.push_back(new state::ColorAnimation(this->_state, state::AnimationType::atColorBlink, geometry::Quad(1.0f, 0.0f, 0.0f, 1.0f), 0.0f, 0.2));
+			this->_animation.push_back(new state::LinearAnimation(this->_state, geometry::Triad(0.0f, 0.0f, 50.f)));
+			this->_animation.push_back(new state::RotationAnimation(this->_state, geometry::Vector(0.0f, 0.0f, 1.0f, 200.0f)));
+			//this->_animation.push_back(new state::ColorAnimation(this->_state, state::AnimationType::atColorBlink, geometry::Quad(1.0f, 0.0f, 0.0f, 1.0f), 0.0f, 0.2));
 			//this->_animation.push_back(new state::Animation(this->_state, state::AnimationType::atTranslate, geometry::Triad(0.0f, 0.0f, 10.f), 2.0f));
 			//this->_animation.push_back(new state::Animation(this->_state, state::AnimationType::atRotate, geometry::Triad(0.0f, 0.0f, 10.f), 2.0f));
 		}
@@ -49,7 +49,7 @@ namespace blitz {
 
 		void PlasmaBullet::tick(float delta)
 		{
-			this->updateState(delta);
+			this->_completed = this->updateState(delta);
 			geometry::Triad t= this->_state->start;
 			t.z += 5.0f;
 			//PlasmaBullet plane(t);
@@ -60,10 +60,10 @@ namespace blitz {
 
 		bool PlasmaBullet::isComplete() const
 		{
-			return this->_state->current.z > 30.0f;
+			return this->_completed || this->_state->current.z > 50.0f;
 		}
 
-		bool PlasmaBullet::collision(const Object& obj)
+		bool PlasmaBullet::collision(Object& obj)
 		{
 			bool passed = this->_state->normal.z > 0.0f? this->_state->current.z >= obj.getState()->current.z: this->_state->current.z <= obj.getState()->current.z;
 			if(passed)
@@ -89,7 +89,9 @@ namespace blitz {
 				{
 					if(dy > obj.getState()->box.y)
 						return false;
-				}				
+				}
+				obj.hit(*this);
+				this->_completed = true;
 				return true;				
 			}
 			return false;

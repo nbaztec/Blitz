@@ -25,7 +25,7 @@ namespace blitz {
 			void draw(void);
 			void tick(float delta);
 			virtual bool isComplete() const;
-			virtual bool collision(const Object& obj);
+			virtual bool collision(Object& obj);
 		};
 	}
 }
