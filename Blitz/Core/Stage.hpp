@@ -16,6 +16,7 @@
 #include "Object.hpp"
 #include "..\Units\PlasmaBullet.hpp"
 #include "..\Units\Enemy.hpp"
+#include "..\Units\SkeletonEnemy.hpp"
 #include "..\Util\ImageFactory.hpp"
 #include "..\Util\TextureManager.hpp"
 
@@ -42,7 +43,7 @@ namespace blitz {
 		void tick(const float &interpolate);
 		void draw(void);
 
-		void spawnEnemy(const geometry::Triad& start);
+		void spawnEnemy(const geometry::Triad& start, Model* model);
 		// Fire
 		void playerFire(const geometry::Triad &start);
 

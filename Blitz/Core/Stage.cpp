@@ -65,12 +65,15 @@ namespace blitz {
 		{
 			for(std::vector<unit::Object*>::iterator ite = this->_objects["enemy"].begin(); ite != this->_objects["enemy"].end(); ite++)
 			{
-				unit::Enemy* e = static_cast<unit::Enemy*>(*ite);
-				if((*itb)->collision(*(*ite)))
+				unit::Enemy* e = dynamic_cast<unit::Enemy*>(*ite);
+				if(e && (*itb)->collision(*(*ite)))
 				{
-					std::cout << "Collided" << std::endl;	
+					(*itb)->hasCompleted();
+					(*ite)->hit(**itb);
+
+					std::cout << "Collided" << std::endl;
 					break;
-				}				
+				}
 			}
 		}		
 	}
@@ -93,9 +96,9 @@ namespace blitz {
 		}		
 	}
 
-	void Stage::spawnEnemy(const geometry::Triad &start)
+	void Stage::spawnEnemy(const geometry::Triad &start, Model* model)
 	{
-		this->_objects["enemy"].push_back(new unit::Enemy(start));
+		this->_objects["enemy"].push_back(new unit::SkeletonEnemy(start, model));
 	}
 
 	void Stage::playerFire(const geometry::Triad &start)

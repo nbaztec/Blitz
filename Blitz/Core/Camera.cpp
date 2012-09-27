@@ -57,24 +57,24 @@ namespace blitz {
 	void Camera::updateNormalized(int x, int y)
 	{
 		float nx = 2*(float(x)/this->_screen.x - 0.5f);
-		float ny = 2*(float(y)/this->_screen.y - 0.5f);
-		std::cout << x << ", " << y << "\t|\t" << nx << ", " << ny  << std::endl;
+		float ny = 2*(0.5f - float(y)/this->_screen.y);
+		//std::cout << x << ", " << y << "\t|\t" << nx << ", " << ny  << std::endl;
 		bool change = false;
 		if(nx <= this->_bounds.a || nx >= this->_bounds.c)
 		{
 			nx = nx < 0.0f? this->_bounds.a: this->_bounds.c;
 			change = true;
 		}
-		if(ny <= this->_bounds.b || ny >= this->_bounds.d)
+		if(ny <= this->_bounds.d || ny >= this->_bounds.b)
 		{
-			ny = ny < 0.0f? this->_bounds.b: this->_bounds.d;
+			ny = ny < 0.0f? this->_bounds.d: this->_bounds.b;
 			change = true;
 		}
 		if(change)
 		{
 			float rx = (nx/2 + 0.5f) * this->_screen.x;
-			float ry = (ny/2 + 0.5f) * this->_screen.y;
-			std::cout << rx << ", " << ry << std::endl;
+			float ry = (0.5f- ny/2 ) * this->_screen.y;
+			//std::cout << rx << ", " << ry << std::endl;
 			glfwSetMousePos(int(rx), int(ry));
 		}
 		this->_current.x = nx;

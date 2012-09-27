@@ -35,7 +35,7 @@ namespace blitz {
 					if(this->_infinite || this->_state->duration < (this->_delay + this->_duration))
 					{
 						this->animateDelta(delta);
-						std::cout<<"-> "<<this->_state->current.toString()<<std::endl;
+						//std::cout<<"-> "<<this->_state->current.toString()<<std::endl;
 					}
 					else
 					{					

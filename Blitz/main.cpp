@@ -81,6 +81,9 @@ int main(int argc, char **argv) {
 	return 0;
 }
 
+#include "Util\cal3d\model.h"
+Model* pModel;
+
 float delta = 0.0f;		 // Game Delta
 void gameLoop()
 {
@@ -99,6 +102,7 @@ void gameLoop()
 			if(delta)
 				old_time = now;			
 			stage.tick(delta);
+			pModel->onUpdate(delta);
 			next_game_tick += SKIP_TICKS;
 			loops++;
 
@@ -110,9 +114,11 @@ void gameLoop()
 
 void quit(void)
 {
+	pModel->onShutdown();
 	glfwTerminate();
 	exit(0);
 }
+
 
 void init(int argc, char **argv)
 {
@@ -129,15 +135,19 @@ void init(int argc, char **argv)
 	glClearColor(0.0, 0.0, 0.0, 1.0);
 	glClearDepth(1.0);
 	//glEnable(GL_TEXTURE_2D);
-	glEnable(GL_DEPTH_TEST);
+	
+	/*
+	glEnable(GL_DEPTH_TEST);	
 	glEnable(GL_BLEND);
-	//glAlphaFunc(GL_GREATER, 0.0f);
 	glEnable(GL_ALPHA_TEST);
+	*/
+	glAlphaFunc(GL_GREATER, 0.0f);	
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);	
 	glShadeModel(GL_SMOOTH);
 	glPixelStorei(GL_UNPACK_ALIGNMENT, 1);
 	glfwDisable(GLFW_MOUSE_CURSOR);
-
+	
+	
 	// Callbacks
 	glfwSetWindowSizeCallback(windowResize);
 	glfwSetKeyCallback(processKeys);
@@ -155,9 +165,19 @@ void init(int argc, char **argv)
 
 	// Init Stage
 	stage.setTextureManager(&texMgr);	
-	camera = blitz::Camera(blitz::geometry::Triad(), blitz::geometry::Dyad(float(winWidth), float(winHeight)), blitz::geometry::Quad(-5.0f, -0.5f, 5.0f, 2.0f), false);
+	camera = blitz::Camera(blitz::geometry::Triad(), blitz::geometry::Dyad(float(winWidth), float(winHeight)), blitz::geometry::Quad(-5.0f, 0.5f, 5.0f, -2.0f), false);
 	for(int i=0; i<50; i++)
 		starMap.push_back(blitz::geometry::Dyad(fRand.randFloat(2.0f, 6.0f), fRand.randFloat(-1.0f, 1.0f)));		
+
+	// Cal3D
+	pModel = new Model();	
+	pModel->setPath( "./res/skeleton/" );
+	if(!pModel->onInit("./res/skeleton/skeleton.cfg"))
+	{
+		delete pModel;
+		std::cerr << "Model initialization failed! (skeleton)" << std::endl;		
+	}
+	std::cout << "Model loaded! (skeleton)" << std::endl;		
 }
 
 // Handler for window resizes
@@ -186,32 +206,78 @@ void drawStar()
 	glEnd();	
 }
 
+void _renderScene(void)
+{	
+	glClearColor(0.0f, 0.0f, 0.2f, 1.0f);
+	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+	
+	glPushMatrix();
+		// Reset transformations
+		float renderScale;
+		renderScale = pModel->getRenderScale()*1;
+  
+		// set the projection transformation
+		glMatrixMode(GL_PROJECTION);
+		glLoadIdentity();
+  	
+		gluPerspective(45.0f, (GLdouble)winWidth/ (GLdouble)winHeight, renderScale * 50.0, renderScale * 5000.0);
+  
+		// set the model transformation
+		glMatrixMode(GL_MODELVIEW);
+		glLoadIdentity();
+
+
+		glTranslatef(0.0f, -50.0f, -200.0f);
+
+		const GLfloat lightPosition[] = { 1.0f, -1.0f, 1.0f, 1.0f };
+		glLightfv(GL_LIGHT0, GL_POSITION, lightPosition);
+		const GLfloat lightColorAmbient[] = { 0.3f, 0.3f, 0.3f, 1.0f };
+		glLightfv(GL_LIGHT0, GL_AMBIENT, lightColorAmbient);
+		const GLfloat lightColorDiffuse[] = { 0.52f, 0.5f, 0.5f, 1.0f };
+		glLightfv(GL_LIGHT0, GL_DIFFUSE, lightColorDiffuse);
+		const GLfloat lightColorSpecular[] = { 0.1f, 0.1f, 0.1f, 1.0f };
+		glLightfv(GL_LIGHT0, GL_SPECULAR, lightColorSpecular);
+
+
+		glTranslatef(0.0f, 0.0f, -270.0f);
+		glRotatef(-90.0f, 1.0f, 0.0f, 0.0f);
+		glRotatef(0.0f, 0.0f, 0.0f, 1.0f);  
+		//if(pModel)
+		glDisable(GL_BLEND);
+		glDisable(GL_ALPHA_TEST);
+		pModel->onRender();
+	glPopMatrix();
+
+}
 void renderScene(void)
 {
 	// Clear Color and Depth Buffers
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-
+	
 	// Reset transformations
 	glMatrixMode(GL_MODELVIEW);
 	glLoadIdentity();
 		
 	// Set the camera
-	blitz::geometry::Triad lookAt = camera.getCurrent();
-	glTranslatef(0.0f, 0.0f, -10.0f);
+	blitz::geometry::Triad lookAt = camera.getCurrent();	
+
 	//glPushMatrix();	
-	gluLookAt(	lookAt.x * 10.0f, -lookAt.y * 5.0f, 10.0f,							
-				lookAt.x * 10.0f, -lookAt.y * 5.0f,  0.0f,		
-				0.0f, 1.0f,  0.0f);	
+	gluLookAt(	lookAt.x * 10.0f, lookAt.y * 5.0f, 0.0f,
+				lookAt.x * 10.0f, lookAt.y * 5.0f, -50.0f,
+				0.0f, 1.0f,  0.0f);
 	
+	//glTranslatef(0.0f, 0.0f, 150.0f);
 	//glPopMatrix();
 	//glMatrixMode (GL_MODELVIEW);
-	glDisable(GL_DEPTH_TEST);
+	//glDisable(GL_DEPTH_TEST);
+	
 	glPushMatrix ();
 		glLoadIdentity();		
 		glMatrixMode(GL_PROJECTION);
 		glPushMatrix();		
-			glLoadIdentity();				
-			glEnable( GL_TEXTURE_2D );	
+			glLoadIdentity();			
+			glDisable(GL_DEPTH_TEST);
+			glEnable(GL_TEXTURE_2D);
 			glBindTexture(GL_TEXTURE_2D, texMgr["background"].first());
 			glColor4f(1.0f, 1.0f, 1.0f, 1.0f);
 			glBegin(GL_QUADS);
@@ -223,28 +289,37 @@ void renderScene(void)
 		glPopMatrix();
 		glMatrixMode(GL_MODELVIEW);
 	glPopMatrix ();
-	//glMatrixMode(GL_MODELVIEW);
-	
-	
-	glEnable(GL_DEPTH_TEST);
-		
-	// Draw here
-	//glDisable(GL_DEPTH_TEST);		
-	
-	//glBindTexture(GL_TEXTURE_2D, texMgr["enemy"].first());
 	/*
 	glPushMatrix();		
-		glTranslatef(-150.0f, 0.0f, -10.0f);		
-		for(std::vector<blitz::geometry::Dyad>::iterator it = starMap.begin(); it != starMap.end(); it++)
-		{			
-			glTranslatef(it->x, -it->y, 0.0f);
-			glColor4f(0.0f, 1.0f, 0.0f, 1.0f);
-			drawStar();
-		}
+		glColor4f(1.0f, 1.0f, 1.0f, 1.0f);
+		const GLfloat lightPosition[] = { 1.0f, -1.0f, 1.0f, 1.0f };
+		glLightfv(GL_LIGHT0, GL_POSITION, lightPosition);
+		const GLfloat lightColorAmbient[] = { 0.3f, 0.3f, 0.3f, 1.0f };
+		glLightfv(GL_LIGHT0, GL_AMBIENT, lightColorAmbient);
+		const GLfloat lightColorDiffuse[] = { 0.52f, 0.5f, 0.5f, 1.0f };
+		glLightfv(GL_LIGHT0, GL_DIFFUSE, lightColorDiffuse);
+		const GLfloat lightColorSpecular[] = { 0.1f, 0.1f, 0.1f, 1.0f };
+		glLightfv(GL_LIGHT0, GL_SPECULAR, lightColorSpecular);
+		
+		//glTranslatef(0.0f, 0.0f, -270.0f);
+		glTranslatef(0.0f, 0.0f, -80.0f);
+		glRotatef(-90.0f, 1.0f, 0.0f, 0.0f);
+		glRotatef(0.0f, 0.0f, 0.0f, 1.0f);  		
+		//if(pModel)
+		glScalef(0.025f, 0.025f, 0.025f);
+		glDisable(GL_TEXTURE_2D);
+		glDisable(GL_BLEND);
+		glDisable(GL_ALPHA_TEST);
+		pModel->onRender();
 	glPopMatrix();
 	*/
-	//glBindTexture(GL_TEXTURE_2D, texMgr["star"].first());
+	
 	stage.draw();
+
+	glEnable( GL_TEXTURE_2D );
+	glEnable(GL_BLEND);
+	glEnable(GL_ALPHA_TEST);
+	glEnable(GL_DEPTH_TEST);
 
 	glBindTexture(GL_TEXTURE_2D, texMgr["crosshair"].first());
     glPushMatrix();				// Crosshair
@@ -259,7 +334,7 @@ void renderScene(void)
 		glEnd();  
 	glPopMatrix();
 	glDisable( GL_TEXTURE_2D );
-
+	
 	// HUD
 	glDisable(GL_DEPTH_TEST);
 	glPushMatrix();
@@ -433,10 +508,10 @@ void GLFWCALL processMouseButton(int button, int action)
 		{
 			case GLFW_MOUSE_BUTTON_LEFT:				
 				//blitz::geometry::Triad lookAt = blitz::geometry::Triad();
-				stage.playerFire(blitz::geometry::Triad(lookAt.x * 10.0f, lookAt.y * 5.0f, -20.0f));
+				stage.playerFire(blitz::geometry::Triad(lookAt.x * 10.0f, lookAt.y * 5.0f, 0.0f));
 				break;
 			case GLFW_MOUSE_BUTTON_RIGHT:
-				stage.spawnEnemy(blitz::geometry::Triad(fRand.randFloat(-50.0f, 50.0f), fRand.randFloat(-4.0f, 4.0f), 80.0f));				
+				stage.spawnEnemy(blitz::geometry::Triad(fRand.randFloat(-50.0f, 50.0f), fRand.randFloat(-4.0f, 4.0f), -100.0f), pModel);				
 				break;
 		}
 	}

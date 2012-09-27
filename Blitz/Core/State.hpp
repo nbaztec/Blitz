@@ -21,7 +21,7 @@ namespace blitz {
 			float angle;
 			geometry::Quad clear;
 			geometry::Triad start;
-			geometry::Dyad box;
+			geometry::Quad box;
 			geometry::Triad normal;
 			geometry::Triad velocity;
 			geometry::Vector rotation;
@@ -33,7 +33,7 @@ namespace blitz {
 				this->angle = 0.0f;
 				this->clear = this->color = geometry::Quad(1.0f, 1.0f, 1.0f, 1.0f);
 				this->start = geometry::Triad();
-				this->box = geometry::Dyad();
+				this->box = geometry::Quad();
 				this->normal = geometry::Triad();
 				this->current = geometry::Triad();
 				this->velocity = geometry::Triad();
@@ -43,6 +43,16 @@ namespace blitz {
 
 			~State()
 			{
+			}
+
+			void setColorClear(const geometry::Quad& color)
+			{
+				this->clear = this->color = color;
+			}
+	
+			void setColorClear(const float& r, const float& g, const float& b, const float& a)
+			{
+				this->clear = this->color = geometry::Quad(r, g, b, a);
 			}
 
 		};

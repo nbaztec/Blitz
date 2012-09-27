@@ -13,10 +13,13 @@
 #include "..\Core\RotationAnimation.hpp"
 #include "..\Core\ColorAnimation.hpp"
 
+#include "DamageObject.hpp"
+#include "EnergyObject.hpp"
+
 namespace blitz {
 	namespace unit {
 
-		class PlasmaBullet: public Object
+		class PlasmaBullet: public DamageObject, public EnergyObject
 		{
 		public:
 			PlasmaBullet(const geometry::Triad &start);
