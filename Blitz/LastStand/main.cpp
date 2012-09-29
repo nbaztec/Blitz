@@ -6,20 +6,20 @@
  */
 
 #include <iostream>
-#include <windows.h>
 #include <string>
 #include <vector>
 #include <map>
 #include <GL/glfw.h>
 
 
-#include "Core\Stage.hpp"
-#include "Core\Camera.hpp"
-#include "Core\Coordinate.hpp"
-#include "Core\Point.hpp"
-#include "Util\TextureManager.hpp"
-#include "Util\Randomizer.hpp"
-
+//#include "../Engine/View/Stage.hpp"
+#include "View/GameStage.hpp"
+#include "../Engine/Core/Camera.hpp"
+#include "../Engine/Core/Coordinate.hpp"
+#include "../Engine/Core/Point.hpp"
+#include "../Engine/Util/TextureManager.hpp"
+#include "../Engine/Util/Randomizer.hpp"
+#include "../Engine/Util/cal3d/model.h"
 
 // Global Functions
 void quit(void);
@@ -37,15 +37,16 @@ void GLFWCALL processMouseButton(int button, int action);
 // Global Objects
 int resolutions[][2] = {
 	{640, 480},
-	{800,600},
+	{800, 600},
+	{1024, 768},
 	{1280, 720},
 	{1366, 768},
 	{1920, 1080}	
 };
-int resIdx = 2;
+int resIdx = 3;
 int winWidth = resolutions[resIdx][0];
 int winHeight = resolutions[resIdx][1];
-blitz::Stage stage;
+game::view::GameStage stage;
 blitz::Camera camera;
 //blitz::Triad origin = blitz::Triad();
 GLfloat strafeStep = 0.1f;
@@ -81,7 +82,6 @@ int main(int argc, char **argv) {
 	return 0;
 }
 
-#include "Util\cal3d\model.h"
 Model* pModel;
 
 float delta = 0.0f;		 // Game Delta
@@ -401,14 +401,8 @@ void renderScene(void)
 	glPopMatrix();
 
 	// BAM!
-	if((screenHit && stage.persistHitDraw(delta)) || stage.getPlayerHits())
+	if(screenHit && stage.persistHitDraw(delta))
 	{
-		if(!screenHit)
-		{
-			stage.hitDrawReset();
-			stage.decPlayerHits();
-			screenHit = true;
-		}
 		glPushMatrix();
 			glLoadIdentity();		
 			glMatrixMode(GL_PROJECTION);
@@ -428,7 +422,8 @@ void renderScene(void)
 		glPopMatrix();			
 	}
 	else
-		screenHit = false;
+		if(screenHit = (stage.getPlayerHits() > 0))
+			stage.decPlayerHits();
 }
 
 bool isCrouched = false;

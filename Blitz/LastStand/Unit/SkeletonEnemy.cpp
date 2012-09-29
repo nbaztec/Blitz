@@ -7,9 +7,9 @@
  
 #include "SkeletonEnemy.hpp"
 #include <iostream>
-namespace blitz {
+namespace game {
 	namespace unit {		
-		SkeletonEnemy::SkeletonEnemy(const geometry::Triad &start, Model* model)
+		SkeletonEnemy::SkeletonEnemy(const blitz::geometry::Triad &start, Model* model)
 			:Enemy(start)
 		{						
 			this->_model = model;
@@ -25,8 +25,8 @@ namespace blitz {
 
 		void SkeletonEnemy::draw(void)
 		{	
-			geometry::Triad t = this->_state->current;
-			geometry::Triad r = this->_state->rotation.direction;
+			blitz::geometry::Triad t = this->_state->current;
+			blitz::geometry::Triad r = this->_state->rotation.direction;
 			glPushMatrix();
 				//glTranslatef(1.1f, -2.0f, 0.0f);
 				glTranslatef(t.x, t.y, t.z);				
@@ -73,15 +73,15 @@ namespace blitz {
 			glPopMatrix();
 		}
 
-		void SkeletonEnemy::tick(float delta)
+		void SkeletonEnemy::tick(const float& delta)
 		{
 			Enemy::tick(delta);
 			//this->_model->onUpdate(delta);
 		}
 		
-		void SkeletonEnemy::hit(Object& obj)
+		void SkeletonEnemy::hit(UnitObject& obj)
 		{			
-			unit::DamageObject* d = dynamic_cast<unit::DamageObject*>(&obj);
+			blitz::unit::DamageObject* d = dynamic_cast<blitz::unit::DamageObject*>(&obj);
 			if(d)
 			{
 				this->reduceHealth(d->getDamage());
@@ -89,12 +89,12 @@ namespace blitz {
 				{
 					this->_state->velocity.set(0.0f, 0.0f, 0.0f);
 				
-					state::Animation* a = new state::ColorAnimation(this->_state, state::AnimationType::atColorBlink, geometry::Quad(1.0f, 0.0f, 0.0f, 1.0f), 1.0f);
+					blitz::state::Animation* a = new blitz::state::ColorAnimation(this->_state, blitz::state::AnimationType::atColorBlink, blitz::geometry::Quad(1.0f, 0.0f, 0.0f, 1.0f), 1.0f);
 					a->setTerminal(true);
 					this->_animation.push_back(a);		
 				}
 				else
-					this->_animation.push_back(new state::ColorAnimation(this->_state, state::AnimationType::atColorBlink, geometry::Quad(0.0f, 1.0f, 0.0f, 1.f), 0.2f));		
+					this->_animation.push_back(new blitz::state::ColorAnimation(this->_state, blitz::state::AnimationType::atColorBlink, blitz::geometry::Quad(0.0f, 1.0f, 0.0f, 1.f), 0.2f));		
 			}
 		}
 	}

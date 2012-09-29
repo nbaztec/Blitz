@@ -1,140 +1,140 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
-    <Filter Include="Source Files">
+    <Filter Include="Engine\Source Files">
       <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
       <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
     </Filter>
-    <Filter Include="Header Files">
+    <Filter Include="Engine\Header Files">
       <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
       <Extensions>h;hpp;hxx;hm;inl;inc;xsd</Extensions>
     </Filter>
-    <Filter Include="Resource Files">
+    <Filter Include="Engine\Resource Files">
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
-    <Filter Include="Source Files\Units">
+    <Filter Include="Engine\Source Files\Units">
       <UniqueIdentifier>{199fa566-d675-4a73-a0ca-6355db361579}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Source Files\Util">
+    <Filter Include="Engine\Source Files\Util">
       <UniqueIdentifier>{ae06f479-7465-4a21-bb81-0240edcd8db8}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Source Files\Core">
+    <Filter Include="Engine\Source Files\Core">
       <UniqueIdentifier>{e7f4fb34-4147-485a-aae8-5759cabfd7da}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="main.cpp">
+    <ClCompile Include="Engine\main.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Util\Randomizer.cpp">
+    <ClCompile Include="Engine\Util\Randomizer.cpp">
       <Filter>Source Files\Util</Filter>
     </ClCompile>
-    <ClCompile Include="Util\TextureManager.cpp">
+    <ClCompile Include="Engine\Util\TextureManager.cpp">
       <Filter>Source Files\Util</Filter>
     </ClCompile>
-    <ClCompile Include="Units\PlasmaBullet.cpp">
+    <ClCompile Include="Engine\Unit\PlasmaBullet.cpp">
       <Filter>Source Files\Units</Filter>
     </ClCompile>
-    <ClCompile Include="Units\Player.cpp">
+    <ClCompile Include="Engine\Unit\Player.cpp">
       <Filter>Source Files\Units</Filter>
     </ClCompile>
-    <ClCompile Include="Util\ImageFactory.cpp">
+    <ClCompile Include="Engine\Util\ImageFactory.cpp">
       <Filter>Source Files\Util</Filter>
     </ClCompile>
-    <ClCompile Include="Util\TextureFactory.cpp">
+    <ClCompile Include="Engine\Util\TextureFactory.cpp">
       <Filter>Source Files\Util</Filter>
     </ClCompile>
-    <ClCompile Include="Util\TGATexture.cpp">
+    <ClCompile Include="Engine\Util\TGATexture.cpp">
       <Filter>Source Files\Util</Filter>
     </ClCompile>
-    <ClCompile Include="Core\Animation.cpp">
+    <ClCompile Include="Engine\Core\Animation.cpp">
       <Filter>Source Files\Core</Filter>
     </ClCompile>
-    <ClCompile Include="Core\Camera.cpp">
+    <ClCompile Include="Engine\Core\Camera.cpp">
       <Filter>Source Files\Core</Filter>
     </ClCompile>
-    <ClCompile Include="Core\Object.cpp">
+    <ClCompile Include="Engine\Core\Object.cpp">
       <Filter>Source Files\Core</Filter>
     </ClCompile>
-    <ClCompile Include="Core\Stage.cpp">
+    <ClCompile Include="Engine\Core\Stage.cpp">
       <Filter>Source Files\Core</Filter>
     </ClCompile>
-    <ClCompile Include="Units\Enemy.cpp">
+    <ClCompile Include="Engine\Unit\Enemy.cpp">
       <Filter>Source Files\Units</Filter>
     </ClCompile>
-    <ClCompile Include="Core\LinearAnimation.cpp">
+    <ClCompile Include="Engine\Core\LinearAnimation.cpp">
       <Filter>Source Files\Core</Filter>
     </ClCompile>
-    <ClCompile Include="Core\RotationAnimation.cpp">
+    <ClCompile Include="Engine\Core\RotationAnimation.cpp">
       <Filter>Source Files\Core</Filter>
     </ClCompile>
-    <ClCompile Include="Core\ColorAnimation.cpp">
+    <ClCompile Include="Engine\Core\ColorAnimation.cpp">
       <Filter>Source Files\Core</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="resource.h">
+    <ClInclude Include="Engine\resource.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Util\Randomizer.hpp">
+    <ClInclude Include="Engine\Util\Randomizer.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Util\TextureManager.hpp">
+    <ClInclude Include="Engine\Util\TextureManager.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Units\Player.hpp">
+    <ClInclude Include="Engine\Unit\Player.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Units\PlasmaBullet.hpp">
+    <ClInclude Include="Engine\Unit\PlasmaBullet.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Util\TextureFactory.hpp">
+    <ClInclude Include="Engine\Util\TextureFactory.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Util\RawImage.hpp">
+    <ClInclude Include="Engine\Util\RawImage.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Util\ImageFactory.hpp">
+    <ClInclude Include="Engine\Util\ImageFactory.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Util\TGATexture.hpp">
+    <ClInclude Include="Engine\Util\TGATexture.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Core\Texture.hpp">
+    <ClInclude Include="Engine\Core\Texture.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Core\Stage.hpp">
+    <ClInclude Include="Engine\Core\Stage.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Core\State.hpp">
+    <ClInclude Include="Engine\Core\State.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Core\Point.hpp">
+    <ClInclude Include="Engine\Core\Point.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Core\Object.hpp">
+    <ClInclude Include="Engine\Core\Object.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Core\Coordinate.hpp">
+    <ClInclude Include="Engine\Core\Coordinate.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Core\Animation.hpp">
+    <ClInclude Include="Engine\Core\Animation.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Core\Camera.hpp">
+    <ClInclude Include="Engine\Core\Camera.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Units\Enemy.hpp">
+    <ClInclude Include="Engine\Unit\Enemy.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Core\LinearAnimation.hpp">
+    <ClInclude Include="Engine\Core\LinearAnimation.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Core\RotationAnimation.hpp">
+    <ClInclude Include="Engine\Core\RotationAnimation.hpp">
       <Filter>Source Files\Core</Filter>
     </ClInclude>
-    <ClInclude Include="Core\ColorAnimation.hpp">
+    <ClInclude Include="Engine\Core\ColorAnimation.hpp">
       <Filter>Source Files\Core</Filter>
     </ClInclude>
   </ItemGroup>

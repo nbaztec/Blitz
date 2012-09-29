@@ -7,11 +7,11 @@
  
 #include "Enemy.hpp"
 #include <iostream>
-namespace blitz {
+namespace game {
 	namespace unit {		
-		Enemy::Enemy(const geometry::Triad &start)
+		Enemy::Enemy(const blitz::geometry::Triad &start)
 		{			
-			this->_state = new state::State();
+			this->_state = new blitz::state::State();
 			this->_state->current = this->_state->start = start;
 			this->_state->box.set(-1.0f, 1.0f, 1.0f, -1.0f);
 			this->_state->normal.set(0.0f, 0.0f, 1.0f);
@@ -28,8 +28,8 @@ namespace blitz {
 
 		void Enemy::draw(void)
 		{	
-			geometry::Triad t = this->_state->current;
-			geometry::Triad r = this->_state->rotation.direction;
+			blitz::geometry::Triad t = this->_state->current;
+			blitz::geometry::Triad r = this->_state->rotation.direction;
 			glPushMatrix();
 				glEnable( GL_TEXTURE_2D );
 				glEnable(GL_BLEND);
@@ -54,7 +54,7 @@ namespace blitz {
 			glPopMatrix();
 		}
 
-		void Enemy::tick(float delta)
+		void Enemy::tick(const float& delta)
 		{
 			this->_completed = this->updateState(delta);
 			this->_hitPlayer = this->_state->current.z >= -3.0f;
@@ -65,9 +65,9 @@ namespace blitz {
 			return this->_completed;
 		}
 
-		void Enemy::hit(Object& obj)
+		void Enemy::hit(UnitObject& obj)
 		{			
-			unit::DamageObject* d = dynamic_cast<unit::DamageObject*>(&obj);
+			blitz::unit::DamageObject* d = dynamic_cast<blitz::unit::DamageObject*>(&obj);
 			if(d)
 			{
 				this->reduceHealth(d->getDamage());
@@ -75,12 +75,12 @@ namespace blitz {
 				{
 					this->_state->velocity.set(0.0f, 0.0f, 0.0f);
 				
-					state::Animation* a = new state::ColorAnimation(this->_state, state::AnimationType::atColorBlink, geometry::Quad(1.0f, 1.0f, 0.0f, 1.0f), 1.0f);
+					blitz::state::Animation* a = new blitz::state::ColorAnimation(this->_state, blitz::state::AnimationType::atColorBlink, blitz::geometry::Quad(1.0f, 1.0f, 0.0f, 1.0f), 1.0f);
 					a->setTerminal(true);
 					this->_animation.push_back(a);		
 				}
 				else
-					this->_animation.push_back(new state::ColorAnimation(this->_state, state::AnimationType::atColorBlink, geometry::Quad(1.0f, 0.0f, 0.0f, 1.f), 0.2f));		
+					this->_animation.push_back(new blitz::state::ColorAnimation(this->_state, blitz::state::AnimationType::atColorBlink, blitz::geometry::Quad(1.0f, 0.0f, 0.0f, 1.f), 0.2f));		
 			}
 		}
 

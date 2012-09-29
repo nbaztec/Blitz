@@ -7,7 +7,7 @@
  
 #include "PlasmaBullet.hpp"
 #include <iostream>
-namespace blitz {
+namespace game {
 	namespace unit {		
 	
 		PlasmaBullet::PlasmaBullet(const geometry::Triad &start)
@@ -81,7 +81,7 @@ namespace blitz {
 			return this->_completed || this->_state->current.z < -70.0f;
 		}
 
-		bool PlasmaBullet::collision(Object& obj)
+		bool PlasmaBullet::collision(UnitObject& obj)
 		{
 			bool passed = this->_state->normal.z > 0.0f? this->_state->current.z >= obj.getState()->current.z: this->_state->current.z <= obj.getState()->current.z;
 			if(passed)

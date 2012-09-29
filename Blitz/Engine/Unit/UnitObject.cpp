@@ -1,23 +1,22 @@
 /*
- * Object.cpp
+ * UnitObject.cpp
  *
  *  Created on: Aug 29, 2012
  *      Author: Nisheeth
  */
 
-#include "Object.hpp"
-#include "State.hpp"
+#include "UnitObject.hpp"
 #include <iostream>
 
 namespace blitz {
 	namespace unit {
-		Object::Object()
+		UnitObject::UnitObject()
 		{
 			this->_state = new state::State();
 			this->_completed = false;
 		}
 
-		Object::~Object()
+		UnitObject::~UnitObject()
 		{
 			delete this->_state;			
 			for(std::vector<state::Animation*>::iterator it = this->_animation.begin(); it != this->_animation.end(); it++)
@@ -29,24 +28,24 @@ namespace blitz {
 		 * PUBLIC METHODS
 		 */
 
-		bool Object::hasCompleted()
+		bool UnitObject::hasCompleted()
 		{
 			return this->_completed = true;
 		}
 
-		void Object::addAnimation(state::Animation *anim)
+		void UnitObject::addAnimation(state::Animation *anim)
 		{	
 			this->_animation.push_back(anim);	
 		}
 
-		state::Animation* Object::removeAnimation(const int &index)
+		state::Animation* UnitObject::removeAnimation(const int &index)
 		{
 			state::Animation* _t = this->_animation[index];
 			this->_animation.erase(this->_animation.begin() + index);
 			return _t;
 		}
 
-		bool Object::animateAll(float delta)
+		bool UnitObject::animateAll(float delta)
 		{
 			bool terminal = false;
 			for(std::vector<state::Animation*>::iterator it = this->_animation.begin(); it != this->_animation.end(); )
@@ -65,12 +64,12 @@ namespace blitz {
 			return terminal;
 		}
 
-		state::State* Object::getState() const
+		state::State* UnitObject::getState() const
 		{
 			return this->_state;
 		}
 
-		bool Object::updateState(float delta)
+		bool UnitObject::updateState(float delta)
 		{			
 			this->_state->duration += delta;
 			this->_state->current += this->_state->velocity * delta;
@@ -78,7 +77,7 @@ namespace blitz {
 			return this->animateAll(delta);
 		}
 
-		bool Object::isComplete(void) const
+		bool UnitObject::isComplete(void) const
 		{
 			return false;
 		}

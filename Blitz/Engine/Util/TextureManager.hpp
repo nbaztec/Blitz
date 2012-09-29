@@ -10,7 +10,7 @@
 #include <GL\glfw.h>
 #include <map>
 #include <string>
-#include "..\Core\Texture.hpp"
+#include "../Core/Texture.hpp"
 #include "RawImage.hpp"
 #include "ImageFactory.hpp"
 #include "TextureFactory.hpp"

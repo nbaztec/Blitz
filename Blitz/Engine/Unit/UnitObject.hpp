@@ -1,5 +1,5 @@
 /*
- * Object.hpp
+ * UnitObject.hpp
  *
  *  Created on: Aug 29, 2012
  *      Author: Nisheeth
@@ -8,15 +8,16 @@
 #pragma once
 
 #include <vector>
-#include <GL\glfw.h>
-#include "Point.hpp"
-#include "State.hpp"
-#include "Animation.hpp"
+#include <GL/glfw.h>
+#include "../Core/TickedPainter.hpp"
+#include "../Core/Point.hpp"
+#include "../Core/State.hpp"
+#include "../Core/Animation.hpp"
 #include <iostream>
 
 namespace blitz {
 	namespace unit {
-		class Object
+		class UnitObject : public virtual blitz::TickedPainter
 		{
 		protected:
 			state::State* _state;	
@@ -24,8 +25,8 @@ namespace blitz {
 			bool _completed;
 
 		public:
-			Object();
-			virtual ~Object();
+			UnitObject();
+			virtual ~UnitObject();
 
 			state::State* getState() const;
 
@@ -39,8 +40,8 @@ namespace blitz {
 			virtual state::Animation* removeAnimation(const int &index);
 			virtual bool animateAll(float delta);
 
-			virtual bool collision(Object& obj) { return false; }
-			virtual void hit(Object& obj) {}
+			virtual bool collision(UnitObject& obj) { return false; }
+			virtual void hit(UnitObject& obj) {}
 		};
 	}
 }

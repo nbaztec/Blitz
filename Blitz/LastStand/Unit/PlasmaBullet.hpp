@@ -7,16 +7,16 @@
  
 #pragma once
 
-#include "..\Core\Coordinate.hpp"
-#include "..\Core\Object.hpp"
-#include "..\Core\LinearAnimation.hpp"
-#include "..\Core\RotationAnimation.hpp"
-#include "..\Core\ColorAnimation.hpp"
+#include "../Core/Coordinate.hpp"
+#include "UnitObject.hpp"
+#include "../Core/LinearAnimation.hpp"
+#include "../Core/RotationAnimation.hpp"
+#include "../Core/ColorAnimation.hpp"
 
 #include "DamageObject.hpp"
 #include "EnergyObject.hpp"
 
-namespace blitz {
+namespace game {
 	namespace unit {
 
 		class PlasmaBullet: public DamageObject, public EnergyObject
@@ -28,7 +28,7 @@ namespace blitz {
 			void draw(void);
 			void tick(float delta);
 			virtual bool isComplete() const;
-			virtual bool collision(Object& obj);
+			virtual bool collision(UnitObject& obj);
 		};
 	}
 }

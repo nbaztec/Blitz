@@ -7,7 +7,7 @@
 
 #include "Player.hpp"
 
-namespace blitz {
+namespace game {
 
 Player::Player() {
 	// TODO Auto-generated constructor stub

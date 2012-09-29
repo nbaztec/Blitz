@@ -7,7 +7,7 @@
  
 #pragma once
 
-#include <GL\glfw.h>
+#include <GL/glfw.h>
 #include <iostream>
 #include "Coordinate.hpp"
 

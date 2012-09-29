@@ -42,7 +42,7 @@ namespace blitz {
 				return this;
 			}
 
-			Dyad operator+(const Dyad& rhs)
+			Dyad operator+(const Dyad& rhs) const
 			{
 				return Dyad(this->x + rhs.x, this->y + rhs.y);
 			}
@@ -54,7 +54,7 @@ namespace blitz {
 				return *this;
 			}
 
-			Dyad operator+(const float& rhs)
+			Dyad operator+(const float& rhs) const
 			{
 				return Dyad(this->x + rhs, this->y + rhs);
 			}	
@@ -66,7 +66,7 @@ namespace blitz {
 				return *this;
 			}
 
-			Dyad operator-(const Dyad& rhs)
+			Dyad operator-(const Dyad& rhs) const
 			{
 				return Dyad(this->x - rhs.x, this->y - rhs.y);
 			}
@@ -78,7 +78,7 @@ namespace blitz {
 				return *this;
 			}
 
-			Dyad operator-(const float& rhs)
+			Dyad operator-(const float& rhs) const
 			{
 				return Dyad(this->x - rhs, this->y - rhs);
 			}	
@@ -90,7 +90,7 @@ namespace blitz {
 				return *this;
 			}
 
-			Dyad operator*(const Dyad& rhs)
+			Dyad operator*(const Dyad& rhs) const
 			{
 				return Dyad(this->x * rhs.x, this->y * rhs.y);
 			}
@@ -102,7 +102,7 @@ namespace blitz {
 				return *this;
 			}
 
-			Dyad operator*(const float& rhs)
+			Dyad operator*(const float& rhs) const
 			{
 				return Dyad(this->x * rhs, this->y * rhs);
 			}	
@@ -114,7 +114,7 @@ namespace blitz {
 				return *this;
 			}
 
-			Dyad operator/(const Dyad& rhs)
+			Dyad operator/(const Dyad& rhs) const
 			{
 				return Dyad(this->x / rhs.x, this->y / rhs.y);
 			}
@@ -126,7 +126,7 @@ namespace blitz {
 				return *this;
 			}
 
-			Dyad operator/(const float& rhs)
+			Dyad operator/(const float& rhs) const
 			{
 				return Dyad(this->x / rhs, this->y / rhs);
 			}	
@@ -138,7 +138,7 @@ namespace blitz {
 				return *this;
 			}
 
-			std::string toString()
+			std::string toString() const
 			{
 				std::stringstream oss;
 				oss << this->x << ', ' << this->y;
@@ -178,7 +178,7 @@ namespace blitz {
 				return this;
 			}
 
-			Triad operator+(const Triad &rhs)
+			Triad operator+(const Triad &rhs) const
 			{
 				return Triad(this->x + rhs.x, this->y + rhs.y, this->z + rhs.z);
 			}
@@ -191,7 +191,7 @@ namespace blitz {
 				return *this;
 			}
 
-			Triad operator+(const float& rhs)
+			Triad operator+(const float& rhs) const
 			{
 				return Triad(this->x + rhs, this->y + rhs, this->z + rhs);
 			}	
@@ -204,7 +204,7 @@ namespace blitz {
 				return *this;
 			}
 
-			Triad operator-(const Triad &rhs)
+			Triad operator-(const Triad &rhs) const
 			{
 				return Triad(this->x - rhs.x, this->y - rhs.y, this->z - rhs.z);
 			}
@@ -217,7 +217,7 @@ namespace blitz {
 				return *this;
 			}
 
-			Triad operator-(const float& rhs)
+			Triad operator-(const float& rhs) const
 			{
 				return Triad(this->x - rhs, this->y - rhs, this->z - rhs);
 			}	
@@ -230,7 +230,7 @@ namespace blitz {
 				return *this;
 			}
 
-			Triad operator*(const Triad &rhs)
+			Triad operator*(const Triad &rhs) const
 			{
 				return Triad(this->x * rhs.x, this->y * rhs.y, this->z * rhs.z);
 			}
@@ -243,7 +243,7 @@ namespace blitz {
 				return *this;
 			}
 
-			Triad operator*(const float& rhs)
+			Triad operator*(const float& rhs) const
 			{
 				return Triad(this->x * rhs, this->y * rhs, this->z * rhs);
 			}	
@@ -256,7 +256,7 @@ namespace blitz {
 				return *this;
 			}
 
-			Triad operator/(const Triad &rhs)
+			Triad operator/(const Triad &rhs) const
 			{
 				return Triad(this->x / rhs.x, this->y / rhs.y, this->z / rhs.z);
 			}
@@ -269,7 +269,7 @@ namespace blitz {
 				return *this;
 			}
 
-			Triad operator/(const float& rhs)
+			Triad operator/(const float& rhs) const
 			{
 				return Triad(this->x / rhs, this->y / rhs, this->z / rhs);
 			}	
@@ -282,14 +282,14 @@ namespace blitz {
 				return *this;
 			}
 
-			std::string toString()
+			std::string toString() const
 			{
 				std::stringstream oss;
 				oss << this->x << ', ' << this->y << ', ' << this->z;
 				return oss.str();
 			}
 			
-			inline float dotProduct(const Triad& rhs)
+			inline float dotProduct(const Triad& rhs) const
 			{
 				return (this->x*rhs.x) + (this->y*rhs.y) + (this->z*rhs.z);
 			}
@@ -330,7 +330,7 @@ namespace blitz {
 				return this;
 			}
 
-			Quad operator+(const Quad &rhs)
+			Quad operator+(const Quad &rhs) const
 			{
 				return Quad(this->a + rhs.a, this->b + rhs.b, this->c + rhs.c, this->d + rhs.d);
 			}
@@ -344,7 +344,7 @@ namespace blitz {
 				return *this;
 			}
 
-			Quad operator+(const float &rhs)
+			Quad operator+(const float &rhs) const
 			{
 				return Quad(this->a + rhs, this->b + rhs, this->c + rhs, this->d + rhs);
 			}		
@@ -358,7 +358,7 @@ namespace blitz {
 				return *this;
 			}			
 
-			Quad operator-(const Quad &rhs)
+			Quad operator-(const Quad &rhs) const
 			{
 				return Quad(this->a - rhs.a, this->b - rhs.b, this->c - rhs.c, this->d - rhs.d);
 			}
@@ -372,7 +372,7 @@ namespace blitz {
 				return *this;
 			}
 
-			Quad operator-(const float &rhs)
+			Quad operator-(const float &rhs) const
 			{
 				return Quad(this->a - rhs, this->b - rhs, this->c - rhs, this->d - rhs);
 			}		
@@ -386,7 +386,7 @@ namespace blitz {
 				return *this;
 			}
 
-			Quad operator*(const Quad &rhs)
+			Quad operator*(const Quad &rhs) const
 			{
 				return Quad(this->a * rhs.a, this->b * rhs.b, this->c * rhs.c, this->d * rhs.d);
 			}
@@ -400,7 +400,7 @@ namespace blitz {
 				return *this;
 			}
 
-			Quad operator*(const float &rhs)
+			Quad operator*(const float &rhs) const
 			{
 				return Quad(this->a * rhs, this->b * rhs, this->c * rhs, this->d * rhs);
 			}		
@@ -414,7 +414,7 @@ namespace blitz {
 				return *this;
 			}
 
-			Quad operator/(const Quad &rhs)
+			Quad operator/(const Quad &rhs) const
 			{
 				return Quad(this->a / rhs.a, this->b / rhs.b, this->c / rhs.c, this->d / rhs.d);
 			}
@@ -428,7 +428,7 @@ namespace blitz {
 				return *this;
 			}
 
-			Quad operator/(const float &rhs)
+			Quad operator/(const float &rhs) const
 			{
 				return Quad(this->a / rhs, this->b / rhs, this->c / rhs, this->d / rhs);
 			}		
@@ -442,14 +442,14 @@ namespace blitz {
 				return *this;
 			}
 
-			std::string toString()
+			std::string toString() const
 			{
 				std::stringstream oss;
 				oss << this->a << ', ' << this->b << ', ' << this->c;
 				return oss.str();
 			}
 			
-			inline float dotProduct(const Quad& rhs)
+			inline float dotProduct(const Quad& rhs) const
 			{
 				return (this->a*rhs.a) + (this->b*rhs.b) + (this->c*rhs.c);
 			}

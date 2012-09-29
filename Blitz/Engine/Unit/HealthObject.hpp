@@ -7,12 +7,12 @@
  
 #pragma once
 
-#include "..\Core\Object.hpp"
+#include "UnitObject.hpp"
 
 namespace blitz {
 	namespace unit {
 
-		class HealthObject: virtual public Object
+		class HealthObject: virtual public UnitObject
 		{
 		protected:
 			float _health;

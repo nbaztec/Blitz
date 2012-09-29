@@ -9,7 +9,7 @@
 
 #include <GL\glfw.h>
 #include "ImageFactory.hpp"
-#include "..\Core\Texture.hpp"
+#include "../Core/Texture.hpp"
 
 class TextureFactory
 {

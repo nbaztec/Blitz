@@ -1,5 +1,5 @@
 /*
- * Player.hpp
+ * Painter.hpp
  *
  *  Created on: Aug 29, 2012
  *      Author: Nisheeth
@@ -8,11 +8,9 @@
 #pragma once
 
 namespace blitz {
-
-	class Player {
+	class Painter
+	{
 	public:
-		Player();
-		virtual ~Player();
+		virtual void draw(void) = 0;		
 	};
-
 }

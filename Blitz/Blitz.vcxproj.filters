@@ -1,168 +1,204 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
-    <ClCompile Include="Core\Animation.cpp">
-      <Filter>Source Files\Core</Filter>
+    <ClCompile Include="Engine\Core\Animation.cpp">
+      <Filter>Source Files\Engine\Core</Filter>
     </ClCompile>
-    <ClCompile Include="Core\Camera.cpp">
-      <Filter>Source Files\Core</Filter>
+    <ClCompile Include="Engine\Core\Camera.cpp">
+      <Filter>Source Files\Engine\Core</Filter>
     </ClCompile>
-    <ClCompile Include="Core\Object.cpp">
-      <Filter>Source Files\Core</Filter>
+    <ClCompile Include="Engine\Unit\Enemy.cpp">
+      <Filter>Source Files\Engine\Unit</Filter>
     </ClCompile>
-    <ClCompile Include="Core\Stage.cpp">
-      <Filter>Source Files\Core</Filter>
+    <ClCompile Include="Engine\Unit\PlasmaBullet.cpp">
+      <Filter>Source Files\Engine\Unit</Filter>
     </ClCompile>
-    <ClCompile Include="Units\Enemy.cpp">
-      <Filter>Source Files\Units</Filter>
+    <ClCompile Include="Engine\Unit\Player.cpp">
+      <Filter>Source Files\Engine\Unit</Filter>
     </ClCompile>
-    <ClCompile Include="Units\PlasmaBullet.cpp">
-      <Filter>Source Files\Units</Filter>
+    <ClCompile Include="Engine\Util\ImageFactory.cpp">
+      <Filter>Source Files\Engine\Util</Filter>
     </ClCompile>
-    <ClCompile Include="Units\Player.cpp">
-      <Filter>Source Files\Units</Filter>
+    <ClCompile Include="Engine\Util\Randomizer.cpp">
+      <Filter>Source Files\Engine\Util</Filter>
     </ClCompile>
-    <ClCompile Include="Util\ImageFactory.cpp">
-      <Filter>Source Files\Util</Filter>
+    <ClCompile Include="Engine\Util\TextureFactory.cpp">
+      <Filter>Source Files\Engine\Util</Filter>
     </ClCompile>
-    <ClCompile Include="Util\Randomizer.cpp">
-      <Filter>Source Files\Util</Filter>
+    <ClCompile Include="Engine\Util\TextureManager.cpp">
+      <Filter>Source Files\Engine\Util</Filter>
     </ClCompile>
-    <ClCompile Include="Util\TextureFactory.cpp">
-      <Filter>Source Files\Util</Filter>
+    <ClCompile Include="Engine\Util\TGATexture.cpp">
+      <Filter>Source Files\Engine\Util</Filter>
     </ClCompile>
-    <ClCompile Include="Util\TextureManager.cpp">
-      <Filter>Source Files\Util</Filter>
+    <ClCompile Include="Engine\Core\ColorAnimation.cpp">
+      <Filter>Source Files\Engine\Core\Animation</Filter>
     </ClCompile>
-    <ClCompile Include="Util\TGATexture.cpp">
-      <Filter>Source Files\Util</Filter>
+    <ClCompile Include="Engine\Core\LinearAnimation.cpp">
+      <Filter>Source Files\Engine\Core\Animation</Filter>
     </ClCompile>
-    <ClCompile Include="main.cpp">
-      <Filter>Source Files</Filter>
+    <ClCompile Include="Engine\Core\RotationAnimation.cpp">
+      <Filter>Source Files\Engine\Core\Animation</Filter>
     </ClCompile>
-    <ClCompile Include="Core\ColorAnimation.cpp">
-      <Filter>Source Files\Core\Animations</Filter>
+    <ClCompile Include="Engine\Unit\DamageObject.cpp">
+      <Filter>Source Files\Engine\Unit</Filter>
     </ClCompile>
-    <ClCompile Include="Core\LinearAnimation.cpp">
-      <Filter>Source Files\Core\Animations</Filter>
+    <ClCompile Include="Engine\Unit\EnergyObject.cpp">
+      <Filter>Source Files\Engine\Unit</Filter>
     </ClCompile>
-    <ClCompile Include="Core\RotationAnimation.cpp">
-      <Filter>Source Files\Core\Animations</Filter>
+    <ClCompile Include="Engine\Unit\HealthObject.cpp">
+      <Filter>Source Files\Engine\Unit</Filter>
     </ClCompile>
-    <ClCompile Include="Units\DamageObject.cpp">
-      <Filter>Source Files\Units</Filter>
+    <ClCompile Include="Engine\Util\cal3d\model.cpp">
+      <Filter>Source Files\Engine\Util\cal3d</Filter>
     </ClCompile>
-    <ClCompile Include="Units\EnergyObject.cpp">
-      <Filter>Source Files\Units</Filter>
+    <ClCompile Include="Engine\Util\cal3d\tga.cpp">
+      <Filter>Source Files\Engine\Util\cal3d</Filter>
     </ClCompile>
-    <ClCompile Include="Units\HealthObject.cpp">
-      <Filter>Source Files\Units</Filter>
+    <ClCompile Include="Engine\Unit\SkeletonEnemy.cpp">
+      <Filter>Source Files\Engine\Unit</Filter>
     </ClCompile>
-    <ClCompile Include="Util\cal3d\model.cpp">
-      <Filter>Source Files\Util\cal3d</Filter>
+    <ClCompile Include="LastStand\main.cpp">
+      <Filter>Source Files\LastStand</Filter>
     </ClCompile>
-    <ClCompile Include="Util\cal3d\tga.cpp">
-      <Filter>Source Files\Util\cal3d</Filter>
+    <ClCompile Include="Engine\View\Stage.cpp">
+      <Filter>Source Files\Engine\View</Filter>
     </ClCompile>
-    <ClCompile Include="Units\SkeletonEnemy.cpp">
-      <Filter>Source Files\Units</Filter>
+    <ClCompile Include="Engine\View\Level.cpp">
+      <Filter>Source Files\Engine\View</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\Unit\UnitObject.cpp">
+      <Filter>Source Files\Engine\Unit</Filter>
+    </ClCompile>
+    <ClCompile Include="LastStand\Unit\PlasmaBullet.cpp">
+      <Filter>Source Files\LastStand\Unit</Filter>
+    </ClCompile>
+    <ClCompile Include="LastStand\Unit\Player.cpp">
+      <Filter>Source Files\LastStand\Unit</Filter>
+    </ClCompile>
+    <ClCompile Include="LastStand\Unit\SkeletonEnemy.cpp">
+      <Filter>Source Files\LastStand\Unit</Filter>
+    </ClCompile>
+    <ClCompile Include="LastStand\Unit\Enemy.cpp">
+      <Filter>Source Files\LastStand\Unit</Filter>
+    </ClCompile>
+    <ClCompile Include="LastStand\View\GameStage.cpp">
+      <Filter>Source Files\LastStand\View</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Core\Animation.hpp">
-      <Filter>Source Files\Core</Filter>
+    <ClInclude Include="Engine\Core\Animation.hpp">
+      <Filter>Source Files\Engine\Core</Filter>
     </ClInclude>
-    <ClInclude Include="Core\Camera.hpp">
-      <Filter>Source Files\Core</Filter>
+    <ClInclude Include="Engine\Core\Camera.hpp">
+      <Filter>Source Files\Engine\Core</Filter>
     </ClInclude>
-    <ClInclude Include="Core\Object.hpp">
-      <Filter>Source Files\Core</Filter>
+    <ClInclude Include="Engine\Core\Point.hpp">
+      <Filter>Source Files\Engine\Core</Filter>
     </ClInclude>
-    <ClInclude Include="Core\Point.hpp">
-      <Filter>Source Files\Core</Filter>
+    <ClInclude Include="Engine\Core\Coordinate.hpp">
+      <Filter>Source Files\Engine\Core</Filter>
     </ClInclude>
-    <ClInclude Include="Core\Stage.hpp">
-      <Filter>Source Files\Core</Filter>
+    <ClInclude Include="Engine\Unit\Enemy.hpp">
+      <Filter>Source Files\Engine\Unit</Filter>
     </ClInclude>
-    <ClInclude Include="Core\State.hpp">
-      <Filter>Source Files\Core</Filter>
+    <ClInclude Include="Engine\Unit\PlasmaBullet.hpp">
+      <Filter>Source Files\Engine\Unit</Filter>
     </ClInclude>
-    <ClInclude Include="Core\Coordinate.hpp">
-      <Filter>Source Files\Core</Filter>
+    <ClInclude Include="Engine\Unit\Player.hpp">
+      <Filter>Source Files\Engine\Unit</Filter>
     </ClInclude>
-    <ClInclude Include="Units\Enemy.hpp">
-      <Filter>Source Files\Units</Filter>
+    <ClInclude Include="Engine\Util\ImageFactory.hpp">
+      <Filter>Source Files\Engine\Util</Filter>
     </ClInclude>
-    <ClInclude Include="Units\PlasmaBullet.hpp">
-      <Filter>Source Files\Units</Filter>
+    <ClInclude Include="Engine\Util\Randomizer.hpp">
+      <Filter>Source Files\Engine\Util</Filter>
     </ClInclude>
-    <ClInclude Include="Units\Player.hpp">
-      <Filter>Source Files\Units</Filter>
+    <ClInclude Include="Engine\Util\RawImage.hpp">
+      <Filter>Source Files\Engine\Util</Filter>
     </ClInclude>
-    <ClInclude Include="Util\ImageFactory.hpp">
-      <Filter>Source Files\Util</Filter>
+    <ClInclude Include="Engine\Core\Texture.hpp">
+      <Filter>Source Files\Engine\Util</Filter>
     </ClInclude>
-    <ClInclude Include="Util\Randomizer.hpp">
-      <Filter>Source Files\Util</Filter>
+    <ClInclude Include="Engine\Util\TextureFactory.hpp">
+      <Filter>Source Files\Engine\Util</Filter>
     </ClInclude>
-    <ClInclude Include="Util\RawImage.hpp">
-      <Filter>Source Files\Util</Filter>
+    <ClInclude Include="Engine\Util\TextureManager.hpp">
+      <Filter>Source Files\Engine\Util</Filter>
     </ClInclude>
-    <ClInclude Include="Core\Texture.hpp">
-      <Filter>Source Files\Util</Filter>
+    <ClInclude Include="Engine\Util\TGATexture.hpp">
+      <Filter>Source Files\Engine\Util</Filter>
     </ClInclude>
-    <ClInclude Include="Util\TextureFactory.hpp">
-      <Filter>Source Files\Util</Filter>
-    </ClInclude>
-    <ClInclude Include="Util\TextureManager.hpp">
-      <Filter>Source Files\Util</Filter>
-    </ClInclude>
-    <ClInclude Include="Util\TGATexture.hpp">
-      <Filter>Source Files\Util</Filter>
-    </ClInclude>
-    <ClInclude Include="resource.h">
+    <ClInclude Include="Engine\resource.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Core\ColorAnimation.hpp">
-      <Filter>Source Files\Core\Animations</Filter>
+    <ClInclude Include="Engine\Core\ColorAnimation.hpp">
+      <Filter>Source Files\Engine\Core\Animation</Filter>
     </ClInclude>
-    <ClInclude Include="Core\LinearAnimation.hpp">
-      <Filter>Source Files\Core\Animations</Filter>
+    <ClInclude Include="Engine\Core\LinearAnimation.hpp">
+      <Filter>Source Files\Engine\Core\Animation</Filter>
     </ClInclude>
-    <ClInclude Include="Core\RotationAnimation.hpp">
-      <Filter>Source Files\Core\Animations</Filter>
+    <ClInclude Include="Engine\Core\RotationAnimation.hpp">
+      <Filter>Source Files\Engine\Core\Animation</Filter>
     </ClInclude>
-    <ClInclude Include="Units\DamageObject.hpp">
-      <Filter>Source Files\Units</Filter>
+    <ClInclude Include="Engine\Unit\DamageObject.hpp">
+      <Filter>Source Files\Engine\Unit</Filter>
     </ClInclude>
-    <ClInclude Include="Units\EnergyObject.hpp">
-      <Filter>Source Files\Units</Filter>
+    <ClInclude Include="Engine\Unit\EnergyObject.hpp">
+      <Filter>Source Files\Engine\Unit</Filter>
     </ClInclude>
-    <ClInclude Include="Units\HealthObject.hpp">
-      <Filter>Source Files\Units</Filter>
+    <ClInclude Include="Engine\Unit\HealthObject.hpp">
+      <Filter>Source Files\Engine\Unit</Filter>
     </ClInclude>
-    <ClInclude Include="Util\cal3d\model.h">
-      <Filter>Source Files\Util\cal3d</Filter>
+    <ClInclude Include="Engine\Util\cal3d\model.h">
+      <Filter>Source Files\Engine\Util\cal3d</Filter>
     </ClInclude>
-    <ClInclude Include="Util\cal3d\tga.h">
-      <Filter>Source Files\Util\cal3d</Filter>
+    <ClInclude Include="Engine\Util\cal3d\tga.h">
+      <Filter>Source Files\Engine\Util\cal3d</Filter>
     </ClInclude>
-    <ClInclude Include="Units\SkeletonEnemy.hpp">
-      <Filter>Source Files\Units</Filter>
+    <ClInclude Include="Engine\Unit\SkeletonEnemy.hpp">
+      <Filter>Source Files\Engine\Unit</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Core\State.hpp">
+      <Filter>Source Files\Engine\Core</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\View\Stage.hpp">
+      <Filter>Source Files\Engine\View</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\View\Level.hpp">
+      <Filter>Source Files\Engine\View</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Core\Painter.hpp">
+      <Filter>Source Files\Engine\Core\Interface</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Core\Ticker.hpp">
+      <Filter>Source Files\Engine\Core\Interface</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Core\TickedPainter.hpp">
+      <Filter>Source Files\Engine\Core\Interface</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Unit\UnitObject.hpp">
+      <Filter>Source Files\Engine\Unit</Filter>
+    </ClInclude>
+    <ClInclude Include="LastStand\Unit\PlasmaBullet.hpp">
+      <Filter>Source Files\LastStand\Unit</Filter>
+    </ClInclude>
+    <ClInclude Include="LastStand\Unit\Player.hpp">
+      <Filter>Source Files\LastStand\Unit</Filter>
+    </ClInclude>
+    <ClInclude Include="LastStand\Unit\SkeletonEnemy.hpp">
+      <Filter>Source Files\LastStand\Unit</Filter>
+    </ClInclude>
+    <ClInclude Include="LastStand\Unit\Enemy.hpp">
+      <Filter>Source Files\LastStand\Unit</Filter>
+    </ClInclude>
+    <ClInclude Include="LastStand\View\GameStage.hpp">
+      <Filter>Source Files\LastStand\View</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Source Files">
       <UniqueIdentifier>{85de143b-f91f-4950-a62f-24626893864b}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Source Files\Core">
-      <UniqueIdentifier>{9f813dd4-62d8-4316-a3ab-da764ab0f1ac}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Source Files\Units">
-      <UniqueIdentifier>{87564f2c-c75b-4ed8-8213-520aaf565e81}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Source Files\Util">
-      <UniqueIdentifier>{738e4885-8de5-4426-9c8c-b921955ad47b}</UniqueIdentifier>
     </Filter>
     <Filter Include="Header Files">
       <UniqueIdentifier>{0a122ac1-75a2-44d7-912b-27a6794e7cf1}</UniqueIdentifier>
@@ -170,11 +206,38 @@
     <Filter Include="Resource Files">
       <UniqueIdentifier>{7345b4c2-7620-4808-bc72-2cfd4044a013}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Source Files\Core\Animations">
+    <Filter Include="Source Files\Engine">
+      <UniqueIdentifier>{e76e0b8f-0a45-4039-b6e8-b68eee043da0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Engine\Util">
+      <UniqueIdentifier>{738e4885-8de5-4426-9c8c-b921955ad47b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Engine\Util\cal3d">
+      <UniqueIdentifier>{51b5c2a8-c850-4da5-b75f-46f8353725bb}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Engine\Core">
+      <UniqueIdentifier>{9f813dd4-62d8-4316-a3ab-da764ab0f1ac}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\LastStand">
+      <UniqueIdentifier>{d4d5ee41-d13b-4a59-a2c0-13a779119fce}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\LastStand\View">
+      <UniqueIdentifier>{ac31904f-28e9-41d5-b71e-a45767d2bb06}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Engine\View">
+      <UniqueIdentifier>{5b180049-2500-4bb1-96d9-bd45f4a7a39b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Engine\Unit">
+      <UniqueIdentifier>{87564f2c-c75b-4ed8-8213-520aaf565e81}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Engine\Core\Animation">
       <UniqueIdentifier>{c16136d6-e47f-4e5f-9f6b-6e0ee998f43b}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Source Files\Util\cal3d">
-      <UniqueIdentifier>{51b5c2a8-c850-4da5-b75f-46f8353725bb}</UniqueIdentifier>
+    <Filter Include="Source Files\Engine\Core\Interface">
+      <UniqueIdentifier>{bf22ac18-a702-49b2-823e-bf7c5556173e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\LastStand\Unit">
+      <UniqueIdentifier>{7f60b574-b7a2-44c9-85cf-a2d1589c098e}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
