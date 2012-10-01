@@ -60,7 +60,7 @@ public:
   void getMotionBlend(float *pMotionBlend);
   float getRenderScale();
   int getState();
-  bool onInit(const std::string& strFilename);
+  bool onInit(void);
   void onRender();
   void onShutdown();
   void onUpdate(float elapsedSeconds);

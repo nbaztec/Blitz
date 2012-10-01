@@ -8,17 +8,17 @@
 #pragma once
 
 #include "../../Engine/Core/Coordinate.hpp"
-#include "../../Engine/Unit/UnitObject.hpp"
+#include "../../Engine/Unit/HealthObject.hpp"
 #include "../../Engine/Core/ColorAnimation.hpp"
 
 #include "../../Engine/Util/cal3d/model.h"
 
-#include "Enemy.hpp"
+#include "PassiveEnemy.hpp"
 
 namespace game {
 	namespace unit {
 
-		class SkeletonEnemy: public Enemy
+		class SkeletonEnemy: public PassiveEnemy
 		{
 		protected:
 			Model* _model;
@@ -26,8 +26,7 @@ namespace game {
 			SkeletonEnemy(const blitz::geometry::Triad &start, Model* model);
 			~SkeletonEnemy(void);
 
-			//void draw(void);
-			//virtual void tick(float delta);
+			virtual void draw(void);
 			virtual void hit(blitz::unit::UnitObject& obj);
 		};
 	}

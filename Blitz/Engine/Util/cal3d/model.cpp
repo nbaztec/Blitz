@@ -225,19 +225,25 @@ GLuint Model::loadTexture(const std::string& strFilename)
 // Initialize the model                                                       //
 //----------------------------------------------------------------------------//
 
-bool Model::onInit(const std::string& strFilename)
+//bool Model::onInit(const std::string& strFilename)
+bool Model::onInit(void)
 {
+  // initialize the data path
+  std::string strPath = m_path;
+
   // open the model configuration file
-  std::ifstream file;
+  std::ifstream file;  
+
+  // get config filename (same as directory)
+  std::string strFilename = strPath + (strPath.substr(strPath.find_last_of("/\\"))).append(".cfg");
+  strPath.append("/");
+
   file.open(strFilename.c_str(), std::ios::in | std::ios::binary);
   if(!file)
   {
     std::cerr << "Failed to open model configuration file '" << strFilename << "'." << std::endl;
     return false;
-  }
-
-  // initialize the data path
-  std::string strPath = m_path;
+  }  
 
   // initialize the animation count
   int animationCount;

@@ -13,10 +13,12 @@ namespace blitz {
 		{
 			this->_currentLevel = NULL;
 			this->_texMgr = NULL;
+			this->_camera = NULL;
 		}
 
 		Stage::~Stage()
 		{
+			delete this->_camera;
 			for(std::map<std::string, std::vector<view::Level*>>::iterator ito = this->_levels.begin(); ito != this->_levels.end(); ito++)
 				for(std::vector<view::Level*>::iterator it = ito->second.begin(); it != ito->second.end(); it++)
 					delete *it;
@@ -27,9 +29,26 @@ namespace blitz {
 			this->_texMgr = texMgr;
 		}
 
+		void Stage::setModelManager(ModelManager* mdlMgr)
+		{
+			this->_mdlMgr = mdlMgr;
+		}
+
+		void Stage::setCamera(const geometry::Triad& current, const geometry::Dyad& screen, const geometry::Quad& bounds, bool fixed)
+		{
+			this->_camera = this->_camera = new Camera(current, screen, bounds, fixed);
+		}
+
+		Camera* Stage::getCamera() const
+		{
+			return this->_camera;
+		}
+
 		void Stage::addLevel(const std::string& key, view::Level* level)
 		{
 			level->setTextureManager(this->_texMgr);
+			level->setModelManager(this->_mdlMgr);
+			level->setCamera(this->_camera);
 			this->_levels[key].push_back(level);
 		}
 
@@ -53,6 +72,52 @@ namespace blitz {
 				return this->_currentLevel = *it;
 			else
 				return NULL;
+		}
+
+		void Stage::screenChanged(int width, int height)
+		{
+			this->_camera->setScreen(width, height);
+		}
+
+		void Stage::mousePressed(int button)
+		{
+			this->_currentLevel->mousePressed(button);
+		}
+
+		void Stage::mouseReleased(int button)
+		{
+			this->_currentLevel->mouseReleased(button);
+		}
+
+		void Stage::mouseMoved(int x, int y)
+		{
+			this->_camera->updateNormalized(x, y);
+			this->_currentLevel->mouseMoved(x, y);
+		}
+
+		void Stage::mouseWheelMoved(int pos)
+		{
+			this->_currentLevel->mouseWheelMoved(pos);
+		}
+
+		void Stage::keyPressed(int key)
+		{
+			this->_currentLevel->keyPressed(key);
+		}
+
+		void Stage::keyReleased(int key)
+		{
+			this->_currentLevel->keyReleased(key);
+		}
+
+		void Stage::keyCharPressed(int character)
+		{
+			this->_currentLevel->keyCharPressed(character);
+		}
+
+		void Stage::keyCharReleased(int character)
+		{
+			this->_currentLevel->keyCharReleased(character);
 		}
 	}
 }

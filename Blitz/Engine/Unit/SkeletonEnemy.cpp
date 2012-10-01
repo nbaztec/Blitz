@@ -7,15 +7,15 @@
  
 #include "SkeletonEnemy.hpp"
 #include <iostream>
-namespace game {
+namespace blitz {
 	namespace unit {		
-		SkeletonEnemy::SkeletonEnemy(const blitz::geometry::Triad &start, Model* model)
-			:PassiveEnemy(start)
+		SkeletonEnemy::SkeletonEnemy(const geometry::Triad &start, Model* model)
+			:Enemy(start)
 		{						
 			this->_model = model;
 			this->_state->current.y = this->_state->start.y += -2.0f;		// Offset for height adjust
 			this->_state->box.set(-0.5f, 2.3f, 0.5f, -2.1f);
-			this->_state->velocity.z += 10.0f;
+			//this->_state->velocity.z += 30.0f;
 			this->_state->setColorClear(0.3f, 0.3f, 0.3f, 1.0f);
 		}
 
@@ -25,11 +25,16 @@ namespace game {
 
 		void SkeletonEnemy::draw(void)
 		{	
+			geometry::Triad t = this->_state->current;
+			geometry::Triad r = this->_state->rotation.direction;
 			glPushMatrix();
 				//glTranslatef(1.1f, -2.0f, 0.0f);
+				glTranslatef(t.x, t.y, t.z);				
+				glRotatef(this->_state->angle, r.x, r.y, r.z);
+				glColor4f(this->_state->color.a, this->_state->color.b, this->_state->color.c, this->_state->color.d);
 				
 				//glColor4f(1.0f, 1.0f, 1.0f, 1.0f);
-				this->applyTransforms();
+				
 				const GLfloat lightPosition[] = { 1.0f, -1.0f, 1.0f, 1.0f };
 				glLightfv(GL_LIGHT0, GL_POSITION, lightPosition);
 				//const GLfloat lightColorAmbient[] = { 0.3f, 0.3f, 0.3f, 1.0f };
@@ -67,10 +72,16 @@ namespace game {
 				*/				
 			glPopMatrix();
 		}
-	
+
+		void SkeletonEnemy::tick(float delta)
+		{
+			Enemy::tick(delta);
+			//this->_model->onUpdate(delta);
+		}
+		
 		void SkeletonEnemy::hit(UnitObject& obj)
 		{			
-			blitz::unit::DamageObject* d = dynamic_cast<blitz::unit::DamageObject*>(&obj);
+			unit::DamageObject* d = dynamic_cast<unit::DamageObject*>(&obj);
 			if(d)
 			{
 				this->reduceHealth(d->getDamage());
@@ -78,12 +89,12 @@ namespace game {
 				{
 					this->_state->velocity.set(0.0f, 0.0f, 0.0f);
 				
-					blitz::state::Animation* a = new blitz::state::ColorAnimation(this->_state, blitz::state::AnimationType::atColorBlink, blitz::geometry::Quad(1.0f, 0.0f, 0.0f, 1.0f), 1.0f);
+					state::Animation* a = new state::ColorAnimation(this->_state, state::AnimationType::atColorBlink, geometry::Quad(1.0f, 0.0f, 0.0f, 1.0f), 1.0f);
 					a->setTerminal(true);
 					this->_animation.push_back(a);		
 				}
 				else
-					this->_animation.push_back(new blitz::state::ColorAnimation(this->_state, blitz::state::AnimationType::atColorBlink, blitz::geometry::Quad(0.0f, 1.0f, 0.0f, 1.f), 0.2f));		
+					this->_animation.push_back(new state::ColorAnimation(this->_state, state::AnimationType::atColorBlink, geometry::Quad(0.0f, 1.0f, 0.0f, 1.f), 0.2f));		
 			}
 		}
 	}

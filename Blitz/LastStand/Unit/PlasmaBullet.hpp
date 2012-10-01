@@ -7,28 +7,28 @@
  
 #pragma once
 
-#include "../Core/Coordinate.hpp"
-#include "UnitObject.hpp"
-#include "../Core/LinearAnimation.hpp"
-#include "../Core/RotationAnimation.hpp"
-#include "../Core/ColorAnimation.hpp"
-
-#include "DamageObject.hpp"
-#include "EnergyObject.hpp"
+#include "../../Engine/Core/Coordinate.hpp"
+#include "../../Engine/Core/LinearAnimation.hpp"
+#include "../../Engine/Core/RotationAnimation.hpp"
+#include "../../Engine/Core/ColorAnimation.hpp"
+#include "../../Engine/Core/State.hpp"
+#include "../../Engine/Unit/UnitObject.hpp"
+#include "../../Engine/Unit/DamageObject.hpp"
+#include "../../Engine/Unit/EnergyObject.hpp"
 
 namespace game {
 	namespace unit {
 
-		class PlasmaBullet: public DamageObject, public EnergyObject
+		class PlasmaBullet: public blitz::unit::DamageObject, public blitz::unit::EnergyObject
 		{
 		public:
-			PlasmaBullet(const geometry::Triad &start);
+			PlasmaBullet(const blitz::geometry::Triad &start);
 			~PlasmaBullet(void);
 
-			void draw(void);
-			void tick(float delta);
+			virtual void draw(void);
+			virtual void tick(const float& delta);
 			virtual bool isComplete() const;
-			virtual bool collision(UnitObject& obj);
+			virtual bool collision(blitz::unit::UnitObject& obj);
 		};
 	}
 }

@@ -24,27 +24,13 @@
 namespace game {
 	namespace view {
 
-		class GameStage : public blitz::view::Stage {
-		protected:
-			long _hitPlayer;
-			float _lastHitDuration;
+		class GameStage : public blitz::view::Stage {					
 		public:			
 			GameStage();
 			virtual ~GameStage();
 			
-			void tick(const float &delta);
-			void draw(void);
-
-			void spawnEnemy(const blitz::geometry::Triad& start, Model* model);
-			// Fire
-			void playerFire(const blitz::geometry::Triad &start);
-
-			long getPlayerHits() const;
-			long decPlayerHits();
-			void resetPlayerHits();
-
-			bool persistHitDraw(float delta);
-			void hitDrawReset();
+			virtual void tick(const float &delta);
+			virtual void draw(void);			
 		};
 	}
 }

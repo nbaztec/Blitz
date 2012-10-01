@@ -1,1 +1,0 @@
-Also needed is Microsoft Visaul C++ 2010 Reditribute

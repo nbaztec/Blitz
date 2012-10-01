@@ -1,5 +1,5 @@
 /*
- * Enemy.hpp
+ * PassiveEnemy.hpp
  *
  *  Created on: Sep 22, 2012
  *      Author: Nisheeth
@@ -16,20 +16,19 @@
 namespace game {
 	namespace unit {
 
-		class Enemy: public blitz::unit::HealthObject
+		class PassiveEnemy: public blitz::unit::HealthObject
 		{
-		protected:			
+		protected:
+			float _cutOff;
 			bool _hitPlayer;
 			void reduceHealth(float damage);
 
 		public:
-			Enemy(const blitz::geometry::Triad &start);
-			~Enemy(void);
+			PassiveEnemy(const blitz::geometry::Triad &start);
+			~PassiveEnemy(void);
 
-			virtual void draw(void);
 			virtual void tick(const float& delta);
 			virtual bool isComplete() const;
-			virtual void hit(blitz::unit::UnitObject& obj);
 
 			// Feebacks
 			virtual bool hasHitPlayer();

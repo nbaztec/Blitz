@@ -9,7 +9,7 @@
 
 #include <vector>
 #include <GL/glfw.h>
-#include "../Core/TickedPainter.hpp"
+#include "../Core/Interface/TickedPainter.hpp"
 #include "../Core/Point.hpp"
 #include "../Core/State.hpp"
 #include "../Core/Animation.hpp"
@@ -29,16 +29,16 @@ namespace blitz {
 			virtual ~UnitObject();
 
 			state::State* getState() const;
-
-			virtual bool updateState(float delta);
-			virtual bool isComplete(void) const;
-			bool hasCompleted();
-
-			virtual void draw(void) = 0;		
-			virtual void tick(float delta) = 0;
+			
+			virtual bool markCompleted();
+			virtual bool updateState(const float& delta);
+			virtual bool isComplete(void) const;	
+			virtual void draw(void) = 0;
+			virtual void applyTransforms();
+			virtual void tick(const float& delta) = 0;
 			virtual void addAnimation(state::Animation *anim);
 			virtual state::Animation* removeAnimation(const int &index);
-			virtual bool animateAll(float delta);
+			virtual bool animateAll(const float& delta);
 
 			virtual bool collision(UnitObject& obj) { return false; }
 			virtual void hit(UnitObject& obj) {}

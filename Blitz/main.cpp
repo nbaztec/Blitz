@@ -5,21 +5,27 @@
  *      Author: Nisheeth
  */
 
+// Diable Macro-redefinition warning from windef.h
+#pragma warning (disable: 4005)
+
 #include <iostream>
 #include <string>
 #include <vector>
 #include <map>
-#include <GL/glfw.h>
-
 
 //#include "../Engine/View/Stage.hpp"
-#include "View/GameStage.hpp"
-#include "../Engine/Core/Camera.hpp"
-#include "../Engine/Core/Coordinate.hpp"
-#include "../Engine/Core/Point.hpp"
-#include "../Engine/Util/TextureManager.hpp"
-#include "../Engine/Util/Randomizer.hpp"
-#include "../Engine/Util/cal3d/model.h"
+#include "Engine/Core/Camera.hpp"
+#include "Engine/Core/Coordinate.hpp"
+#include "Engine/Core/Point.hpp"
+#include "Engine/Util/TextureManager.hpp"
+#include "Engine/Util/ModelManager.hpp"
+#include "Engine/Util/Randomizer.hpp"
+#include "Engine/Util/cal3d/model.h"
+
+#include "LastStand/View/GameStage.hpp"
+#include "LastStand/View/FightLevel.hpp"
+
+#include <GL/glfw.h>
 
 // Global Functions
 void quit(void);
@@ -57,6 +63,7 @@ Randomizer fRand;
 // Resources
 //std::map<std::string, GLuint> textures;
 TextureManager texMgr;
+ModelManager mdlMgr;
 
 // Framerate Control
 const int TICKS_PER_SECOND = 25;
@@ -102,7 +109,7 @@ void gameLoop()
 			if(delta)
 				old_time = now;			
 			stage.tick(delta);
-			pModel->onUpdate(delta);
+			//pModel->onUpdate(delta);
 			next_game_tick += SKIP_TICKS;
 			loops++;
 
@@ -114,23 +121,43 @@ void gameLoop()
 
 void quit(void)
 {
-	pModel->onShutdown();
+	//pModel->onShutdown();
 	glfwTerminate();
 	exit(0);
 }
 
-
 void init(int argc, char **argv)
-{
+{		
+	// Init Stage
+	stage.setTextureManager(&texMgr);
+	stage.setModelManager(&mdlMgr);
+	stage.setCamera(blitz::geometry::Triad(), blitz::geometry::Dyad(float(winWidth), float(winHeight)), blitz::geometry::Quad(-5.0f, 0.5f, 5.0f, -2.0f), false);
+	stage.addLevel("mission", new game::view::FightLevel());
+	stage.setLevel("mission", 0);		
+
+	// Init GL
 	if (glfwInit() != GL_TRUE)
 		quit();
-
+	
 	if (glfwOpenWindow(winWidth, winHeight, 0, 0, 0, 0, 0, 0, GLFW_WINDOW) != GL_TRUE)
 		quit();
 
 	glfwSetWindowTitle("Last Stand - Powered by Blitz");
 	glfwSetWindowPos(0, 0);
 	
+	// Load Textures/Models
+	if(!texMgr.load("background", "./res/images/space.png"))
+	{
+		std::cout << "Error: Loading texture space" << std::endl;
+		quit();
+	}
+	texMgr.load("player_fire", "./res/images/star.png");
+	texMgr.load("crosshair", "./res/images/crosshair.png");
+	texMgr.load("enemy", "./res/images/enemy.png");
+	mdlMgr.load("skeleton", "./res/models/skeleton");
+
+
+
 	// Screen Settings
 	glClearColor(0.0, 0.0, 0.0, 1.0);
 	glClearDepth(1.0);
@@ -141,6 +168,7 @@ void init(int argc, char **argv)
 	glEnable(GL_BLEND);
 	glEnable(GL_ALPHA_TEST);
 	*/
+
 	glAlphaFunc(GL_GREATER, 0.0f);	
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);	
 	glShadeModel(GL_SMOOTH);
@@ -155,29 +183,11 @@ void init(int argc, char **argv)
 	glfwSetMousePosCallback(processMousePos);
 	glfwSetMouseButtonCallback(processMouseButton);
 
-	glfwEnable(GLFW_KEY_REPEAT);
-
-	// Load Textures/Models
-	texMgr.load("background", "./res/space.png");
-	texMgr.load("player_fire", "./res/star.png");
-	texMgr.load("crosshair", "./res/crosshair.png");
-	texMgr.load("enemy", "./res/enemy.png");
-
-	// Init Stage
-	stage.setTextureManager(&texMgr);	
-	camera = blitz::Camera(blitz::geometry::Triad(), blitz::geometry::Dyad(float(winWidth), float(winHeight)), blitz::geometry::Quad(-5.0f, 0.5f, 5.0f, -2.0f), false);
+	glfwEnable(GLFW_KEY_REPEAT);	
+	
+	//camera = blitz::Camera(blitz::geometry::Triad(), blitz::geometry::Dyad(float(winWidth), float(winHeight)), blitz::geometry::Quad(-5.0f, 0.5f, 5.0f, -2.0f), false);
 	for(int i=0; i<50; i++)
-		starMap.push_back(blitz::geometry::Dyad(fRand.randFloat(2.0f, 6.0f), fRand.randFloat(-1.0f, 1.0f)));		
-
-	// Cal3D
-	pModel = new Model();	
-	pModel->setPath( "./res/skeleton/" );
-	if(!pModel->onInit("./res/skeleton/skeleton.cfg"))
-	{
-		delete pModel;
-		std::cerr << "Model initialization failed! (skeleton)" << std::endl;		
-	}
-	std::cout << "Model loaded! (skeleton)" << std::endl;		
+		starMap.push_back(blitz::geometry::Dyad(fRand.randFloat(2.0f, 6.0f), fRand.randFloat(-1.0f, 1.0f)));				
 }
 
 // Handler for window resizes
@@ -187,7 +197,8 @@ void GLFWCALL windowResize(int w, int h)
 	winHeight = h;	
 	if(h == 0)							// Check for zero division
 		h = 1;
-	camera.setScreen(w, h);
+	//camera.setScreen(w, h);
+	stage.screenChanged(w, h);
 	float ratio =  float(w)/h;			// Set aspect ratio	
 	glMatrixMode(GL_PROJECTION);		// Use the Projection Matrix	
 	glLoadIdentity();					// Reset Matrix	
@@ -206,49 +217,6 @@ void drawStar()
 	glEnd();	
 }
 
-void _renderScene(void)
-{	
-	glClearColor(0.0f, 0.0f, 0.2f, 1.0f);
-	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-	
-	glPushMatrix();
-		// Reset transformations
-		float renderScale;
-		renderScale = pModel->getRenderScale()*1;
-  
-		// set the projection transformation
-		glMatrixMode(GL_PROJECTION);
-		glLoadIdentity();
-  	
-		gluPerspective(45.0f, (GLdouble)winWidth/ (GLdouble)winHeight, renderScale * 50.0, renderScale * 5000.0);
-  
-		// set the model transformation
-		glMatrixMode(GL_MODELVIEW);
-		glLoadIdentity();
-
-
-		glTranslatef(0.0f, -50.0f, -200.0f);
-
-		const GLfloat lightPosition[] = { 1.0f, -1.0f, 1.0f, 1.0f };
-		glLightfv(GL_LIGHT0, GL_POSITION, lightPosition);
-		const GLfloat lightColorAmbient[] = { 0.3f, 0.3f, 0.3f, 1.0f };
-		glLightfv(GL_LIGHT0, GL_AMBIENT, lightColorAmbient);
-		const GLfloat lightColorDiffuse[] = { 0.52f, 0.5f, 0.5f, 1.0f };
-		glLightfv(GL_LIGHT0, GL_DIFFUSE, lightColorDiffuse);
-		const GLfloat lightColorSpecular[] = { 0.1f, 0.1f, 0.1f, 1.0f };
-		glLightfv(GL_LIGHT0, GL_SPECULAR, lightColorSpecular);
-
-
-		glTranslatef(0.0f, 0.0f, -270.0f);
-		glRotatef(-90.0f, 1.0f, 0.0f, 0.0f);
-		glRotatef(0.0f, 0.0f, 0.0f, 1.0f);  
-		//if(pModel)
-		glDisable(GL_BLEND);
-		glDisable(GL_ALPHA_TEST);
-		pModel->onRender();
-	glPopMatrix();
-
-}
 void renderScene(void)
 {
 	// Clear Color and Depth Buffers
@@ -258,19 +226,23 @@ void renderScene(void)
 	glMatrixMode(GL_MODELVIEW);
 	glLoadIdentity();
 		
+	/*
 	// Set the camera
-	blitz::geometry::Triad lookAt = camera.getCurrent();	
+	//blitz::geometry::Triad lookAt = camera.getCurrent();	
+	blitz::geometry::Triad lookAt = stage.getCamera()->getCurrent();
 
 	//glPushMatrix();	
 	gluLookAt(	lookAt.x * 10.0f, lookAt.y * 5.0f, 0.0f,
 				lookAt.x * 10.0f, lookAt.y * 5.0f, -50.0f,
 				0.0f, 1.0f,  0.0f);
-	
+	*/
+
 	//glTranslatef(0.0f, 0.0f, 150.0f);
 	//glPopMatrix();
 	//glMatrixMode (GL_MODELVIEW);
 	//glDisable(GL_DEPTH_TEST);
 	
+	/*
 	glPushMatrix ();
 		glLoadIdentity();		
 		glMatrixMode(GL_PROJECTION);
@@ -289,6 +261,8 @@ void renderScene(void)
 		glPopMatrix();
 		glMatrixMode(GL_MODELVIEW);
 	glPopMatrix ();
+	*/
+
 	/*
 	glPushMatrix();		
 		glColor4f(1.0f, 1.0f, 1.0f, 1.0f);
@@ -315,7 +289,8 @@ void renderScene(void)
 	*/
 	
 	stage.draw();
-
+	
+	/*
 	glEnable( GL_TEXTURE_2D );
 	glEnable(GL_BLEND);
 	glEnable(GL_ALPHA_TEST);
@@ -334,8 +309,10 @@ void renderScene(void)
 		glEnd();  
 	glPopMatrix();
 	glDisable( GL_TEXTURE_2D );
+	*/
 	
 	// HUD
+	/*
 	glDisable(GL_DEPTH_TEST);
 	glPushMatrix();
 		glLoadIdentity();		
@@ -399,7 +376,9 @@ void renderScene(void)
 		glPopMatrix();
 		glMatrixMode(GL_MODELVIEW);
 	glPopMatrix();
-
+	*/
+	
+	/*
 	// BAM!
 	if(screenHit && stage.persistHitDraw(delta))
 	{
@@ -424,12 +403,15 @@ void renderScene(void)
 	else
 		if(screenHit = (stage.getPlayerHits() > 0))
 			stage.decPlayerHits();
+	*/
 }
 
 bool isCrouched = false;
 bool hasCursor = false;
 void GLFWCALL processKeys(int key, int action)
 {
+	action == GLFW_PRESS? stage.keyPressed(key) : stage.keyReleased(key);
+	
 	if(action == GLFW_RELEASE)
 	{
 		switch(key)
@@ -477,37 +459,41 @@ void GLFWCALL processKeys(int key, int action)
 			break;
 		}
 	}
+	
 }
 
 void GLFWCALL processKeyChar(int character, int action)
 {
+	action == GLFW_PRESS? stage.keyCharPressed(character) : stage.keyCharReleased(character);
+	/*
 	if(action == GLFW_PRESS)
 	{
-		/*switch(character)
-		{		
-		}*/
+		//switch(character)	{		}
 	}
+	*/
 }
 
 void GLFWCALL processMousePos(int x, int y)
 {			
-	camera.updateNormalized(x, y);
+	//camera.updateNormalized(x, y);
+	stage.mouseMoved(x, y);
 }
 
 void GLFWCALL processMouseButton(int button, int action)
 {
+	action == GLFW_PRESS? stage.mousePressed(button) : stage.mouseReleased(button);
+	/*
 	if(action == GLFW_RELEASE)
 	{
 		blitz::geometry::Triad lookAt = camera.getCurrent();
 		switch(button)
 		{
-			case GLFW_MOUSE_BUTTON_LEFT:				
-				//blitz::geometry::Triad lookAt = blitz::geometry::Triad();
+			case GLFW_MOUSE_BUTTON_LEFT:								
 				stage.playerFire(blitz::geometry::Triad(lookAt.x * 10.0f, lookAt.y * 5.0f, 0.0f));
 				break;
 			case GLFW_MOUSE_BUTTON_RIGHT:
 				stage.spawnEnemy(blitz::geometry::Triad(fRand.randFloat(-50.0f, 50.0f), fRand.randFloat(-4.0f, 4.0f), -100.0f), pModel);				
 				break;
 		}
-	}
+	}*/
 }

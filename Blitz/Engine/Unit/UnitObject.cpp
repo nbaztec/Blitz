@@ -28,7 +28,7 @@ namespace blitz {
 		 * PUBLIC METHODS
 		 */
 
-		bool UnitObject::hasCompleted()
+		bool UnitObject::markCompleted()
 		{
 			return this->_completed = true;
 		}
@@ -45,7 +45,7 @@ namespace blitz {
 			return _t;
 		}
 
-		bool UnitObject::animateAll(float delta)
+		bool UnitObject::animateAll(const float& delta)
 		{
 			bool terminal = false;
 			for(std::vector<state::Animation*>::iterator it = this->_animation.begin(); it != this->_animation.end(); )
@@ -69,12 +69,21 @@ namespace blitz {
 			return this->_state;
 		}
 
-		bool UnitObject::updateState(float delta)
+		bool UnitObject::updateState(const float& delta)
 		{			
 			this->_state->duration += delta;
 			this->_state->current += this->_state->velocity * delta;
 			this->_state->angle += this->_state->rotation.magnitude * delta;
 			return this->animateAll(delta);
+		}
+
+		void UnitObject::applyTransforms()
+		{
+			blitz::geometry::Triad t = this->_state->current;
+			blitz::geometry::Triad r = this->_state->rotation.direction;
+			glTranslatef(t.x, t.y, t.z);
+			glRotatef(this->_state->angle, r.x, r.y, r.z);
+			glColor4f(this->_state->color.a, this->_state->color.b, this->_state->color.c, this->_state->color.d);
 		}
 
 		bool UnitObject::isComplete(void) const

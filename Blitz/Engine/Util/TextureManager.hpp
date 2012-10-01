@@ -23,8 +23,8 @@ public:
 	TextureManager(void);
 	virtual ~TextureManager(void);
 
-	void load(const char* key, const char* file, int count);
-	void load(const char* key, const char* file);
+	bool load(const char* key, const char* file, int count);
+	bool load(const char* key, const char* file);
 	void remove(const char* key);
 	bool has_texture(const char* key);
 	Texture operator[](const char* key);

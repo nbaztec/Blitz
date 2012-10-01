@@ -1,5 +1,5 @@
 /*
- * GameStage.hpp
+ * FightLevel.hpp
  *
  *  Created on: Aug 29, 2012
  *      Author: Nisheeth
@@ -13,24 +13,36 @@
 
 #include <GL/glfw.h>
 #include "../../Engine/Core/Coordinate.hpp"
-#include "../../Engine/View/Stage.hpp"
+#include "../../Engine/View/Level.hpp"
 #include "../../Engine/Unit/UnitObject.hpp"
-#include "../../Engine/Unit/PlasmaBullet.hpp"
-#include "../../Engine/Unit/Enemy.hpp"
-#include "../../Engine/Unit/SkeletonEnemy.hpp"
 #include "../../Engine/Util/ImageFactory.hpp"
 #include "../../Engine/Util/TextureManager.hpp"
+#include "../../Engine/Unit/UnitObject.hpp"
+#include "../Unit/PlasmaBullet.hpp"
+#include "../Unit/Enemy.hpp"
+#include "../Unit/SkeletonEnemy.hpp"
 
 namespace game {
 	namespace view {
 
-		class GameStage : public blitz::view::Stage {
+		class FightLevel : public blitz::view::Level {
 		protected:
+			bool _screenHit;
 			long _hitPlayer;
 			float _lastHitDuration;
+
+			virtual void tickCamera(const float& delta);
+			virtual void tickOverlay(const float& delta);
+
+			virtual void renderCamera();
+			virtual void renderBackground();
+			virtual void renderCrosshair();
+			virtual void renderHUD();
+			virtual void renderOverlay();
+
 		public:			
-			GameStage();
-			virtual ~GameStage();
+			FightLevel();
+			virtual ~FightLevel();
 			
 			virtual void tick(const float &interpolate);
 			virtual void draw(void);
@@ -45,6 +57,9 @@ namespace game {
 
 			bool persistHitDraw(float delta);
 			void hitDrawReset();
+
+			virtual void mouseReleased(int button);
+			virtual void mouseMoved(int x, int y);
 		};
 	}
 }

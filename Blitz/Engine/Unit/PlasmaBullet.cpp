@@ -7,26 +7,26 @@
  
 #include "PlasmaBullet.hpp"
 #include <iostream>
-namespace game {
+namespace blitz {
 	namespace unit {		
 	
-		PlasmaBullet::PlasmaBullet(const blitz::geometry::Triad &start)
+		PlasmaBullet::PlasmaBullet(const geometry::Triad &start)
 		{			
-			this->_state = new blitz::state::State();
+			this->_state = new state::State();
 			this->_state->current = this->_state->start = start;
 			this->_state->box.set(-0.5f, 0.5f, 0.5f, -0.5f);
 			this->_state->normal.set(0.0f, 0.0f, -1.0f);
 			this->_damage = 0.1f;
 			this->_energy = 0.2f;
 			
-			blitz::geometry::Triad t = this->_state->current;
+			geometry::Triad t = this->_state->current;
 			std::cout << "BULLET: " << t.x << ", " << t.y << std::endl;
 
 			//this->_state->velocity.set(0.0f, 0.0f, 50.f);
 			//this->_state->rotation.magnitude = 200.0f;
 			//this->_state->rotation.direction.set(0.0f, 0.0f, 1.0f);
-			this->_animation.push_back(new blitz::state::LinearAnimation(this->_state, blitz::geometry::Triad(0.0f, 0.0f, -50.f)));
-			this->_animation.push_back(new blitz::state::RotationAnimation(this->_state, blitz::geometry::Vector(0.0f, 0.0f, 1.0f, 200.0f)));
+			this->_animation.push_back(new state::LinearAnimation(this->_state, geometry::Triad(0.0f, 0.0f, -50.f)));
+			this->_animation.push_back(new state::RotationAnimation(this->_state, geometry::Vector(0.0f, 0.0f, 1.0f, 200.0f)));
 			//this->_animation.push_back(new state::ColorAnimation(this->_state, state::AnimationType::atColorBlink, geometry::Quad(1.0f, 0.0f, 0.0f, 1.0f), 0.0f, 0.2));
 			//this->_animation.push_back(new state::Animation(this->_state, state::AnimationType::atTranslate, geometry::Triad(0.0f, 0.0f, 10.f), 2.0f));
 			//this->_animation.push_back(new state::Animation(this->_state, state::AnimationType::atRotate, geometry::Triad(0.0f, 0.0f, 10.f), 2.0f));
@@ -38,8 +38,8 @@ namespace game {
 
 		void PlasmaBullet::draw(void)
 		{	
-			blitz::geometry::Triad t = this->_state->current;
-			blitz::geometry::Triad r = this->_state->rotation.direction;
+			geometry::Triad t = this->_state->current;
+			geometry::Triad r = this->_state->rotation.direction;
 			glPushMatrix();
 				
 				glEnable( GL_TEXTURE_2D );
@@ -65,10 +65,10 @@ namespace game {
 			glPopMatrix();
 		}
 
-		void PlasmaBullet::tick(const float& delta)
+		void PlasmaBullet::tick(float delta)
 		{
 			this->_completed = this->updateState(delta);
-			blitz::geometry::Triad t= this->_state->start;
+			geometry::Triad t= this->_state->start;
 			t.z += 5.0f;
 			//PlasmaBullet plane(t);
 			//plane._state->normal = geometry::Triad(0.0f, 0.0f, -1.0f);

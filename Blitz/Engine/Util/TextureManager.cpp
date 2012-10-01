@@ -28,16 +28,23 @@ Texture TextureManager::operator[](const char* key)
 	return this->_textures[key];
 }
 
-void TextureManager::load(const char* key, const char* file, int count)
+bool TextureManager::load(const char* key, const char* file, int count)
 {
 	RawImage *img = ImageFactory::loadPNG(file);
-	this->_textures[key] = TextureFactory::createTextures2D(img, count);
-	delete img;
+	if(img != NULL)
+	{
+		this->_textures[key] = TextureFactory::createTextures2D(img, count);
+		delete img;
+		return true;
+	}
+	else
+		return false;
+
 }
 
-void TextureManager::load(const char* key, const char* file)
+bool TextureManager::load(const char* key, const char* file)
 {
-	this->load(key, file, 1);
+	return this->load(key, file, 1);
 }
 
 void TextureManager::remove(const char* key)

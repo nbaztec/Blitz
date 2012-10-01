@@ -49,7 +49,7 @@ RawImage* ImageFactory::loadBMP(const char* filename)
 	unsigned short int bpp;             // number of bits per pixel (must be 24)
 	char temp;                          // used to convert bgr to rgb color.
 
-	// make sure the file is there.
+	// make sure the file is there.	
 	if ((file = fopen(filename, "rb"))==NULL)
 	{
 		printf("File Not Found : %s\n",filename);
@@ -136,10 +136,10 @@ RawImage* ImageFactory::loadPNG(const char *filename)
     png_infop info_ptr;
     unsigned int sig_read = 0;
     int color_type, interlace_type;
-    FILE *fp;
-
-    if ((fp = fopen(filename, "rb")) == NULL)
-        return false;
+    FILE* fp = fopen(filename, "rb");
+		
+    if (fp == NULL)
+        return NULL;
 
     /* Create and initialize the png_struct
      * with the desired error handler
@@ -157,7 +157,7 @@ RawImage* ImageFactory::loadPNG(const char *filename)
 
     if (png_ptr == NULL) {
         fclose(fp);
-        return false;
+        return NULL;
     }
 
     /* Allocate/initialize the memory
@@ -166,7 +166,7 @@ RawImage* ImageFactory::loadPNG(const char *filename)
     if (info_ptr == NULL) {
         fclose(fp);
         png_destroy_read_struct(&png_ptr, NULL, NULL);
-        return false;
+        return NULL;
     }
 
     /* Set error handling if you are
@@ -185,7 +185,7 @@ RawImage* ImageFactory::loadPNG(const char *filename)
         fclose(fp);
         /* If we get here, we had a
          * problem reading the file */
-        return false;
+        return NULL;
     }
 
     /* Set up the output control if
@@ -233,7 +233,7 @@ RawImage* ImageFactory::loadPNG(const char *filename)
             printf("Color type %d not supported.", color_type);
             png_destroy_read_struct(&png_ptr, &info_ptr, NULL);
             fclose(fp);
-            return false;
+            return NULL;
     }
     unsigned int row_bytes = png_get_rowbytes(png_ptr, info_ptr);
     //*outData = (unsigned char*) malloc(row_bytes * outHeight);

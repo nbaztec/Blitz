@@ -8,8 +8,11 @@
 #include "Level.hpp"
 
 namespace blitz {
-	namespace view {
-		Level::Level()	
+	namespace view {		
+
+		Randomizer Level::RAND;
+
+		Level::Level()
 		{
 			this->_texMgr = NULL;
 		}
@@ -25,5 +28,15 @@ namespace blitz {
 		{
 			this->_texMgr = texMgr;
 		}	
+
+		void Level::setModelManager(ModelManager* mdlMgr)
+		{
+			this->_mdlMgr = mdlMgr;
+		}
+
+		void Level::setCamera(Camera* camera)
+		{
+			this->_camera = camera;
+		}		
 	}
 }

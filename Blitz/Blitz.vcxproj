@@ -55,7 +55,7 @@
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalDependencies>zlibstatd.lib;libpng15d.lib;opengl32.lib;glfw.lib;glu32.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>cal3d_d.lib;zlibstatd.lib;libpng15d.lib;opengl32.lib;glfw.lib;glu32.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -85,54 +85,50 @@
     <ClCompile Include="Engine\Core\LinearAnimation.cpp" />
     <ClCompile Include="Engine\Core\RotationAnimation.cpp" />
     <ClCompile Include="Engine\Unit\DamageObject.cpp" />
-    <ClCompile Include="Engine\Unit\Enemy.cpp" />
     <ClCompile Include="Engine\Unit\EnergyObject.cpp" />
     <ClCompile Include="Engine\Unit\HealthObject.cpp" />
-    <ClCompile Include="Engine\Unit\PlasmaBullet.cpp" />
-    <ClCompile Include="Engine\Unit\Player.cpp" />
-    <ClCompile Include="Engine\Unit\SkeletonEnemy.cpp" />
     <ClCompile Include="Engine\Unit\UnitObject.cpp" />
     <ClCompile Include="Engine\Util\cal3d\model.cpp" />
     <ClCompile Include="Engine\Util\cal3d\tga.cpp" />
     <ClCompile Include="Engine\Util\ImageFactory.cpp" />
+    <ClCompile Include="Engine\Util\ModelManager.cpp" />
     <ClCompile Include="Engine\Util\Randomizer.cpp" />
     <ClCompile Include="Engine\Util\TextureFactory.cpp" />
     <ClCompile Include="Engine\Util\TextureManager.cpp" />
     <ClCompile Include="Engine\Util\TGATexture.cpp" />
     <ClCompile Include="Engine\View\Level.cpp" />
     <ClCompile Include="Engine\View\Stage.cpp" />
-    <ClCompile Include="LastStand\main.cpp" />
     <ClCompile Include="LastStand\Unit\Enemy.cpp" />
+    <ClCompile Include="LastStand\Unit\PassiveEnemy.cpp" />
     <ClCompile Include="LastStand\Unit\PlasmaBullet.cpp" />
     <ClCompile Include="LastStand\Unit\Player.cpp" />
     <ClCompile Include="LastStand\Unit\SkeletonEnemy.cpp" />
+    <ClCompile Include="LastStand\View\FightLevel.cpp" />
     <ClCompile Include="LastStand\View\GameStage.cpp" />
+    <ClCompile Include="main.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Engine\Core\Animation.hpp" />
     <ClInclude Include="Engine\Core\Camera.hpp" />
     <ClInclude Include="Engine\Core\ColorAnimation.hpp" />
     <ClInclude Include="Engine\Core\Coordinate.hpp" />
+    <ClInclude Include="Engine\Core\Interface\InputListener.hpp" />
+    <ClInclude Include="Engine\Core\Interface\Painter.hpp" />
+    <ClInclude Include="Engine\Core\Interface\TickedPainter.hpp" />
+    <ClInclude Include="Engine\Core\Interface\Ticker.hpp" />
     <ClInclude Include="Engine\Core\LinearAnimation.hpp" />
-    <ClInclude Include="Engine\Core\Painter.hpp" />
     <ClInclude Include="Engine\Core\Point.hpp" />
     <ClInclude Include="Engine\Core\RotationAnimation.hpp" />
     <ClInclude Include="Engine\Core\State.hpp" />
     <ClInclude Include="Engine\Core\Texture.hpp" />
-    <ClInclude Include="Engine\Core\TickedPainter.hpp" />
-    <ClInclude Include="Engine\Core\Ticker.hpp" />
-    <ClInclude Include="Engine\resource.h" />
     <ClInclude Include="Engine\Unit\DamageObject.hpp" />
-    <ClInclude Include="Engine\Unit\Enemy.hpp" />
     <ClInclude Include="Engine\Unit\EnergyObject.hpp" />
     <ClInclude Include="Engine\Unit\HealthObject.hpp" />
-    <ClInclude Include="Engine\Unit\PlasmaBullet.hpp" />
-    <ClInclude Include="Engine\Unit\Player.hpp" />
-    <ClInclude Include="Engine\Unit\SkeletonEnemy.hpp" />
     <ClInclude Include="Engine\Unit\UnitObject.hpp" />
     <ClInclude Include="Engine\Util\cal3d\model.h" />
     <ClInclude Include="Engine\Util\cal3d\tga.h" />
     <ClInclude Include="Engine\Util\ImageFactory.hpp" />
+    <ClInclude Include="Engine\Util\ModelManager.hpp" />
     <ClInclude Include="Engine\Util\Randomizer.hpp" />
     <ClInclude Include="Engine\Util\RawImage.hpp" />
     <ClInclude Include="Engine\Util\TextureFactory.hpp" />
@@ -141,10 +137,13 @@
     <ClInclude Include="Engine\View\Level.hpp" />
     <ClInclude Include="Engine\View\Stage.hpp" />
     <ClInclude Include="LastStand\Unit\Enemy.hpp" />
+    <ClInclude Include="LastStand\Unit\PassiveEnemy.hpp" />
     <ClInclude Include="LastStand\Unit\PlasmaBullet.hpp" />
     <ClInclude Include="LastStand\Unit\Player.hpp" />
     <ClInclude Include="LastStand\Unit\SkeletonEnemy.hpp" />
+    <ClInclude Include="LastStand\View\FightLevel.hpp" />
     <ClInclude Include="LastStand\View\GameStage.hpp" />
+    <ClInclude Include="resource.h" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="Blitz.rc" />

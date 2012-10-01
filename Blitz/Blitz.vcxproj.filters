@@ -7,15 +7,6 @@
     <ClCompile Include="Engine\Core\Camera.cpp">
       <Filter>Source Files\Engine\Core</Filter>
     </ClCompile>
-    <ClCompile Include="Engine\Unit\Enemy.cpp">
-      <Filter>Source Files\Engine\Unit</Filter>
-    </ClCompile>
-    <ClCompile Include="Engine\Unit\PlasmaBullet.cpp">
-      <Filter>Source Files\Engine\Unit</Filter>
-    </ClCompile>
-    <ClCompile Include="Engine\Unit\Player.cpp">
-      <Filter>Source Files\Engine\Unit</Filter>
-    </ClCompile>
     <ClCompile Include="Engine\Util\ImageFactory.cpp">
       <Filter>Source Files\Engine\Util</Filter>
     </ClCompile>
@@ -55,12 +46,6 @@
     <ClCompile Include="Engine\Util\cal3d\tga.cpp">
       <Filter>Source Files\Engine\Util\cal3d</Filter>
     </ClCompile>
-    <ClCompile Include="Engine\Unit\SkeletonEnemy.cpp">
-      <Filter>Source Files\Engine\Unit</Filter>
-    </ClCompile>
-    <ClCompile Include="LastStand\main.cpp">
-      <Filter>Source Files\LastStand</Filter>
-    </ClCompile>
     <ClCompile Include="Engine\View\Stage.cpp">
       <Filter>Source Files\Engine\View</Filter>
     </ClCompile>
@@ -85,6 +70,18 @@
     <ClCompile Include="LastStand\View\GameStage.cpp">
       <Filter>Source Files\LastStand\View</Filter>
     </ClCompile>
+    <ClCompile Include="LastStand\View\FightLevel.cpp">
+      <Filter>Source Files\LastStand\View</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\Util\ModelManager.cpp">
+      <Filter>Source Files\Engine\Util</Filter>
+    </ClCompile>
+    <ClCompile Include="LastStand\Unit\PassiveEnemy.cpp">
+      <Filter>Source Files\LastStand\Unit</Filter>
+    </ClCompile>
+    <ClCompile Include="main.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Engine\Core\Animation.hpp">
@@ -98,15 +95,6 @@
     </ClInclude>
     <ClInclude Include="Engine\Core\Coordinate.hpp">
       <Filter>Source Files\Engine\Core</Filter>
-    </ClInclude>
-    <ClInclude Include="Engine\Unit\Enemy.hpp">
-      <Filter>Source Files\Engine\Unit</Filter>
-    </ClInclude>
-    <ClInclude Include="Engine\Unit\PlasmaBullet.hpp">
-      <Filter>Source Files\Engine\Unit</Filter>
-    </ClInclude>
-    <ClInclude Include="Engine\Unit\Player.hpp">
-      <Filter>Source Files\Engine\Unit</Filter>
     </ClInclude>
     <ClInclude Include="Engine\Util\ImageFactory.hpp">
       <Filter>Source Files\Engine\Util</Filter>
@@ -128,9 +116,6 @@
     </ClInclude>
     <ClInclude Include="Engine\Util\TGATexture.hpp">
       <Filter>Source Files\Engine\Util</Filter>
-    </ClInclude>
-    <ClInclude Include="Engine\resource.h">
-      <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Engine\Core\ColorAnimation.hpp">
       <Filter>Source Files\Engine\Core\Animation</Filter>
@@ -156,9 +141,6 @@
     <ClInclude Include="Engine\Util\cal3d\tga.h">
       <Filter>Source Files\Engine\Util\cal3d</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\Unit\SkeletonEnemy.hpp">
-      <Filter>Source Files\Engine\Unit</Filter>
-    </ClInclude>
     <ClInclude Include="Engine\Core\State.hpp">
       <Filter>Source Files\Engine\Core</Filter>
     </ClInclude>
@@ -167,15 +149,6 @@
     </ClInclude>
     <ClInclude Include="Engine\View\Level.hpp">
       <Filter>Source Files\Engine\View</Filter>
-    </ClInclude>
-    <ClInclude Include="Engine\Core\Painter.hpp">
-      <Filter>Source Files\Engine\Core\Interface</Filter>
-    </ClInclude>
-    <ClInclude Include="Engine\Core\Ticker.hpp">
-      <Filter>Source Files\Engine\Core\Interface</Filter>
-    </ClInclude>
-    <ClInclude Include="Engine\Core\TickedPainter.hpp">
-      <Filter>Source Files\Engine\Core\Interface</Filter>
     </ClInclude>
     <ClInclude Include="Engine\Unit\UnitObject.hpp">
       <Filter>Source Files\Engine\Unit</Filter>
@@ -194,6 +167,30 @@
     </ClInclude>
     <ClInclude Include="LastStand\View\GameStage.hpp">
       <Filter>Source Files\LastStand\View</Filter>
+    </ClInclude>
+    <ClInclude Include="LastStand\View\FightLevel.hpp">
+      <Filter>Source Files\LastStand\View</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Util\ModelManager.hpp">
+      <Filter>Source Files\Engine\Util</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Core\Interface\Ticker.hpp">
+      <Filter>Source Files\Engine\Core\Interface</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Core\Interface\InputListener.hpp">
+      <Filter>Source Files\Engine\Core\Interface</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Core\Interface\Painter.hpp">
+      <Filter>Source Files\Engine\Core\Interface</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Core\Interface\TickedPainter.hpp">
+      <Filter>Source Files\Engine\Core\Interface</Filter>
+    </ClInclude>
+    <ClInclude Include="resource.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="LastStand\Unit\PassiveEnemy.hpp">
+      <Filter>Source Files\LastStand\Unit</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
