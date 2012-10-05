@@ -146,7 +146,10 @@ GLuint Model::loadTexture(const std::string& strFilename)
      file.open(strFilename.c_str(), std::ios::in | std::ios::binary);
      if(!file)
      {
-       std::cerr << "Texture file '" << strFilename << "' not found." << std::endl;
+	   Log.setSingleLine(true);
+	   Log.error("") << "Texture file '" << strFilename << "' not found.";
+	   Log.newline();
+	   Log.setSingleLine(false);       
        return 0;
      }
 
@@ -159,8 +162,11 @@ GLuint Model::loadTexture(const std::string& strFilename)
     unsigned char *pBuffer;
     pBuffer = new unsigned char[width * height * depth];
     if(pBuffer == 0)
-    {
-      std::cerr << "Memory allocation for texture '" << strFilename << "' failed." << std::endl;
+    {      
+	  Log.setSingleLine(true);
+	  Log.error("") << "Memory allocation for texture '" << strFilename << "' failed.";
+	  Log.newline();
+	  Log.setSingleLine(false);
       return 0;
     }
 
@@ -241,7 +247,10 @@ bool Model::onInit(void)
   file.open(strFilename.c_str(), std::ios::in | std::ios::binary);
   if(!file)
   {
-    std::cerr << "Failed to open model configuration file '" << strFilename << "'." << std::endl;
+	Log.setSingleLine(true);
+	Log.error("") << "Failed to open model configuration file '" << strFilename << "'.";
+	Log.newline();
+	Log.setSingleLine(false);     
     return false;
   }  
 
@@ -263,7 +272,10 @@ bool Model::onInit(void)
     // check if an error happend while reading from the file
     if(!file)
     {
-      std::cerr << "Error while reading from the model configuration file '" << strFilename << "'." << std::endl;
+	  Log.setSingleLine(true);
+	  Log.error("") << "Error while reading from the model configuration file '" << strFilename << "'.";
+	  Log.newline();
+	  Log.setSingleLine(false);      
       return false;
     }
 
@@ -286,7 +298,10 @@ bool Model::onInit(void)
     pos = strBuffer.find_first_not_of(" \t", pos);
     if((pos == std::string::npos) || (strBuffer[pos] != '='))
     {
-      std::cerr << strFilename << "(" << line << "): Invalid syntax." << std::endl;
+	  Log.setSingleLine(true);
+	  Log.error("") << strFilename << "(" << line << "): Invalid syntax.";
+	  Log.newline();
+	  Log.setSingleLine(false);
       return false;
     }
 
@@ -301,7 +316,7 @@ bool Model::onInit(void)
     if(strKey == "scale")
     {
       // set rendering scale factor
-      m_renderScale = atof(strData.c_str());
+      m_renderScale = float(atof(strData.c_str()));
     }
     else if(strKey == "path")
     {
@@ -311,7 +326,7 @@ bool Model::onInit(void)
     else if(strKey == "skeleton")
     {
       // load core skeleton
-      std::cout << "Loading skeleton '" << strData << "'..." << std::endl;
+      //std::cout << "Loading skeleton '" << strData << "'..." << std::endl;
       if(!m_calCoreModel->loadCoreSkeleton(strPath + strData))
       {
         CalError::printLastError();
@@ -321,7 +336,7 @@ bool Model::onInit(void)
     else if(strKey == "animation")
     {
       // load core animation
-      std::cout << "Loading animation '" << strData << "'..." << std::endl;
+      //std::cout << "Loading animation '" << strData << "'..." << std::endl;
       m_animationId[animationCount] = m_calCoreModel->loadCoreAnimation(strPath + strData);
       if(m_animationId[animationCount] == -1)
       {
@@ -334,7 +349,7 @@ bool Model::onInit(void)
     else if(strKey == "mesh")
     {
       // load core mesh
-      std::cout << "Loading mesh '" << strData << "'..." << std::endl;
+      //std::cout << "Loading mesh '" << strData << "'..." << std::endl;
       if(m_calCoreModel->loadCoreMesh(strPath + strData) == -1)
       {
         CalError::printLastError();
@@ -344,7 +359,7 @@ bool Model::onInit(void)
     else if(strKey == "material")
     {
       // load core material
-      std::cout << "Loading material '" << strData << "'..." << std::endl;
+      //std::cout << "Loading material '" << strData << "'..." << std::endl;
       if(m_calCoreModel->loadCoreMaterial(strPath + strData) == -1)
       {
         CalError::printLastError();
@@ -353,7 +368,10 @@ bool Model::onInit(void)
     }
     else
     {
-      std::cerr << strFilename << "(" << line << "): Invalid syntax." << std::endl;
+	  Log.setSingleLine(true);
+	  Log.error("") << strFilename << "(" << line << "): Invalid syntax.";
+	  Log.newline();
+	  Log.setSingleLine(false);
       return false;
     }
   }

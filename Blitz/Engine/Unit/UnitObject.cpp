@@ -28,6 +28,11 @@ namespace blitz {
 		 * PUBLIC METHODS
 		 */
 
+		void UnitObject::setSoundManager(SoundManager* sndMgr)
+		{
+			this->_sndMgr = sndMgr;
+		}
+
 		bool UnitObject::markCompleted()
 		{
 			return this->_completed = true;
@@ -56,11 +61,12 @@ namespace blitz {
 				{					
 					state::Animation* _t = *it;					
 					it = this->_animation.erase(it);
-					if(_t->isTerminal())
 					terminal |= _t->isTerminal();					
 					delete _t;
 				}
 			}
+			if(terminal)
+				this->terminalComplete();
 			return terminal;
 		}
 

@@ -12,11 +12,14 @@ namespace game {
 		SkeletonEnemy::SkeletonEnemy(const blitz::geometry::Triad &start, Model* model)
 			:PassiveEnemy(start)
 		{						
+			this->createSoundSources(1);
+
 			this->_model = model;
 			this->_state->current.y = this->_state->start.y += -2.0f;		// Offset for height adjust
 			this->_state->box.set(-0.5f, 2.3f, 0.5f, -2.1f);
 			this->_state->velocity.z += 10.0f;
 			this->_state->setColorClear(0.3f, 0.3f, 0.3f, 1.0f);
+			this->_health=1.0f;			
 		}
 
 		SkeletonEnemy::~SkeletonEnemy(void)
@@ -71,20 +74,23 @@ namespace game {
 		void SkeletonEnemy::hit(UnitObject& obj)
 		{			
 			blitz::unit::DamageObject* d = dynamic_cast<blitz::unit::DamageObject*>(&obj);
-			if(d)
+			if(d && this->_health > 0.0f)
 			{
 				this->reduceHealth(d->getDamage());
 				if(this->_health <= 0.0f)
 				{
 					this->_state->velocity.set(0.0f, 0.0f, 0.0f);
-				
-					blitz::state::Animation* a = new blitz::state::ColorAnimation(this->_state, blitz::state::AnimationType::atColorBlink, blitz::geometry::Quad(1.0f, 0.0f, 0.0f, 1.0f), 1.0f);
+					blitz::state::Animation* a = new blitz::state::ColorAnimation(this->_state, blitz::state::AnimationType::atColorBlink, blitz::geometry::Quad(1.0f, 0.0f, 0.0f, 0.0f), 1.0f);
 					a->setTerminal(true);
-					this->_animation.push_back(a);		
+					this->_animation.push_back(a);
+					this->attachAndPlaySound((*this->_sndMgr)["enemy_die"]);
 				}
 				else
+				{
+					this->attachAndPlaySound((*this->_sndMgr)["enemy_hit"]);
 					this->_animation.push_back(new blitz::state::ColorAnimation(this->_state, blitz::state::AnimationType::atColorBlink, blitz::geometry::Quad(0.0f, 1.0f, 0.0f, 1.f), 0.2f));		
+				}
 			}
-		}
+		}		
 	}
 }

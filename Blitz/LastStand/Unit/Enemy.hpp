@@ -12,6 +12,7 @@
 #include "../../Engine/Unit/HealthObject.hpp"
 #include "../../Engine/Unit/DamageObject.hpp"
 #include "../../Engine/Unit/UnitObject.hpp"
+#include "../../Engine/Util/LogManager.hpp"
 
 namespace game {
 	namespace unit {

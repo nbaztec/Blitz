@@ -12,6 +12,7 @@ namespace game {
 	
 		PlasmaBullet::PlasmaBullet(const blitz::geometry::Triad &start)
 		{			
+			this->createSoundSources(1);
 			this->_state = new blitz::state::State();
 			this->_state->current = this->_state->start = start;
 			this->_state->box.set(-0.5f, 0.5f, 0.5f, -0.5f);
@@ -19,14 +20,19 @@ namespace game {
 			this->_damage = 0.1f;
 			this->_energy = 0.2f;
 			
-			blitz::geometry::Triad t = this->_state->current;
-			std::cout << "BULLET: " << t.x << ", " << t.y << std::endl;
+			this->setVolume(0.5f);
 
+			blitz::geometry::Triad t = this->_state->current;
+			Log.setSingleLine(true);
+			Log.debug("") << "Bullet: " << t.x << ", " << t.y;
+			Log.newline();
+			Log.setSingleLine(false);
 			//this->_state->velocity.set(0.0f, 0.0f, 50.f);
 			//this->_state->rotation.magnitude = 200.0f;
 			//this->_state->rotation.direction.set(0.0f, 0.0f, 1.0f);
 			this->_animation.push_back(new blitz::state::LinearAnimation(this->_state, blitz::geometry::Triad(0.0f, 0.0f, -50.f)));
 			this->_animation.push_back(new blitz::state::RotationAnimation(this->_state, blitz::geometry::Vector(0.0f, 0.0f, 1.0f, 200.0f)));
+			
 			//this->_animation.push_back(new state::ColorAnimation(this->_state, state::AnimationType::atColorBlink, geometry::Quad(1.0f, 0.0f, 0.0f, 1.0f), 0.0f, 0.2));
 			//this->_animation.push_back(new state::Animation(this->_state, state::AnimationType::atTranslate, geometry::Triad(0.0f, 0.0f, 10.f), 2.0f));
 			//this->_animation.push_back(new state::Animation(this->_state, state::AnimationType::atRotate, geometry::Triad(0.0f, 0.0f, 10.f), 2.0f));
@@ -35,9 +41,16 @@ namespace game {
 		PlasmaBullet::~PlasmaBullet(void)
 		{			
 		}
+		
+		void PlasmaBullet::onFirstRender()
+		{
+			this->attachAndPlaySound((*this->_sndMgr)["player_fire"]);
+		}
 
 		void PlasmaBullet::draw(void)
 		{	
+			this->callFirstRender();
+
 			blitz::geometry::Triad t = this->_state->current;
 			blitz::geometry::Triad r = this->_state->rotation.direction;
 			glPushMatrix();

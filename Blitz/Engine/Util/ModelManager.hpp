@@ -19,7 +19,7 @@ public:
 	ModelManager(void);
 	virtual ~ModelManager(void);
 	
-	void load(const char* key, const char* dir);
+	bool load(const char* key, const char* dir);
 	void remove(const char* key);
 	bool has_texture(const char* key);
 	Model* operator[](const char* key);

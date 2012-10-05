@@ -19,6 +19,7 @@
 #include "../Unit/UnitObject.hpp"
 #include "../Util/TextureManager.hpp"
 #include "../Util/ModelManager.hpp"
+#include "../Util/SoundManager.hpp"
 #include "Level.hpp"
 
 namespace blitz {
@@ -28,6 +29,7 @@ namespace blitz {
 			std::map<std::string, std::vector<view::Level*>> _levels;
 			TextureManager* _texMgr;
 			ModelManager* _mdlMgr;
+			SoundManager* _sndMgr;
 			Level* _currentLevel;
 			Camera* _camera;
 
@@ -36,6 +38,7 @@ namespace blitz {
 			virtual ~Stage();
 			void setTextureManager(TextureManager* texMgr);
 			void setModelManager(ModelManager* mdlMgr);
+			void setSoundManager(SoundManager* sndMgr);
 			
 			void setCamera(const geometry::Triad& current, const geometry::Dyad& screen, const geometry::Quad& bounds, bool fixed);
 			Camera* getCamera() const;

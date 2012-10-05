@@ -32,25 +32,33 @@ Model* ModelManager::operator[](const char* key)
 		return NULL;
 }
 
-void ModelManager::load(const char* key, const char* dir)
+bool ModelManager::load(const char* key, const char* dir)
 {
 	Model* pModel = new Model();	
 	pModel->setPath(dir);
 	if(!pModel->onInit())
 	{
 		delete pModel;
-		std::cerr << "Model initialization failed! (skeleton)" << std::endl;		
+		Log.errorln("Model initialization failed! (skeleton)");
+		return false;
 	}
 	else
 	{
-		std::cout << "Model loaded! (" << key << ")" << std::endl;
+		//std::cout << "Model loaded! (" << key << ")" << std::endl;
 		this->_models[key] = pModel;
+		return true;
 	}
 }
 
 void ModelManager::remove(const char* key)
 {
-	this->_models.erase(this->_models.find(key));
+	std::map<std::string, Model*>::iterator it = this->_models.find(key);
+	if(it != this->_models.end())
+	{
+		it->second->onShutdown();
+		delete it->second;
+		this->_models.erase(this->_models.find(key));
+	}
 }
 
 bool ModelManager::has_texture(const char* key)

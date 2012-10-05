@@ -10,26 +10,31 @@
 #include <vector>
 #include <GL/glfw.h>
 #include "../Core/Interface/TickedPainter.hpp"
+#include "../Core/Interface/SoundGenerator.hpp"
 #include "../Core/Point.hpp"
 #include "../Core/State.hpp"
 #include "../Core/Animation.hpp"
+#include "../Util/SoundManager.hpp"
+
 #include <iostream>
 
 namespace blitz {
 	namespace unit {
-		class UnitObject : public virtual blitz::TickedPainter
-		{
+		class UnitObject : public virtual blitz::TickedPainter, public virtual blitz::SoundGenerator
+		{		
 		protected:
+			SoundManager* _sndMgr;
 			state::State* _state;	
 			std::vector<state::Animation*> _animation;
-			bool _completed;
+			bool _completed;			
 
 		public:
 			UnitObject();
 			virtual ~UnitObject();
 
 			state::State* getState() const;
-			
+			void setSoundManager(SoundManager* sndMgr);			
+
 			virtual bool markCompleted();
 			virtual bool updateState(const float& delta);
 			virtual bool isComplete(void) const;	
@@ -42,6 +47,8 @@ namespace blitz {
 
 			virtual bool collision(UnitObject& obj) { return false; }
 			virtual void hit(UnitObject& obj) {}
+
+			virtual void terminalComplete(){}
 		};
 	}
 }

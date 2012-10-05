@@ -34,9 +34,20 @@ namespace blitz {
 			this->_mdlMgr = mdlMgr;
 		}
 
+		void Level::setSoundManager(SoundManager* sndMgr)
+		{
+			this->_sndMgr = sndMgr;
+		}
+
 		void Level::setCamera(Camera* camera)
 		{
 			this->_camera = camera;
 		}		
+
+		void Level::addUnit(const char* key, unit::UnitObject* unit)
+		{
+			unit->setSoundManager(this->_sndMgr);
+			this->_objects[key].push_back(unit);
+		}
 	}
 }

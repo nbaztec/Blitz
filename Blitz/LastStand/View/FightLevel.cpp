@@ -9,8 +9,9 @@
 
 namespace game {
 	namespace view {
-		FightLevel::FightLevel()	
-		{
+		FightLevel::FightLevel()
+		{			
+			this->createSoundSources(2);
 			this->_hitPlayer = 0;
 			this->_lastHitDuration = 0.0f;
 			this->_screenHit = false;
@@ -29,7 +30,7 @@ namespace game {
 		}
 
 		void FightLevel::renderBackground()
-		{
+		{			
 			glPushMatrix ();
 				glLoadIdentity();		
 				glMatrixMode(GL_PROJECTION);
@@ -51,7 +52,7 @@ namespace game {
 		}
 
 		void FightLevel::renderCrosshair()
-		{
+		{			
 			glEnable( GL_TEXTURE_2D );
 				glEnable(GL_BLEND);
 				glEnable(GL_ALPHA_TEST);
@@ -187,6 +188,8 @@ namespace game {
 					game::unit::PassiveEnemy* e = dynamic_cast<game::unit::PassiveEnemy*>(*it);
 					if(e != NULL && e->hasHitPlayer())
 					{
+						this->setSourceIndex(1);					
+						this->attachAndPlaySound((*this->_sndMgr)["player_hit"]);
 						e->markCompleted();
 						this->_hitPlayer++;
 					}
@@ -194,7 +197,7 @@ namespace game {
 					if((*it)->isComplete())
 					{
 						_t = *it;
-						it = ito->second.erase(it);			
+						it = ito->second.erase(it);						
 						delete _t;
 					}
 					else
@@ -214,9 +217,8 @@ namespace game {
 					if(e && (*itb)->collision(*(*ite)))
 					{
 						(*itb)->markCompleted();
-						(*ite)->hit(**itb);
-
-						std::cout << "Collided" << std::endl;
+						(*ite)->hit(**itb);											
+						Log.debugln("Collided");
 						break;
 					}
 				}
@@ -225,6 +227,7 @@ namespace game {
 
 		void FightLevel::draw(void)
 		{
+			this->callFirstRender();
 			this->renderCamera();
 			this->renderBackground();
 			
@@ -248,14 +251,23 @@ namespace game {
 			this->renderOverlay();
 		}
 
+		void FightLevel::onFirstRender()
+		{
+			this->setSourceIndex(0);
+			this->setLooping(true);			
+			this->attachAndPlaySound((*this->_sndMgr)["fight"]);
+		}
+
 		void FightLevel::spawnEnemy(const blitz::geometry::Triad &start, Model* model)
 		{
-			this->_objects["enemy"].push_back(new game::unit::SkeletonEnemy(start, model));
+			//this->_objects["enemy"].push_back(new game::unit::SkeletonEnemy(start, model));
+			this->addUnit("enemy", new game::unit::SkeletonEnemy(start, model));
 		}
 
 		void FightLevel::playerFire(const blitz::geometry::Triad &start)
 		{
-			this->_objects["player_fire"].push_back(new game::unit::PlasmaBullet(start));
+			//this->_objects["player_fire"].push_back(new game::unit::PlasmaBullet(start));
+			this->addUnit("player_fire", new game::unit::PlasmaBullet(start));
 		}
 
 		long FightLevel::getPlayerHits() const
@@ -276,7 +288,6 @@ namespace game {
 		bool FightLevel::persistHitDraw(float delta)
 		{
 			this->_lastHitDuration += delta;
-			std::cout << "ALLOW: " << this->_lastHitDuration << " < " << 0.1f <<std::endl;
 			if(this->_lastHitDuration < 0.1f)		
 				return true;
 			this->hitDrawReset();
@@ -300,7 +311,8 @@ namespace game {
 					Model* m = (*this->_mdlMgr)["skeleton"];
 					if(m != NULL)
 					this->spawnEnemy(blitz::geometry::Triad(FightLevel::RAND.randFloat(-50.0f, 50.0f), 
-						FightLevel::RAND.randFloat(-4.0f, 4.0f), -100.0f), m);
+						FightLevel::RAND.randFloat(-4.0f, 4.0f), -100.0f), m);					
+
 					break;
 			}
 		}

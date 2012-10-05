@@ -89,7 +89,10 @@ namespace game {
 		void Enemy::reduceHealth(float damage)
 		{			
 			this->_health -= damage;
-			std::cout << "Damage: " << damage << ", Health: " << this->_health << std::endl;
+			Log.setSingleLine(true);
+			Log.debug("", 1, ' ') << "Damage: " << damage << ", Health: " << this->_health;
+			Log.newline();
+			Log.setSingleLine(false);
 		}
 
 		bool Enemy::hasHitPlayer()

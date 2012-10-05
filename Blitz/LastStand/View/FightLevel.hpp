@@ -17,6 +17,7 @@
 #include "../../Engine/Unit/UnitObject.hpp"
 #include "../../Engine/Util/ImageFactory.hpp"
 #include "../../Engine/Util/TextureManager.hpp"
+#include "../../Engine/Util/LogManager.hpp"
 #include "../../Engine/Unit/UnitObject.hpp"
 #include "../Unit/PlasmaBullet.hpp"
 #include "../Unit/Enemy.hpp"
@@ -39,7 +40,7 @@ namespace game {
 			virtual void renderCrosshair();
 			virtual void renderHUD();
 			virtual void renderOverlay();
-
+			virtual void onFirstRender();
 		public:			
 			FightLevel();
 			virtual ~FightLevel();

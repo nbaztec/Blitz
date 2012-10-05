@@ -34,6 +34,11 @@ namespace blitz {
 			this->_mdlMgr = mdlMgr;
 		}
 
+		void Stage::setSoundManager(SoundManager* sndMgr)
+		{
+			this->_sndMgr = sndMgr;
+		}
+
 		void Stage::setCamera(const geometry::Triad& current, const geometry::Dyad& screen, const geometry::Quad& bounds, bool fixed)
 		{
 			this->_camera = this->_camera = new Camera(current, screen, bounds, fixed);
@@ -48,6 +53,7 @@ namespace blitz {
 		{
 			level->setTextureManager(this->_texMgr);
 			level->setModelManager(this->_mdlMgr);
+			level->setSoundManager(this->_sndMgr);
 			level->setCamera(this->_camera);
 			this->_levels[key].push_back(level);
 		}

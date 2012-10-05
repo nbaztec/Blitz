@@ -8,14 +8,20 @@
 #include "Player.hpp"
 
 namespace blitz {
+	namespace unit {
 
-Player::Player() {
-	// TODO Auto-generated constructor stub
+		Player::Player() {
+			this->_level = NULL;
+		}
 
-}
+		Player::~Player() {
+			
+		}
 
-Player::~Player() {
-	// TODO Auto-generated destructor stub
-}
+		void Player::setLevel(blitz::view::Level* level)
+		{
+			this->_level = level;
+		}
 
+	}
 }
