@@ -40,7 +40,7 @@ namespace blitz {
 			void setModelManager(ModelManager* mdlMgr);
 			void setSoundManager(SoundManager* sndMgr);
 			
-			void setCamera(const geometry::Triad& current, const geometry::Dyad& screen, const geometry::Quad& bounds, bool fixed);
+			void setCamera(const geometry::Triad& current, const geometry::Dyad& screen, const geometry::Quad& bounds, bool fixed);			
 			Camera* getCamera() const;
 			virtual void screenChanged(int width, int height);
 
@@ -48,6 +48,7 @@ namespace blitz {
 			Level* removeLevel(const std::string& key, const int& index);
 			virtual Level* setLevel(const std::string& key, const int& index);
 			virtual Level* setLevel(const std::string& key, const Level* level);
+			Level* getCurrentLevel();
 
 			virtual void mousePressed(int button);
 			virtual void mouseReleased(int button);

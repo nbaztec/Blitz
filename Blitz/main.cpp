@@ -23,22 +23,17 @@
 #include "Engine/Util/cal3d/model.h"
 #include "Engine/Util/LogManager.hpp"
 
-#include "LastStand/View/GameStage.hpp"
+#include "LastStand/View/Gamestage.hpp"
 #include "LastStand/View/FightLevel.hpp"
+#include "LastStand/Unit/SpacePlayer.hpp"
 
 #include <GL/glfw.h>
-
-// Helpers
-void logStatus(const char* message, const bool& value)
-{
-	Log.print(message, -20, '.'); 
-	Log << (value ? "Done" : "Failed");
-}
 
 // Global Functions
 void quit(void);
 void init(int argc, char **argv);
 void gameLoop(void);
+void loadResources(void);		// TODO: Load resources asynchronously
 
 // GLFW Handlers
 void GLFWCALL windowResize(int w, int h);
@@ -49,6 +44,7 @@ void GLFWCALL processMousePos(int x, int y);
 void GLFWCALL processMouseButton(int button, int action);
 
 // Global Objects
+float delta = 0.0f;		 // Game Delta
 int resolutions[][2] = {
 	{640, 480},
 	{800, 600},
@@ -60,19 +56,12 @@ int resolutions[][2] = {
 int resIdx = 3;
 int winWidth = resolutions[resIdx][0];
 int winHeight = resolutions[resIdx][1];
-game::view::GameStage stage;
-blitz::Camera camera;
-//blitz::Triad origin = blitz::Triad();
-GLfloat strafeStep = 0.1f;
-
-// Randomizers
-Randomizer fRand;
+game::view::GameStage* stage;
 
 // Resources
-//std::map<std::string, GLuint> textures;
-TextureManager texMgr;
-ModelManager mdlMgr;
-SoundManager sndMgr;
+TextureManager* texMgr;
+ModelManager* mdlMgr;
+SoundManager* sndMgr;
 
 // Framerate Control
 const int TICKS_PER_SECOND = 25;
@@ -80,27 +69,25 @@ const int SKIP_TICKS = 1000 / TICKS_PER_SECOND;
 const int MAX_FRAMESKIP = 5;
 
 // Temporary State Flags
-bool screenHit = false;
 
-// Temp
-std::vector<blitz::geometry::Dyad> starMap;
+// Helpers
+void logStatus(const char* message, const bool& value)
+{
+	Log.print(message, -20, '.'); 
+	Log << (value ? "Done" : "Failed");
+}
 
-// Other Functions
-blitz::geometry::Dyad getNRC(const int &x, const int &y);
-blitz::geometry::Dyad revNRC(const blitz::geometry::Dyad &point);
-
+// Main
 int main(int argc, char **argv) {
-
-	// init GLFW and create window
+	
 	init(argc, argv);
+	Log << "Starting game loop";
 	gameLoop();
+	Log << "Exiting from game loop";
 	quit();	
 	return 0;
 }
 
-Model* pModel;
-
-float delta = 0.0f;		 // Game Delta
 void gameLoop()
 {
 	DWORD next_game_tick = GetTickCount();
@@ -117,7 +104,7 @@ void gameLoop()
 			delta = float(now - old_time)/1000.0f;
 			if(delta)
 				old_time = now;			
-			stage.tick(delta);
+			stage->tick(delta);
 			//pModel->onUpdate(delta);
 			next_game_tick += SKIP_TICKS;
 			loops++;
@@ -130,6 +117,11 @@ void gameLoop()
 
 void quit(void)
 {	
+	delete texMgr;
+	delete mdlMgr;
+	delete sndMgr;
+	delete stage;
+	stage = NULL;
 	Log << "Performing Cleanup:";
 	Log.print("\t[*] OpenAL", -20, '.');
 	if(alutExit())
@@ -185,44 +177,57 @@ void init(int argc, char **argv)
 	// Init Stage
 	Log.newline();
 	Log << "Intializing Stage:";
+	stage = new game::view::GameStage();
 	Log.print("\t[*] Attaching Texture Manager", -40, '.'); 
-	stage.setTextureManager(&texMgr);
+	texMgr = new TextureManager();
+	stage->setTextureManager(texMgr);
 	Log << "Done";
 	Log.print("\t[*] Attaching Model Manager", -40, '.'); 
-	stage.setModelManager(&mdlMgr);
+	mdlMgr = new ModelManager();
+	stage->setModelManager(mdlMgr);
 	Log << "Done";
 	Log.print("\t[*] Attaching Sound Manager", -40, '.'); 
-	stage.setSoundManager(&sndMgr);
+	sndMgr = new SoundManager();
+	stage->setSoundManager(sndMgr);
 	Log << "Done";
 	Log.print("\t[*] Attaching Camera", -40, '.'); 
-	stage.setCamera(blitz::geometry::Triad(), blitz::geometry::Dyad(float(winWidth), float(winHeight)), blitz::geometry::Quad(-5.0f, 0.5f, 5.0f, -2.0f), false);
+	stage->setCamera(blitz::geometry::Triad(), blitz::geometry::Dyad(float(winWidth), float(winHeight)), blitz::geometry::Quad(-5.0f, 0.5f, 5.0f, -2.0f), false);
 	Log << "Done";
 	Log.print("\t[*] Adding Level", -40, '.'); 
-	stage.addLevel("mission", new game::view::FightLevel());	
-	stage.setLevel("mission", 0);		
+	stage->addLevel("mission", new game::view::FightLevel());	
+	stage->setLevel("mission", 0);		
 	Log << "Done";
-	
+	Log.print("\t[*] Adding Player", -40, '.'); 	
+	stage->getCurrentLevel()->addPlayer(new game::unit::SpacePlayer());
+	Log << "Done";
 	
 	// Load Textures/Models
 	Log.newline();
 	Log << "Loading Game Textures:";
-	logStatus("\t[*] Background", texMgr.load("background", "./res/images/space.png"));	
-	logStatus("\t[*] Player Fire", texMgr.load("player_fire", "./res/images/star.png"));
-	logStatus("\t[*] Crosshair", texMgr.load("crosshair", "./res/images/crosshair.png"));
-	logStatus("\t[*] Enemy", texMgr.load("enemy", "./res/images/enemy.png"));
+	logStatus("\t[*] Background", texMgr->load("background", "./res/images/space.png"));	
+	logStatus("\t[*] Player Fire", texMgr->load("player_fire", "./res/images/star.png"));
+	logStatus("\t[*] Crosshair", texMgr->load("crosshair", "./res/images/crosshair.png"));
+	logStatus("\t[*] Enemy", texMgr->load("enemy", "./res/images/enemy.png"));
+	logStatus("\t[*] Radar", texMgr->load("radar", "./res/images/radar.png"));
 		
 	Log.newline();
 	Log << "Loading Game Models:";
-	logStatus("\t[*] Skeleton", mdlMgr.load("skeleton", "./res/models/skeleton"));
+	logStatus("\t[*] Skeleton", mdlMgr->load("skeleton", "./res/models/skeleton"));
 	
 	Log.newline();
 	Log << "Loading Game Media:";
-	logStatus("\t[*] Player Fire", sndMgr.load("player_fire", "./res/media/player_fire.wav"));
-	logStatus("\t[*] Player Hit", sndMgr.load("player_hit", "./res/media/player_hit.wav"));
-	logStatus("\t[*] Enemy Die", sndMgr.loadOgg("enemy_die", "./res/media/enemy_die.ogg"));
-	logStatus("\t[*] Enemy Hit", sndMgr.load("enemy_hit", "./res/media/enemy_hit.wav"));	
-	logStatus("\t[*] Level Score", sndMgr.loadOgg("fight", "./res/media/fight_level.ogg"));
-
+	logStatus("\t[*] Player Fire", sndMgr->load("player_fire", "./res/media/player_fire.wav"));
+	logStatus("\t[*] Player Empty", sndMgr->load("player_empty", "./res/media/player_empty.wav"));
+	logStatus("\t[*] Player Hit", sndMgr->load("player_hit", "./res/media/player_hit.wav"));
+	logStatus("\t[*] Enemy Die", sndMgr->loadOgg("enemy_die", "./res/media/enemy_die.ogg"));
+	logStatus("\t[*] Enemy Hit", sndMgr->load("enemy_hit", "./res/media/enemy_hit.wav"));	
+	logStatus("\t[*] Level Score", sndMgr->loadOgg("fight", "./res/media/fight_level.ogg"));
+	/*
+	game::unit::PlasmaBullet* b = new game::unit::PlasmaBullet(blitz::geometry::Triad());
+	delete b;*/
+	/*
+	game::unit::SpacePlayer* player = new game::unit::SpacePlayer();
+	delete player;*/
 
 	Log.newline();
 	Log.print("Setting up GL State", -30, '.');
@@ -267,7 +272,8 @@ void GLFWCALL windowResize(int w, int h)
 	winHeight = h;	
 	if(h == 0)							// Check for zero division
 		h = 1;	
-	stage.screenChanged(w, h);
+	if(stage)
+		stage->screenChanged(w, h);
 	float ratio =  float(w)/h;			// Set aspect ratio	
 	glMatrixMode(GL_PROJECTION);		// Use the Projection Matrix	
 	glLoadIdentity();					// Reset Matrix	
@@ -286,14 +292,15 @@ void renderScene(void)
 	glMatrixMode(GL_MODELVIEW);
 	glLoadIdentity();
 		
-	stage.draw();	
+	stage->draw();	
 }
 
-bool isCrouched = false;
+//bool isCrouched = false;
 bool hasCursor = false;
 void GLFWCALL processKeys(int key, int action)
 {
-	action == GLFW_PRESS? stage.keyPressed(key) : stage.keyReleased(key);
+	if(stage)
+		action == GLFW_PRESS? stage->keyPressed(key) : stage->keyReleased(key);
 	
 	if(action == GLFW_RELEASE)
 	{
@@ -318,12 +325,14 @@ void GLFWCALL processKeys(int key, int action)
 			Log.newline();
 			Log.setSingleLine(false);			
 			break;
+			/*
 		case 'S':
 			isCrouched = false;
 			camera.updateNormalized(0.0f, -5.0f*strafeStep);
-			break;
+			break;*/
 		}
 	}
+	/*
 	else if(action == GLFW_PRESS)
 	{
 		blitz::geometry::Dyad p;
@@ -348,21 +357,24 @@ void GLFWCALL processKeys(int key, int action)
 			break;
 		}
 	}
-	
+	*/
 }
 
 void GLFWCALL processKeyChar(int character, int action)
 {
-	action == GLFW_PRESS? stage.keyCharPressed(character) : stage.keyCharReleased(character);
+	if(stage)
+		action == GLFW_PRESS? stage->keyCharPressed(character) : stage->keyCharReleased(character);
 }
 
 void GLFWCALL processMousePos(int x, int y)
 {			
 	//camera.updateNormalized(x, y);
-	stage.mouseMoved(x, y);
+	if(stage)
+		stage->mouseMoved(x, y);
 }
 
 void GLFWCALL processMouseButton(int button, int action)
 {
-	action == GLFW_PRESS? stage.mousePressed(button) : stage.mouseReleased(button);
+	if(stage)
+		action == GLFW_PRESS? stage->mousePressed(button) : stage->mouseReleased(button);
 }

@@ -11,6 +11,9 @@ namespace blitz {
 	class InputListener
 	{
 	public:
+		InputListener(){}
+		virtual ~InputListener(){}
+
 		virtual void mousePressed(int button) = 0;
 		virtual void mouseReleased(int button) = 0;
 		virtual void mouseMoved(int x, int y) = 0;

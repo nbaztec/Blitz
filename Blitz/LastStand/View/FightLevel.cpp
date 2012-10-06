@@ -12,13 +12,14 @@ namespace game {
 		FightLevel::FightLevel()
 		{			
 			this->createSoundSources(2);
-			this->_hitPlayer = 0;
+			this->_hud = new HUD();
 			this->_lastHitDuration = 0.0f;
 			this->_screenHit = false;
 		}
 
 		FightLevel::~FightLevel()
-		{			
+		{
+			delete this->_hud;
 		}
 		
 		void FightLevel::renderCamera()
@@ -80,22 +81,28 @@ namespace game {
 				glLoadIdentity();		
 				glMatrixMode(GL_PROJECTION);
 				glPushMatrix();		
-					glLoadIdentity();				
-					glEnable( GL_TEXTURE_2D );	
+					glLoadIdentity();
+					/*
+					glEnable(GL_TEXTURE_2D);	
 					glBindTexture(GL_TEXTURE_2D, 0);
 					//glTranslatef(0.0f, -1.0f, 0.0f);
-					float xl = -1.0f;
+					float xl = 0.75f;
 					float xh =  1.0f;
-					float yh = -0.75f;
+					float yh = -0.5f;
 					float yl = -1.0f;
 					float pX = 0.02f;
 					float pY = 0.02f;
-					glColor4f(0.1f, 0.1f, 0.1f, 0.75f);
+					float w = (xh - xl);
+					float h = (yh - yl);
+					float cw = w - 2*pX;
+					float ch = h - 2*pY;
+					//glColor4f(0.1f, 0.1f, 0.1f, 0.75f);
+					glColor4f(0.9f, 0.9f, 0.9f, 0.25f);
 					glBegin(GL_QUADS);
-							glTexCoord2f(0.0f, 0.0f); glVertex3f(-1.0f, yh, 0.0f);
-							glTexCoord2f(1.0f, 0.0f); glVertex3f( 1.0f, yh, 0.0f);
-							glTexCoord2f(1.0f, 1.0f); glVertex3f( 1.0f, yl, 0.0f);
-							glTexCoord2f(0.0f, 1.0f); glVertex3f(-1.0f, yl, 0.0f);
+							glTexCoord2f(0.0f, 0.0f); glVertex3f(xl, yh, 0.0f);
+							glTexCoord2f(1.0f, 0.0f); glVertex3f(xh, yh, 0.0f);
+							glTexCoord2f(1.0f, 1.0f); glVertex3f(xh, yl, 0.0f);
+							glTexCoord2f(0.0f, 1.0f); glVertex3f(xl, yl, 0.0f);
 					glEnd();
 
 					glPushMatrix();
@@ -105,19 +112,31 @@ namespace game {
 						float bw = 0.04f;
 						float bh = 0.02f;
 						float bp = 0.005f;
-						// Health
-						glColor4f(0.1f, 1.0f, 0.1f, 0.65f);
-						glPushMatrix();				
+						// Health						
+						//glColor4f(0.1f, 1.0f, 0.1f, 0.65f);
+						float op = 0.65;
+						glPushMatrix();
+							glBegin(GL_QUADS);
+								glColor4f(0.8f, 0.0f, 0.0f, op); 
+								glVertex3f(0.0f, 0.0f, 0.0f);
+								glVertex3f(-bw,  0.0f, 0.0f);
+
+								glColor4f(0.0f, 0.0f, 0.0f, op); 
+								glVertex3f(-bw, ch, 0.0f);
+								glVertex3f(0.0f, ch, 0.0f);
+							glEnd();
+							/*
 							for(int i=0; i<10; i++)
 							{
 								glBegin(GL_QUADS);												
-										glTexCoord2f(0.0f, 0.0f); glVertex3f(-bw,  -bh, 0.0f);						
+										glTexCoord2f(0.0f, 0.0f); glVertex3f(-bw,  -bh, 0.0f);
 										glTexCoord2f(1.0f, 0.0f); glVertex3f(0.0f, -bh, 0.0f);						
 										glTexCoord2f(1.0f, 1.0f); glVertex3f(0.0f, 0.0f, 0.0f);						
 										glTexCoord2f(0.0f, 1.0f); glVertex3f(-bw,  0.0f, 0.0f);						
 								glEnd();
 								glTranslatef(0.0f, bh+bp, 0.0f);
 							}
+							*
 						glPopMatrix();
 						glTranslatef(-(bw+2*bp), 0.0f, 0.0f);
 						// Energy
@@ -134,7 +153,18 @@ namespace game {
 								glTranslatef(0.0f, bh+bp, 0.0f);
 							}
 						glPopMatrix();
+					
 					glPopMatrix();			
+					*/					
+					this->_hud->setMetrics(0.85f, -1.0f, 1.0f, -0.5f, 0.02f, 0.02f);
+					this->_hud->renderBox();
+					this->_hud->align(Alignment::alRight|Alignment::alBottom);
+					this->_hud->renderHealthBar(this->_currentPlayer->getHealth());
+					glTranslatef(-0.06f, 0.0f, 0.0f);					
+					this->_hud->renderEnergyBar(dynamic_cast<game::unit::SpacePlayer*>(this->_currentPlayer)->getEnergy());
+					glTranslatef(-0.1f, 0.0f, 0.0f);
+					//this->_hud->setMetrics(0.5f, -1.0f, 1.0f, -0.5f, 0.02f, 0.02f);
+					this->_hud->renderRadar((*this->_texMgr)["radar"].first(), 0.4f, 0.5f);
 				glPopMatrix();
 				glMatrixMode(GL_MODELVIEW);
 			glPopMatrix();
@@ -164,6 +194,12 @@ namespace game {
 			}			
 		}
 
+		void FightLevel::renderPlayers()
+		{
+			for(std::vector<blitz::unit::Player*>::iterator itp = this->_players.begin(); itp != this->_players.end(); itp++)
+				(*itp)->draw();
+		}
+
 		void FightLevel::tickCamera(const float& delta)
 		{
 		}
@@ -175,10 +211,18 @@ namespace game {
 					this->decPlayerHits();
 		}
 
-		void FightLevel::tick(const float &delta)
+		void FightLevel::tickPlayers(const float& delta)
 		{
+			for(std::vector<blitz::unit::Player*>::iterator itp = this->_players.begin(); itp != this->_players.end(); itp++)
+				(*itp)->tick(delta);
+		}
+
+		void FightLevel::tick(const float &delta)
+		{			
 			this->tickCamera(delta);
 			this->tickOverlay(delta);
+
+			this->tickPlayers(delta);
 
 			blitz::unit::UnitObject *_t;
 			for(std::map<std::string, std::vector<blitz::unit::UnitObject*>>::iterator ito = this->_objects.begin(); ito != this->_objects.end(); ito++)
@@ -189,9 +233,10 @@ namespace game {
 					if(e != NULL && e->hasHitPlayer())
 					{
 						this->setSourceIndex(1);					
-						this->attachAndPlaySound((*this->_sndMgr)["player_hit"]);
+						this->attachAndPlaySound((*this->_sndMgr)["player_hit"]);						
 						e->markCompleted();
-						this->_hitPlayer++;
+						if(dynamic_cast<game::unit::SpacePlayer*>(this->_currentPlayer)->gotHit(e->getDamage()) < 0.0f)
+							; // Player DEAD
 					}
 
 					if((*it)->isComplete())
@@ -217,12 +262,12 @@ namespace game {
 					if(e && (*itb)->collision(*(*ite)))
 					{
 						(*itb)->markCompleted();
-						(*ite)->hit(**itb);											
+						(*ite)->hit(**itb);								
 						Log.debugln("Collided");
 						break;
 					}
 				}
-			}		
+			}				
 		}
 
 		void FightLevel::draw(void)
@@ -231,6 +276,8 @@ namespace game {
 			this->renderCamera();
 			this->renderBackground();
 			
+			this->renderPlayers();
+
 			for(std::map<std::string, std::vector<blitz::unit::UnitObject*>>::iterator ito = this->_objects.begin(); ito != this->_objects.end(); ito++)
 			{
 				glBindTexture(GL_TEXTURE_2D, this->_texMgr->operator[](ito->first.c_str()).first());
@@ -260,29 +307,22 @@ namespace game {
 
 		void FightLevel::spawnEnemy(const blitz::geometry::Triad &start, Model* model)
 		{
-			//this->_objects["enemy"].push_back(new game::unit::SkeletonEnemy(start, model));
 			this->addUnit("enemy", new game::unit::SkeletonEnemy(start, model));
 		}
 
-		void FightLevel::playerFire(const blitz::geometry::Triad &start)
-		{
-			//this->_objects["player_fire"].push_back(new game::unit::PlasmaBullet(start));
-			this->addUnit("player_fire", new game::unit::PlasmaBullet(start));
-		}
-
 		long FightLevel::getPlayerHits() const
-		{
-			return this->_hitPlayer;
+		{			
+			return dynamic_cast<game::unit::SpacePlayer*>(this->_currentPlayer)->numHits();
 		}
 	
 		long FightLevel::decPlayerHits()
 		{
-			return this->_hitPlayer > 0? --this->_hitPlayer: 0;
+			return dynamic_cast<game::unit::SpacePlayer*>(this->_currentPlayer)->decHit();
 		}
 	
 		void FightLevel::resetPlayerHits()
-		{
-			this->_hitPlayer = 0;
+		{			
+			dynamic_cast<game::unit::SpacePlayer*>(this->_currentPlayer)->resetHits();
 		}
 
 		bool FightLevel::persistHitDraw(float delta)
@@ -299,13 +339,25 @@ namespace game {
 			this->_lastHitDuration = 0.0f;
 		}
 
+		void FightLevel::keyPressed(int key)
+		{
+			for(std::vector<blitz::unit::Player*>::iterator itp = this->_players.begin(); itp != this->_players.end(); itp++)
+				(*itp)->keyPressed(key);
+		}
+
+		void FightLevel::keyReleased(int key)
+		{
+			for(std::vector<blitz::unit::Player*>::iterator itp = this->_players.begin(); itp != this->_players.end(); itp++)
+				(*itp)->keyReleased(key);
+		}
+
 		void FightLevel::mouseReleased(int button)
 		{
-			blitz::geometry::Triad lookAt = this->_camera->getCurrent();
+			//blitz::geometry::Triad lookAt = this->_camera->getCurrent();
 			switch(button)
 			{
 				case GLFW_MOUSE_BUTTON_LEFT:								
-					this->playerFire(blitz::geometry::Triad(lookAt.x * 10.0f, lookAt.y * 5.0f, 0.0f));
+					//this->playerFire(blitz::geometry::Triad(lookAt.x * 10.0f, lookAt.y * 5.0f, 0.0f));					
 					break;
 				case GLFW_MOUSE_BUTTON_RIGHT:
 					Model* m = (*this->_mdlMgr)["skeleton"];
@@ -315,11 +367,16 @@ namespace game {
 
 					break;
 			}
+
+			for(std::vector<blitz::unit::Player*>::iterator itp = this->_players.begin(); itp != this->_players.end(); itp++)
+				(*itp)->mouseReleased(button);
 		}
 
 		void FightLevel::mouseMoved(int x, int y)
 		{
-			this->_camera->updateNormalized(x, y);
+			//this->_camera->updateNormalized(x, y);
+			for(std::vector<blitz::unit::Player*>::iterator itp = this->_players.begin(); itp != this->_players.end(); itp++)
+				(*itp)->mouseMoved(x, y);
 		}
 	}
 }

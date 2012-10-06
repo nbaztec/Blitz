@@ -12,14 +12,14 @@
 namespace blitz {
 	namespace unit {
 
-		class HealthObject: virtual public UnitObject
+		class HealthObject: public virtual UnitObject
 		{
 		protected:
 			float _health;
 
 		public:
 			HealthObject(void);
-			~HealthObject(void);
+			virtual ~HealthObject(void);
 
 			float setHealth(float value);
 			float getHealth() const;			

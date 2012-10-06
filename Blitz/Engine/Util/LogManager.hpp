@@ -14,40 +14,55 @@
 class LogManager
 {
 private:
-	std::ostream* _s;
-	std::ostream* _tee;
+	std::ostream* _c;
+	std::ofstream* _f;
 	bool _file;
 	bool _single;
+	
+protected:
+	std::ostream& out() const
+	{
+		if(this->_file)
+			return *(this->_f);
+		else
+			return *(this->_c);
+	}
 
 public:	
 	LogManager()
 	{
-		this->_s = &std::cout;		
+		this->_c = &std::cout;
 		this->_file = false;
 		this->_single = false;
 	}
 	
 	LogManager(const char* file)
 	{
-		this->_s = &std::ofstream(file, std::ios::in|std::ios::out);
-		if(this->_s != NULL)
+		this->_f = new std::ofstream(file, std::ios::out);		
+		if(this->_f != NULL)
 			this->_file = true;
+		else
+		{
+			this->_c = &std::cout;
+			this->_file = false;
+		}
+		this->_single = false;
 	}
 
 	~LogManager()
 	{
 		if(this->_file)
-		{
-			std::ofstream& f  = *(dynamic_cast<std::ofstream*>(this->_s));
-			if(f != NULL)
-				f.close();
+		{			
+			if(this->_f != NULL)
+				this->_f->close();
+			delete this->_f;
 		}
 		
 	}
 
 	inline LogManager& newline()
 	{
-		*(this->_s) << std::endl;
+		this->out() << std::endl;
 		return *this;
 	}
 
@@ -57,13 +72,13 @@ public:
 	template<typename T>
 	inline const LogManager& println(const T& value) const
 	{
-		*(this->_s) << value << std::endl;
+		this->out() << value << std::endl;
 		return *this;
 	}
 	
 	inline const LogManager& println(const bool& value) const
 	{
-		*(this->_s) << (value? "True" : "False") << std::endl;
+		this->out() << (value? "True" : "False") << std::endl;
 		return *this;
 	}
 
@@ -83,18 +98,18 @@ public:
 	inline const LogManager& print(const T& value, const int& w, const char& fill) const
 	{		
 		if(w > 0)
-			*(this->_s) << std::setfill(fill) << std::setw(w) << std::right << value;
+			this->out() << std::setfill(fill) << std::setw(w) << std::right << value;
 		else
-			*(this->_s) << std::setfill(fill) << std::setw(-w) << std::left << value;		
+			this->out() << std::setfill(fill) << std::setw(-w) << std::left << value;		
 		return *this;
 	}
 	
 	inline const LogManager& print(const bool& value, const int& w, const char& fill) const
 	{		
 		if(w > 0)
-			*(this->_s) << std::setfill(fill) << std::setw(w) << std::right << (value? "True" : "False");
+			this->out() << std::setfill(fill) << std::setw(w) << std::right << (value? "True" : "False");
 		else
-			*(this->_s) << std::setfill(fill) << std::setw(-w) << std::left << (value? "True" : "False");		
+			this->out() << std::setfill(fill) << std::setw(-w) << std::left << (value? "True" : "False");		
 		return *this;
 	}
 
@@ -112,14 +127,14 @@ public:
 	template<typename T>
 	inline const LogManager& errorln(const T& value) const
 	{
-		*(this->_s) << "[ERROR] ";
+		this->out() << "[ERROR] ";
 		return this->println(value);
 	}
 
 	template<typename T>
 	inline const LogManager& error(const T& value, const int& w=0, const char& fill=' ') const
 	{		
-		*(this->_s) << "[ERROR] ";
+		this->out() << "[ERROR] ";
 		return this->print(value, w, fill);
 	}
 
@@ -127,14 +142,14 @@ public:
 	template<typename T>
 	inline const LogManager& debugln(const T& value) const
 	{
-		*(this->_s) << "[DEBUG] ";
+		this->out() << "[DEBUG] ";
 		return this->println(value);
 	}
 
 	template<typename T>
 	inline const LogManager& debug(const T& value, const int& w=0, const char& fill=' ') const
 	{		
-		*(this->_s) << "[DEBUG] ";
+		this->out() << "[DEBUG] ";
 		return this->print(value, w, fill);
 	}
 };

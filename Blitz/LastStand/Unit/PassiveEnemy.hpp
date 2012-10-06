@@ -16,7 +16,7 @@
 namespace game {
 	namespace unit {
 
-		class PassiveEnemy: public blitz::unit::HealthObject
+		class PassiveEnemy: virtual public blitz::unit::HealthObject, virtual public blitz::unit::DamageObject
 		{
 		protected:
 			float _cutOff;

@@ -18,7 +18,7 @@ namespace blitz {
 
 		UnitObject::~UnitObject()
 		{
-			delete this->_state;			
+			delete this->_state;
 			for(std::vector<state::Animation*>::iterator it = this->_animation.begin(); it != this->_animation.end(); it++)
 				delete *it;
 		}

@@ -18,6 +18,7 @@
 #include "../Core/Coordinate.hpp"
 #include "../Core/Camera.hpp"
 #include "../Unit/UnitObject.hpp"
+#include "../Unit/Player.hpp"
 #include "../Util/ImageFactory.hpp"
 #include "../Util/TextureManager.hpp"
 #include "../Util/ModelManager.hpp"
@@ -25,13 +26,22 @@
 #include "../Util/Randomizer.hpp"
 
 namespace blitz {
+	namespace unit {
+		class Player;
+	}
+}
+
+
+namespace blitz {
 	namespace view {
 		class Level : virtual public TickedPainter, virtual public InputListener, virtual public SoundGenerator{
-		protected:
+		protected:			
 			std::map<std::string, std::vector<unit::UnitObject*>> _objects;
+			std::vector<blitz::unit::Player*> _players;
 			TextureManager* _texMgr;
 			ModelManager* _mdlMgr;
 			SoundManager* _sndMgr;
+			blitz::unit::Player* _currentPlayer;
 
 			Camera* _camera;
 			static Randomizer RAND;			
@@ -40,11 +50,15 @@ namespace blitz {
 			Level();			
 			virtual ~Level();
 			void setCamera(Camera* camera);
+			Camera* getCamera();
+
 			void setTextureManager(TextureManager* texMgr);
 			void setModelManager(ModelManager* mdlMgr);
-			void setSoundManager(SoundManager* sndMgr);
-			
+			void setSoundManager(SoundManager* sndMgr);			
+			void setCurrentPlayer(const int& index);
+
 			void addUnit(const char* key, unit::UnitObject* unit);
+			void addPlayer(blitz::unit::Player* player);
 
 			virtual void mousePressed(int button){}
 			virtual void mouseReleased(int button){}

@@ -80,6 +80,11 @@ namespace blitz {
 				return NULL;
 		}
 
+		Level* Stage::getCurrentLevel()
+		{
+			return this->_currentLevel;
+		}
+
 		void Stage::screenChanged(int width, int height)
 		{
 			this->_camera->setScreen(width, height);

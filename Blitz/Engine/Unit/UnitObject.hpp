@@ -20,7 +20,7 @@
 
 namespace blitz {
 	namespace unit {
-		class UnitObject : public virtual blitz::TickedPainter, public virtual blitz::SoundGenerator
+		class UnitObject : public blitz::TickedPainter, public blitz::SoundGenerator
 		{		
 		protected:
 			SoundManager* _sndMgr;

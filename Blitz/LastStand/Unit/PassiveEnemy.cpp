@@ -16,6 +16,7 @@ namespace game {
 			this->_state->normal.set(0.0f, 0.0f, 1.0f);
 			this->_state->velocity.set(0.0f, 0.0f, 0.f);
 			this->_state->clear = *this->_state->color.set(1.0f, 1.0f, 1.0f, 1.0f);
+			this->_damage = 0.1f;
 			this->_health = 1.0f;
 			this->_hitPlayer = false;
 			this->_cutOff = -3.0f;

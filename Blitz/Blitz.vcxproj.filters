@@ -58,9 +58,6 @@
     <ClCompile Include="LastStand\Unit\PlasmaBullet.cpp">
       <Filter>Source Files\LastStand\Unit</Filter>
     </ClCompile>
-    <ClCompile Include="LastStand\Unit\Player.cpp">
-      <Filter>Source Files\LastStand\Unit</Filter>
-    </ClCompile>
     <ClCompile Include="LastStand\Unit\SkeletonEnemy.cpp">
       <Filter>Source Files\LastStand\Unit</Filter>
     </ClCompile>
@@ -81,6 +78,21 @@
     </ClCompile>
     <ClCompile Include="main.cpp">
       <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\Util\SoundManager.cpp">
+      <Filter>Source Files\Engine\Util</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\Util\SoundFactory.cpp">
+      <Filter>Source Files\Engine\Util</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\Unit\Player.cpp">
+      <Filter>Source Files\Engine\Unit</Filter>
+    </ClCompile>
+    <ClCompile Include="LastStand\Unit\SpacePlayer.cpp">
+      <Filter>Source Files\LastStand\Unit</Filter>
+    </ClCompile>
+    <ClCompile Include="LastStand\View\HUD.cpp">
+      <Filter>Source Files\LastStand\View</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -156,9 +168,6 @@
     <ClInclude Include="LastStand\Unit\PlasmaBullet.hpp">
       <Filter>Source Files\LastStand\Unit</Filter>
     </ClInclude>
-    <ClInclude Include="LastStand\Unit\Player.hpp">
-      <Filter>Source Files\LastStand\Unit</Filter>
-    </ClInclude>
     <ClInclude Include="LastStand\Unit\SkeletonEnemy.hpp">
       <Filter>Source Files\LastStand\Unit</Filter>
     </ClInclude>
@@ -191,6 +200,30 @@
     </ClInclude>
     <ClInclude Include="LastStand\Unit\PassiveEnemy.hpp">
       <Filter>Source Files\LastStand\Unit</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Core\Sound.hpp">
+      <Filter>Source Files\Engine\Core</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Util\SoundManager.hpp">
+      <Filter>Source Files\Engine\Util</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Core\Interface\SoundGenerator.hpp">
+      <Filter>Source Files\Engine\Core\Interface</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Util\SoundFactory.hpp">
+      <Filter>Source Files\Engine\Util</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Util\LogManager.hpp">
+      <Filter>Source Files\Engine\Util</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Unit\Player.hpp">
+      <Filter>Source Files\Engine\Unit</Filter>
+    </ClInclude>
+    <ClInclude Include="LastStand\Unit\SpacePlayer.hpp">
+      <Filter>Source Files\LastStand\Unit</Filter>
+    </ClInclude>
+    <ClInclude Include="LastStand\View\HUD.hpp">
+      <Filter>Source Files\LastStand\View</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -235,6 +268,9 @@
     </Filter>
     <Filter Include="Source Files\LastStand\Unit">
       <UniqueIdentifier>{7f60b574-b7a2-44c9-85cf-a2d1589c098e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Engine\Util\alfw">
+      <UniqueIdentifier>{2bda61f8-2466-4ebc-a43c-35f55e25f429}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
