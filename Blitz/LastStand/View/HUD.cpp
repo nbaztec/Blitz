@@ -70,8 +70,7 @@ namespace game {
 			else if(direction & Alignment::alBottom)
 				ty = this->_yLow + this->_padY;
 			glTranslatef(tx, ty, 0.0f);
-			std::cout << tx << " " << ty << std::endl;
-		}
+		}		
 
 		void HUD:: renderBox()
 		{
@@ -134,6 +133,51 @@ namespace game {
 			glEnd();
 			glPopMatrix();
 			glDisable(GL_TEXTURE_2D);
+		}
+
+		void HUD::renderMarkers(const float& x, const float& y)
+		{
+			glPushMatrix();
+				glTranslatef(x*0.13f, 0.0f, 0.0f);
+				glEnable(GL_SMOOTH);
+				glBegin(GL_TRIANGLES);
+					glColor4f(1.0f, 1.0f, 0.0f, 0.5f);
+					glVertex3f(-0.01f, 0.0f, 0.0f);
+					glVertex3f(0.01f, 0.0f, 0.0f);
+					glVertex3f(0.0f, 0.018f, 0.0f);
+				glEnd();
+			glPopMatrix();
+
+			glPushMatrix();
+				glTranslatef(-0.2f, y*0.14f + 0.3f, 0.0f);
+				glRotatef(-90.0f, 0.0f, 0.0f, 1.0f);
+				glEnable(GL_SMOOTH);
+				glBegin(GL_TRIANGLES);
+					glColor4f(1.0f, 1.0f, 0.0f, 0.5f);
+					glVertex3f(0.012f, 0.0f, 0.0f);
+					glVertex3f(-0.012f, 0.0f, 0.0f);
+					glVertex3f(0.0f, 0.018f, 0.0f);
+				glEnd();
+			glPopMatrix();
+		}
+
+		void HUD::renderEnemyMap(std::vector<blitz::unit::UnitObject*>& enemyList, const float& mapWidth, const float& mapHeight, const float& radarWidth, const float& radarHeight)
+		{
+			glPushMatrix();
+				glEnable(GL_POINT_SMOOTH);				
+				glPointSize(6.0f);
+				glColor3f(1.0f, 0.2f, 0.2f);				
+				for(std::vector<blitz::unit::UnitObject*>::iterator ite = enemyList.begin(); ite != enemyList.end(); ite++)
+				{
+					glPushMatrix();										
+						glBegin(GL_POINTS);
+							float x = ((*ite)->getState()->current.x/mapWidth)*0.26f;
+							float y = -((*ite)->getState()->current.z/mapHeight)*radarHeight;
+							glVertex3f(x, y, 0.0f);
+						glEnd();
+					glPopMatrix();
+				}
+			glPopMatrix();
 		}
 
 	}

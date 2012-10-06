@@ -77,11 +77,9 @@ namespace blitz {
 
 		inline virtual void attachAndPlaySound(ALuint buffer)
 		{
-			/*
 			alSourceStop(this->_sndSource[this->_index]);
 			alSourcei(this->_sndSource[this->_index], AL_BUFFER, buffer);
-			alSourcePlay(this->_sndSource[this->_index]);
-			*/
+			alSourcePlay(this->_sndSource[this->_index]);			
 		}
 
 		inline virtual void queueSound(ALuint buffer)

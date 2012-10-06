@@ -20,22 +20,29 @@ namespace blitz {
 		geometry::Quad _bounds;
 		geometry::Triad _current;
 		bool _fixed;
+		float _boundWidth;
+		float _boundHeight;
 	
 	public:
 		Camera();
-		Camera(const geometry::Triad& current, const geometry::Dyad& screen, const geometry::Quad& bounds, bool fixed);
+		Camera(const geometry::Triad& current, const geometry::Dyad& screen, const geometry::Quad& bounds, const bool& fixed);
 		virtual ~Camera(void);
 
-		void setScreen(int width, int height);
-		void setBounds(const geometry::Quad bounds);
-		inline void setFixed(bool value);
+		void setScreen(const int& width, const int& height);
+		void setBounds(const geometry::Quad& bounds);
+		inline void setFixed(const bool& value);
 		inline bool isFixed(void) const;
 
 		void updateAbsolute(const geometry::Triad& position);
 		void updateNormalized(const geometry::Triad& normalized);
-		void updateNormalized(int x, int y);
-		void updateNormalized(float x, float y);
-
+		void updateNormalized(const int& x, const int& y);
+		void updateNormalized(const float& x, const float& y);
+		
+		geometry::Dyad getScreen() const;
+		geometry::Quad getBounds() const;
+		float getBoundWidth() const;
+		float getBoundHeight() const;
 		geometry::Triad getCurrent() const;
+		geometry::Triad getCurrentNormalized() const;
 	};
 }

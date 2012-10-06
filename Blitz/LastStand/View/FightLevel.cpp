@@ -160,11 +160,14 @@ namespace game {
 					this->_hud->renderBox();
 					this->_hud->align(Alignment::alRight|Alignment::alBottom);
 					this->_hud->renderHealthBar(this->_currentPlayer->getHealth());
-					glTranslatef(-0.06f, 0.0f, 0.0f);					
+					glTranslatef(-0.06f, 0.0f, 0.0f);
 					this->_hud->renderEnergyBar(dynamic_cast<game::unit::SpacePlayer*>(this->_currentPlayer)->getEnergy());
 					glTranslatef(-0.1f, 0.0f, 0.0f);
 					//this->_hud->setMetrics(0.5f, -1.0f, 1.0f, -0.5f, 0.02f, 0.02f);
 					this->_hud->renderRadar((*this->_texMgr)["radar"].first(), 0.4f, 0.5f);
+					glTranslatef(-0.2f, 0.0f, 0.0f);
+					this->_hud->renderEnemyMap(this->_objects["enemy"], 100.0f, 100.0f, 0.4f, 0.5f);					
+					this->_hud->renderMarkers(this->_camera->getCurrentNormalized().x, this->_camera->getCurrentNormalized().y);
 				glPopMatrix();
 				glMatrixMode(GL_MODELVIEW);
 			glPopMatrix();
