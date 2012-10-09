@@ -32,8 +32,9 @@ namespace game {
 
 			virtual void draw(void);
 			virtual void tick(const float& delta);
-
-			float gotHit(const float& damage);
+			virtual bool collision(blitz::unit::UnitObject& obj);
+			virtual void hit(UnitObject& obj);
+			
 			long numHits() const;
 			long decHit();
 			void resetHits();
@@ -41,7 +42,7 @@ namespace game {
 			virtual void fireBullet();
 			virtual void moveLeft();
 			virtual void moveRight();
-			virtual void doCrouch();
+			virtual void doCrouch(const bool& action);
 			virtual void doJump();
 
 			virtual void mousePressed(int button);

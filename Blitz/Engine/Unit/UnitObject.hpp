@@ -35,6 +35,8 @@ namespace blitz {
 			state::State* getState() const;
 			void setSoundManager(SoundManager* sndMgr);			
 
+			void drawBoundingBox() const;
+
 			virtual bool markCompleted();
 			virtual bool updateState(const float& delta);
 			virtual bool isComplete(void) const;	

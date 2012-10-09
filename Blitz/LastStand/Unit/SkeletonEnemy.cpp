@@ -54,19 +54,11 @@ namespace game {
 					glScalef(0.025f, 0.025f, 0.025f);								
 					this->_model->onRender();
 				glPopMatrix();
-				glDisable(GL_ALPHA);
+				glDisable(GL_ALPHA);				
 				/*
-				glPushMatrix();
-					//glLoadIdentity();
-					//glColor4f(1.0f, 1.0f, 1.0f, 1.0f);
-					geometry::Quad q = this->_state->box;
-					glBegin(GL_QUADS);
-						glVertex3f(q.a, q.b, 0.0f);
-						glVertex3f(q.c, q.b, 0.0f);
-						glVertex3f(q.c, q.d, 0.0f);
-						glVertex3f(q.a, q.d, 0.0f);
-					glEnd();
-				glPopMatrix();
+					// Debug Box
+					glColor4f(1.0f, 1.0f, 1.0f, 1.0f);
+					this->drawBoundingBox();
 				*/				
 			glPopMatrix();
 		}

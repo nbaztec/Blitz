@@ -269,9 +269,6 @@
     <Filter Include="Source Files\LastStand\Unit">
       <UniqueIdentifier>{7f60b574-b7a2-44c9-85cf-a2d1589c098e}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Source Files\Engine\Util\alfw">
-      <UniqueIdentifier>{2bda61f8-2466-4ebc-a43c-35f55e25f429}</UniqueIdentifier>
-    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="Blitz.rc">

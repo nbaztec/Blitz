@@ -38,10 +38,22 @@ namespace game {
 				this->_energy = min(this->_energy + delta*this->_regenEnergy, 1.0f);
 		}
 
-		float SpacePlayer::gotHit(const float& damage)
-		{			
-			this->_numHits++;
-			return this->_health -= damage;
+		bool SpacePlayer::collision(blitz::unit::UnitObject& obj)
+		{
+			return obj.getState()->current.z > -3.0f;
+		}
+
+		void SpacePlayer::hit(UnitObject& obj) 
+		{
+			this->_numHits++;			
+			blitz::unit::DamageObject* dmgObj = dynamic_cast<blitz::unit::DamageObject*>(&obj);
+			if(dmgObj)
+			{
+				if(this->_health -= dmgObj->getDamage())
+				{
+					this->attachAndPlaySound((*this->_sndMgr)["player_hit"]);
+				}
+			}
 		}
 		
 		long SpacePlayer::decHit()
@@ -61,7 +73,7 @@ namespace game {
 
 		void SpacePlayer::fireBullet()
 		{
-			if(this->_energy > 0)
+			if((this->_energy - 0.1f) >= 0)
 			{
 				this->_energy -= 0.1f;
 				blitz::geometry::Triad lookAt = this->_level->getCamera()->getCurrent();
@@ -73,18 +85,34 @@ namespace game {
 
 		void SpacePlayer::moveLeft()
 		{
+			this->_level->getCamera()->updateNormalized(-this->_strafeStep, 0.0f);
 		}
 
 		void SpacePlayer::moveRight()
 		{
+			this->_level->getCamera()->updateNormalized(this->_strafeStep, 0.0f);
 		}
 
-		void SpacePlayer::doCrouch()
+		void SpacePlayer::doCrouch(const bool& action)
 		{
+			if(action)
+			{
+				if(!this->_isCrouched)
+				{
+					this->_isCrouched = true;
+					this->_level->getCamera()->updateNormalized(0.0f, -5.0f*this->_strafeStep);
+				}
+			}
+			else
+			{
+				this->_isCrouched = false;
+				this->_level->getCamera()->updateNormalized(0.0f, +5.0f*this->_strafeStep);
+			}
 		}
 
 		void SpacePlayer::doJump()
 		{
+			this->_level->getCamera()->updateNormalized(0.0f, -this->_strafeStep);
 		}
 
 		void SpacePlayer::mousePressed(int button)
@@ -107,26 +135,20 @@ namespace game {
 		}
 
 		void SpacePlayer::keyPressed(int key)
-		{
-			blitz::Camera* camera = this->_level->getCamera();
-
+		{			
 			switch(key)
 			{	
 			case 'W':
-				camera->updateNormalized(0.0f, -this->_strafeStep);
+				this->doJump();
 				break;
 			case 'A':
-				camera->updateNormalized(-this->_strafeStep, 0.0f);
+				this->moveLeft();
 				break;
 			case 'S':
-				if(!this->_isCrouched)
-				{
-					this->_isCrouched = true;
-					camera->updateNormalized(0.0f, -5.0f*this->_strafeStep);
-				}
+				this->doCrouch(true);
 				break;
 			case 'D':
-				camera->updateNormalized(this->_strafeStep, 0.0f);
+				this->moveRight();
 				break;
 			}
 		}
@@ -137,8 +159,7 @@ namespace game {
 			switch(key)
 			{	
 			case 'S':
-				this->_isCrouched = false;
-				camera->updateNormalized(0.0f, +5.0f*this->_strafeStep);
+				this->doCrouch(false);
 				break;
 			}			
 		}

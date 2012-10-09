@@ -221,13 +221,7 @@ void init(int argc, char **argv)
 	logStatus("\t[*] Player Hit", sndMgr->load("player_hit", "./res/media/player_hit.wav"));
 	logStatus("\t[*] Enemy Die", sndMgr->loadOgg("enemy_die", "./res/media/enemy_die.ogg"));
 	logStatus("\t[*] Enemy Hit", sndMgr->load("enemy_hit", "./res/media/enemy_hit.wav"));	
-	logStatus("\t[*] Level Score", sndMgr->loadOgg("fight", "./res/media/fight_level.ogg"));
-	/*
-	game::unit::PlasmaBullet* b = new game::unit::PlasmaBullet(blitz::geometry::Triad());
-	delete b;*/
-	/*
-	game::unit::SpacePlayer* player = new game::unit::SpacePlayer();
-	delete player;*/
+	logStatus("\t[*] Level Score", sndMgr->loadOgg("fight", "./res/media/fight_level.ogg"));	
 
 	Log.newline();
 	Log.print("Setting up GL State", -30, '.');
@@ -324,40 +318,9 @@ void GLFWCALL processKeys(int key, int action)
 			Log << "+ Set Resolution " << winWidth << "x" << winHeight;
 			Log.newline();
 			Log.setSingleLine(false);			
-			break;
-			/*
-		case 'S':
-			isCrouched = false;
-			camera.updateNormalized(0.0f, -5.0f*strafeStep);
-			break;*/
+			break;		
 		}
-	}
-	/*
-	else if(action == GLFW_PRESS)
-	{
-		blitz::geometry::Dyad p;
-		
-		switch(key)
-		{	
-		case 'W':
-			camera.updateNormalized(0.0f, -strafeStep);
-			break;
-		case 'A':
-			camera.updateNormalized(-strafeStep, 0.0f);
-			break;
-		case 'S':
-			if(!isCrouched)
-			{
-				isCrouched = true;
-				camera.updateNormalized(0.0f, 5.0f*strafeStep);
-			}
-			break;
-		case 'D':
-			camera.updateNormalized(strafeStep, 0.0f);
-			break;
-		}
-	}
-	*/
+	}	
 }
 
 void GLFWCALL processKeyChar(int character, int action)
@@ -367,8 +330,7 @@ void GLFWCALL processKeyChar(int character, int action)
 }
 
 void GLFWCALL processMousePos(int x, int y)
-{			
-	//camera.updateNormalized(x, y);
+{
 	if(stage)
 		stage->mouseMoved(x, y);
 }

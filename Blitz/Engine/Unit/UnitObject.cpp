@@ -38,6 +38,19 @@ namespace blitz {
 			return this->_completed = true;
 		}
 
+		void UnitObject::drawBoundingBox() const
+		{
+			glPushMatrix();				
+				geometry::Quad q = this->_state->box;
+				glBegin(GL_QUADS);
+					glVertex3f(q.a, q.b, 0.0f);
+					glVertex3f(q.c, q.b, 0.0f);
+					glVertex3f(q.c, q.d, 0.0f);
+					glVertex3f(q.a, q.d, 0.0f);
+				glEnd();
+			glPopMatrix();
+		}
+
 		void UnitObject::addAnimation(state::Animation *anim)
 		{	
 			this->_animation.push_back(anim);	

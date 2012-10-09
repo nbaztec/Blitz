@@ -28,9 +28,7 @@ namespace game {
 
 		void PassiveEnemy::tick(const float& delta)
 		{
-			this->_completed = this->updateState(delta);
-			if(this->_hitPlayer = this->_state->current.z >= this->_cutOff)
-				this->_state->velocity.set(0.0f, 0.0f, 0.f);
+			this->_completed = this->updateState(delta);			
 		}
 
 		bool PassiveEnemy::isComplete() const

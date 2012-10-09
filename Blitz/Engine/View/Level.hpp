@@ -52,6 +52,7 @@ namespace blitz {
 			void setCamera(Camera* camera);
 			Camera* getCamera();
 
+			virtual void tick(const float& delta);
 			void setTextureManager(TextureManager* texMgr);
 			void setModelManager(ModelManager* mdlMgr);
 			void setSoundManager(SoundManager* sndMgr);			
@@ -60,15 +61,15 @@ namespace blitz {
 			void addUnit(const char* key, unit::UnitObject* unit);
 			void addPlayer(blitz::unit::Player* player);
 
-			virtual void mousePressed(int button){}
-			virtual void mouseReleased(int button){}
-			virtual void mouseMoved(int x, int y){}
-			virtual void mouseWheelMoved(int pos){}						
+			virtual void mousePressed(int button);
+			virtual void mouseReleased(int button);
+			virtual void mouseMoved(int x, int y);
+			virtual void mouseWheelMoved(int pos);
 
-			virtual void keyPressed(int key){}
-			virtual void keyReleased(int key){}
-			virtual void keyCharPressed(int character){}
-			virtual void keyCharReleased(int character){}
+			virtual void keyPressed(int key);
+			virtual void keyReleased(int key);
+			virtual void keyCharPressed(int character);
+			virtual void keyCharReleased(int character);
 		};
 	}
 }

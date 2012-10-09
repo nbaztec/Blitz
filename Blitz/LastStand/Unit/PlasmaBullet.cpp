@@ -27,15 +27,9 @@ namespace game {
 			Log.debug("") << "Bullet: " << t.x << ", " << t.y;
 			Log.newline();
 			Log.setSingleLine(false);
-			//this->_state->velocity.set(0.0f, 0.0f, 50.f);
-			//this->_state->rotation.magnitude = 200.0f;
-			//this->_state->rotation.direction.set(0.0f, 0.0f, 1.0f);
+
 			this->_animation.push_back(new blitz::state::LinearAnimation(this->_state, blitz::geometry::Triad(0.0f, 0.0f, -50.f)));
-			this->_animation.push_back(new blitz::state::RotationAnimation(this->_state, blitz::geometry::Vector(0.0f, 0.0f, 1.0f, 200.0f)));
-			
-			//this->_animation.push_back(new state::ColorAnimation(this->_state, state::AnimationType::atColorBlink, geometry::Quad(1.0f, 0.0f, 0.0f, 1.0f), 0.0f, 0.2));
-			//this->_animation.push_back(new state::Animation(this->_state, state::AnimationType::atTranslate, geometry::Triad(0.0f, 0.0f, 10.f), 2.0f));
-			//this->_animation.push_back(new state::Animation(this->_state, state::AnimationType::atRotate, geometry::Triad(0.0f, 0.0f, 10.f), 2.0f));
+			this->_animation.push_back(new blitz::state::RotationAnimation(this->_state, blitz::geometry::Vector(0.0f, 0.0f, 1.0f, 200.0f)));					
 		}
 
 		PlasmaBullet::~PlasmaBullet(void)
@@ -80,13 +74,7 @@ namespace game {
 
 		void PlasmaBullet::tick(const float& delta)
 		{
-			this->_completed = this->updateState(delta);
-			blitz::geometry::Triad t= this->_state->start;
-			t.z += 5.0f;
-			//PlasmaBullet plane(t);
-			//plane._state->normal = geometry::Triad(0.0f, 0.0f, -1.0f);
-			//std::cout << this->_state->current.z << "\t" << this->collision(plane) << std::endl;
-			
+			this->_completed = this->updateState(delta);			
 		}
 
 		bool PlasmaBullet::isComplete() const
@@ -116,37 +104,7 @@ namespace game {
 					)
 					return false;
 				else
-					return true;
-
-				/*
-				float dx = this->_state->start.x - obj.getState()->start.x;
-				//std::cout << "- " << dx << ":\t" << this->_state->box.x << ", " << obj.getState()->box.x << std::endl;
-				if(dx < 0.0f)	// Projectile to left, Object to right
-				{
-					if(-dx > this->_state->box.x)
-						return false;
-				}
-				else			// Projectile to right, Object to left
-				{
-					if(dx > obj.getState()->box.x)
-						return false;
-				}
-				float dy = this->_state->start.y - obj.getState()->start.y;
-				//std::cout << "| " << dy << ":\t" << this->_state->box.y << ", " << obj.getState()->box.y << std::endl;
-				if(dy < 0.0f)	// Projectile below, Object above
-				{
-					if(-dy > obj.getState()->box.y)
-						return false;
-				}
-				else			// Projectile above, Object below
-				{
-					if(dy > this->_state->box.y)
-						return false;
-				}
-				//obj.hit(*this);
-				//this->_completed = true;
-				return true;				
-				*/
+					return true;				
 			}
 			return false;
 		}
